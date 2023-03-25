@@ -1,5 +1,6 @@
 ﻿@page "/fetchdata"
 @using PokeApiNet
+@using Microsoft.AspNetCore.Components.Forms
 @inject HttpClient Http
 @inject PokeApiClient PokeClient
 
@@ -11,11 +12,11 @@
 <div id="game-container">
     <img id="pokemon-image" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg" alt="Pokemon" />
     <h2 id="pokemon-name">Bulbasaur</h2>
+    
+    <input id="txtWord" name="txtWord" placeholder="Enter your text"
+           value="@value" @onchange="onChange"/>
 
-    <form id="game-input">
-        <input id="game-input-field" type="text">
-        <button id="submit-button">Submit</button>
-    </form>
+
     @if (pokemonToGuess == null)
     {
         <p><em>Loading...</em></p>
@@ -38,58 +39,11 @@
 
             <tbody>
 
-                @foreach (var guess in pokemonsGuessed)
+                @foreach (var guess in displayData)
                 {
-                    <tr>
-                        <td>
-                            <img class="pokemon-selected-image" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png" alt="Pokemon" />
-                        </td>
-                        <td class="game-pokemon-type-field" id="type1">
-                            <pre style="background-color: #40ac2b;">Grass</pre>
-                        </td>
-                        <td class="game-pokemon-type-field" id="type2">
-                            <pre style="background-color: #ad4f97;">Poison</pre>
-                        </td>
-                        <td>1</td>
-                        <td id="height">@guess.Height_m</td>
-                        <td id="weight">@guess.Weight_kg</td>
-                        <!--td id="evolution">First</!--td-->
-                        <td id="abilities" style="background: linear-gradient(0deg, @guess., #61a010);">@guess.Abilities</td>
-                    </tr>
+                    Console.WriteLine(guess.ToRowString(displayedColumns));
+                    @((MarkupString)guess.ToRowString(displayedColumns));
                 }
-
-                <tr id="try1">
-                    <td>
-                        <img class="pokemon-selected-image" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png" alt="Pokemon" />
-                    </td>
-                    <td class="game-pokemon-type-field" id="type1">
-                        <pre style="background-color: #40ac2b;">Grass</pre>
-                    </td>
-                    <td class="game-pokemon-type-field" id="type2">
-                        <pre style="background-color: #ad4f97;">Poison</pre>
-                    </td>
-                    <td>1</td>
-                    <td id="height">0.7</td>
-                    <td id="weight">6.9</td>
-                    <td id="evolution">First</td>
-                    <td id="abilities" style="background: linear-gradient(0deg, #be9613, #61a010);">Test</td>
-                </tr>
-                <tr id="try1">
-                    <td>
-                        <img class="pokemon-selected-image" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg" alt="Pokemon" />
-                    </td>
-                    <td class="game-pokemon-type-field" id="type1">
-                        <pre style="background-color: #40ac2b;">Grass</pre>
-                    </td>
-                    <td class="game-pokemon-type-field" id="type2">
-                        <pre style="background-color: #ad4f97;">Poison</pre>
-                    </td>
-                    <td>1</td>
-                    <td id="height">0.7</td>
-                    <td id="weight">6.9</td>
-                    <td id="evolution">First</td>
-                    <td id="abilities" style="background: linear-gradient(0deg, #be9613, #61a010);">Test</td>
-                </tr>
             </tbody>
         </table>
     }
@@ -97,21 +51,70 @@
 </div>
 
 @code {
+    private static string value = "aaa";
+
     private PokeData? pokemonToGuess;
-    private List<PokeData>? pokemonsGuessed;
-    
+    private List<PokeData> pokemonsGuessed = new();
+    private GuessDisplayData[] displayData = new GuessDisplayData[0];
+
     private List<string> pokemonTypes = new ();
+
+    private List<ColumnType> displayedColumns = new() { ColumnType.NAME, ColumnType.HEIGHT, ColumnType.WEIGHT };
+
+    private async Task onChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        if (args.Value is null)
+        {
+            return;
+        }
+
+        string guess = (string)args.Value;
+
+        Console.WriteLine(guess);
+        await AttemptGuess(guess);
+    }
 
     protected override async Task OnInitializedAsync()
     {
-        pokemonToGuess = await PokeClient.GetResourceAsync<Pokemon>(1);
-        pokemonsGuessed = new List<PokeData>();
+        pokemonToGuess = await LoadPokemon(1);
     }
 
-    private async PokeData LoadPokemon(string name)
+    private void AddGuessedPokemon(PokeData guessPokeData)
+    {
+        if (pokemonToGuess is null)
+        {
+            return;
+        }
+
+        GuessDisplayData guessDisplayData = new GuessDisplayData(pokemonToGuess, guessPokeData);
+        GuessDisplayData[] newDisplayData = new GuessDisplayData[displayData.Length + 1];
+        displayData.CopyTo(newDisplayData, 0);
+        newDisplayData[displayData.Length] = guessDisplayData;
+
+        pokemonsGuessed.Add(guessPokeData);
+        displayData = newDisplayData;
+        //Console.WriteLine(guessDisplayData.ToRowString(displayedColumns));
+        StateHasChanged();
+    }
+
+    private async Task AttemptGuess(int id)
+    {
+        PokeData guessPokeData = await LoadPokemon(id);
+        AddGuessedPokemon(guessPokeData);
+    }
+    private async Task AttemptGuess(string name)
+    {
+        PokeData guessPokeData = await LoadPokemon(name);
+        AddGuessedPokemon(guessPokeData);
+    }
+    private async Task<PokeData> LoadPokemon(int id)
+    {
+        Pokemon pokemon = await PokeClient.GetResourceAsync<Pokemon>(id);
+        return new PokeData(pokemon);
+    }
+    private async Task<PokeData> LoadPokemon(string name)
     {
         Pokemon pokemon = await PokeClient.GetResourceAsync<Pokemon>(name);
-
         return new PokeData(pokemon);
     }
 }

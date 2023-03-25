@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using PokeApiNet;
+using System.Collections.Immutable;
+using System.Drawing;
 
 namespace Pokewordle.Shared
 {
@@ -6,30 +8,28 @@ namespace Pokewordle.Shared
     {
         public readonly string Name;
 
-        public readonly string Type1;
-        public readonly Color Type1Color;
-        public string Type1ColorStr => ConvertToHex(Type1Color);
+        public readonly string? Type1;
 
         public readonly string? Type2;
-        public readonly Color? Type2Color;
-        public string Type2ColorStr => ConvertToHex(Type2Color);
 
-        public int Generation { get; set; }
+        //public readonly int Generation;
 
         public readonly int Height_m;
-        public int Weight_kg { get; set; }
+        public readonly int Weight_kg;
         //public int EvolutionType { get; set; }
 
-        public List<string> Abilities { get; set; }
+        public readonly IImmutableList<string> Abilities;
 
-        private static string ConvertToHex(System.Drawing.Color? c)
+        public PokeData(Pokemon pokemon)
         {
-            if (c is null) {
-                return "#AAAAAA";
-            }
-            
-            Color color = (Color)c;
-            return "#" + color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
+            Name = pokemon.Name;
+            Type1 = 0 < pokemon.Types.Count ? pokemon.Types[0].Type.Name : "";
+            Type2 = 1 < pokemon.Types.Count ? pokemon.Types[1].Type.Name : "";
+            //Generation = pokemon.
+            Height_m = pokemon.Height;
+            Weight_kg = pokemon.Weight;
+            Abilities = pokemon.Abilities.ConvertAll(pokemonAbility => pokemonAbility.Ability.Name).ToImmutableList();
         }
+
     }
 }
