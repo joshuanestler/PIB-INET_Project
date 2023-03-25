@@ -1,0 +1,124 @@
+﻿@page "/fetchdata"
+@inject HttpClient Http
+
+<PageTitle>Weather forecast</PageTitle>
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+<div id="game-container">
+    <img id="pokemon-image" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg" alt="Pokemon" />
+    <h2 id="pokemon-name">Bulbasaur</h2>
+
+    <form id="game-input">
+        <input id="game-input-field" type="text">
+        <button id="submit-button">Submit</button>
+    </form>
+    @if (forecasts == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <table id="game-table">
+            <thead>
+                <tr>
+                    <th>Pokémon</th>
+                    <th>Type 1</th>
+                    <th>Type 2</th>
+                    <th>Gen</th>
+                    <th>Height (m)</th>
+                    <th>Weight (kg)</th>
+                    <th>Evolution</th>
+                    <th>Abilities</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var guess in pokemonsGuessed)
+                {
+                    <tr>
+                        <td>@forecast.Date.ToShortDateString()</td>
+                        <td>@forecast.TemperatureC</td>
+                        <td>@forecast.TemperatureF</td>
+                        <td>@forecast.Summary</td>
+
+                        <td>
+                            <img class="pokemon-selected-image" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png" alt="Pokemon" />
+                        </td>
+                        <td class="game-pokemon-type-field" id="type1">
+                            <pre style="background-color: #40ac2b;">Grass</pre>
+                        </td>
+                        <td class="game-pokemon-type-field" id="type2">
+                            <pre style="background-color: #ad4f97;">Poison</pre>
+                        </td>
+                        <td>1</td>
+                        <td id="height">@guess.Height_m</td>
+                        <td id="weight">@guess.Weight_kg</td>
+                        <!--td id="evolution">First</!--td-->
+                        <td id="abilities" style="background: linear-gradient(0deg, @guess., #61a010);">@guess.Abilities</td>
+                    </tr>
+                }
+
+                <tr id="try1">
+                    <td>
+                        <img class="pokemon-selected-image" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png" alt="Pokemon" />
+                    </td>
+                    <td class="game-pokemon-type-field" id="type1">
+                        <pre style="background-color: #40ac2b;">Grass</pre>
+                    </td>
+                    <td class="game-pokemon-type-field" id="type2">
+                        <pre style="background-color: #ad4f97;">Poison</pre>
+                    </td>
+                    <td>1</td>
+                    <td id="height">0.7</td>
+                    <td id="weight">6.9</td>
+                    <td id="evolution">First</td>
+                    <td id="abilities" style="background: linear-gradient(0deg, #be9613, #61a010);">Test</td>
+                </tr>
+                <tr id="try1">
+                    <td>
+                        <img class="pokemon-selected-image" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg" alt="Pokemon" />
+                    </td>
+                    <td class="game-pokemon-type-field" id="type1">
+                        <pre style="background-color: #40ac2b;">Grass</pre>
+                    </td>
+                    <td class="game-pokemon-type-field" id="type2">
+                        <pre style="background-color: #ad4f97;">Poison</pre>
+                    </td>
+                    <td>1</td>
+                    <td id="height">0.7</td>
+                    <td id="weight">6.9</td>
+                    <td id="evolution">First</td>
+                    <td id="abilities" style="background: linear-gradient(0deg, #be9613, #61a010);">Test</td>
+                </tr>
+            </tbody>
+        </table>
+    }
+
+</div>
+
+
+
+@code {
+    private PokeData pokemonToGuess;
+    private List<PokeData>? pokemonsGuessed;
+    private WeatherForecast[]? forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+    }
+
+    public class WeatherForecast
+    {
+        public DateOnly Date { get; set; }
+
+        public int TemperatureC { get; set; }
+
+        public string? Summary { get; set; }
+
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    }
+}
