@@ -15,15 +15,57 @@ namespace Pokewordle.Shared
             ImmutableDictionary<ColumnType, ITableCell>.Builder dictionaryBuilder = ImmutableDictionary.CreateBuilder<ColumnType, ITableCell>();
 
             dictionaryBuilder.Add(ColumnType.NAME, new SimpleTableCell(pokeDataGuessed.Name));
-            dictionaryBuilder.Add(ColumnType.HEIGHT, AsGradientTableCell(pokeDataToGuess.Height_m, pokeDataGuessed.Height_m));
-            dictionaryBuilder.Add(ColumnType.WEIGHT, AsGradientTableCell(pokeDataToGuess.Weight_kg, pokeDataGuessed.Weight_kg));
+            dictionaryBuilder.Add(ColumnType.HEIGHT, AsGradientTableCell(pokeDataToGuess.Height_m, pokeDataGuessed.Height_m, 2));
+            dictionaryBuilder.Add(ColumnType.WEIGHT, AsGradientTableCell(pokeDataToGuess.Weight_kg, pokeDataGuessed.Weight_kg, 40));
 
             ColumnData = dictionaryBuilder.ToImmutable();
         }
 
-        private static ITableCell AsGradientTableCell(int targetValue, int guessValue)
+        private static int PercentualOffset(int baseValue, int offsetValue, int offsetPercent)
         {
-            return new MoreLessTableCell(guessValue.ToString(), Color.Red, Color.Green, 0);
+            double diff = offsetValue - baseValue;
+            return baseValue + (int)Math.Round(diff / 100 * offsetPercent);
+        }
+
+        private static Color PercentualColorOffset(Color baseColor, Color offsetColor, int offsetPercent)
+        {
+            int r = PercentualOffset(baseColor.R, offsetColor.R, offsetPercent);
+            int g = PercentualOffset(baseColor.G, offsetColor.G, offsetPercent);
+            int b = PercentualOffset(baseColor.B, offsetColor.B, offsetPercent);
+            return Color.FromArgb(r, g, b);
+        }
+
+        private static int AsPercentLimit100(int value, int value100Percent)
+        {
+            if (value >= value100Percent)
+            {
+                return 100;
+            }
+
+            return (int)Math.Round((100d / (double)value100Percent) * value);
+        }
+
+        private static ITableCell AsGradientTableCell(int targetValue, int guessValue, int maxOffsetValue)
+        {
+            int difference = Math.Min(Math.Abs(guessValue - targetValue), maxOffsetValue);
+            int percent = AsPercentLimit100(difference, maxOffsetValue);
+
+            Color correctColor = Color.Green;
+            Color wrongColor = Color.Red;
+
+            Color upperColor;
+            Color lowerColor;
+            if (targetValue < guessValue)
+            {
+                upperColor = correctColor;
+                lowerColor = PercentualColorOffset(correctColor, wrongColor, percent);
+            } else
+            {
+                lowerColor = correctColor;
+                upperColor = PercentualColorOffset(correctColor, wrongColor, percent);
+            }
+
+            return new GradientTableCell(guessValue.ToString(), upperColor, lowerColor, 0);
         }
 
         public string ToRowString(IEnumerable<ColumnType> columnTypes)
