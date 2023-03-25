@@ -1,5 +1,7 @@
 ﻿@page "/fetchdata"
+@using PokeApiNet
 @inject HttpClient Http
+@inject PokeApiClient PokeClient
 
 <PageTitle>Weather forecast</PageTitle>
 
@@ -14,7 +16,7 @@
         <input id="game-input-field" type="text">
         <button id="submit-button">Submit</button>
     </form>
-    @if (forecasts == null)
+    @if (pokemonToGuess == null)
     {
         <p><em>Loading...</em></p>
     }
@@ -39,11 +41,6 @@
                 @foreach (var guess in pokemonsGuessed)
                 {
                     <tr>
-                        <td>@forecast.Date.ToShortDateString()</td>
-                        <td>@forecast.TemperatureC</td>
-                        <td>@forecast.TemperatureF</td>
-                        <td>@forecast.Summary</td>
-
                         <td>
                             <img class="pokemon-selected-image" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png" alt="Pokemon" />
                         </td>
@@ -99,26 +96,22 @@
 
 </div>
 
-
-
 @code {
-    private PokeData pokemonToGuess;
+    private PokeData? pokemonToGuess;
     private List<PokeData>? pokemonsGuessed;
-    private WeatherForecast[]? forecasts;
+    
+    private List<string> pokemonTypes = new ();
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+        pokemonToGuess = await PokeClient.GetResourceAsync<Pokemon>(1);
+        pokemonsGuessed = new List<PokeData>();
     }
 
-    public class WeatherForecast
+    private async PokeData LoadPokemon(string name)
     {
-        public DateOnly Date { get; set; }
+        Pokemon pokemon = await PokeClient.GetResourceAsync<Pokemon>(name);
 
-        public int TemperatureC { get; set; }
-
-        public string? Summary { get; set; }
-
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        return new PokeData(pokemon);
     }
 }
