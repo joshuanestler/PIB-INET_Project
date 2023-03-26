@@ -4,16 +4,12 @@
 @inject HttpClient Http
 @inject PokeApiClient PokeClient
 
-<PageTitle>Weather forecast</PageTitle>
+<PageTitle>Guess a Pokemon</PageTitle>
 
-<h1>Weather forecast</h1>
+<h1>Guess a Pokemon</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
 <div id="game-container">
-    <img id="pokemon-image" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg" alt="Pokemon" />
-    <h2 id="pokemon-name">Bulbasaur</h2>
-    
-    <input id="txtWord" name="txtWord" placeholder="Enter your text"
+    <input id="txtWord" name="txtWord" placeholder="Enter your guess"
            value="@value" @onchange="onChange"/>
 
 
@@ -25,20 +21,10 @@
     {
         <table id="game-table">
             <thead>
-                <tr>
-                    <th>Pokémon</th>
-                    <th>Type 1</th>
-                    <th>Type 2</th>
-                    <th>Gen</th>
-                    <th>Height (m)</th>
-                    <th>Weight (kg)</th>
-                    <th>Evolution</th>
-                    <th>Abilities</th>
-                </tr>
+                @((MarkupString)HeaderGenerator.ToHeaderString(displayedColumns))
             </thead>
 
             <tbody>
-
                 @foreach (var guess in displayData)
                 {
                     Console.WriteLine(guess.ToRowString(displayedColumns));
@@ -51,15 +37,15 @@
 </div>
 
 @code {
-    private static string value = "aaa";
+    private static string value = "";
 
     private PokeData? pokemonToGuess;
     private List<PokeData> pokemonsGuessed = new();
-    private GuessDisplayData[] displayData = new GuessDisplayData[0];
+    private List<GuessDisplayData> displayData = new();
 
     private List<string> pokemonTypes = new ();
 
-    private List<ColumnType> displayedColumns = new() { ColumnType.NAME, ColumnType.HEIGHT, ColumnType.WEIGHT };
+    private List<ColumnType> displayedColumns = new() { ColumnType.NAME, ColumnType.TYPE1, ColumnType.TYPE2, ColumnType.HEIGHT, ColumnType.WEIGHT };
 
     private async Task onChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
     {
@@ -70,7 +56,14 @@
 
         string guess = (string)args.Value;
 
-        Console.WriteLine(guess);
+        if (!pokemonTypes.Contains(guess))
+        {
+            Console.WriteLine($"Cannot guess: {guess}");
+            //TODO: Fetch pokemonTypes and then add return again;
+            //return;
+        }
+
+        Console.WriteLine($"Guessing: {guess}");
         await AttemptGuess(guess);
     }
 
@@ -87,14 +80,10 @@
         }
 
         GuessDisplayData guessDisplayData = new GuessDisplayData(pokemonToGuess, guessPokeData);
-        GuessDisplayData[] newDisplayData = new GuessDisplayData[displayData.Length + 1];
-        displayData.CopyTo(newDisplayData, 0);
-        newDisplayData[displayData.Length] = guessDisplayData;
-
+        displayData.Add(guessDisplayData);
         pokemonsGuessed.Add(guessPokeData);
-        displayData = newDisplayData;
         //Console.WriteLine(guessDisplayData.ToRowString(displayedColumns));
-        StateHasChanged();
+        //StateHasChanged();
     }
 
     private async Task AttemptGuess(int id)
@@ -117,4 +106,5 @@
         Pokemon pokemon = await PokeClient.GetResourceAsync<Pokemon>(name);
         return new PokeData(pokemon);
     }
+
 }

@@ -8,9 +8,7 @@ namespace Pokewordle.Shared
     {
         public readonly string Name;
 
-        public readonly string? Type1;
-
-        public readonly string? Type2;
+        public readonly ImmutableHashSet<string> Types;
 
         //public readonly int Generation;
 
@@ -23,13 +21,32 @@ namespace Pokewordle.Shared
         public PokeData(Pokemon pokemon)
         {
             Name = pokemon.Name;
-            Type1 = 0 < pokemon.Types.Count ? pokemon.Types[0].Type.Name : "";
-            Type2 = 1 < pokemon.Types.Count ? pokemon.Types[1].Type.Name : "";
+            Types = pokemon.Types.ConvertAll(pkmnType => pkmnType.Type.Name).ToImmutableHashSet();
             //Generation = pokemon.
             Height_m = pokemon.Height;
             Weight_kg = pokemon.Weight;
             Abilities = pokemon.Abilities.ConvertAll(pokemonAbility => pokemonAbility.Ability.Name).ToImmutableList();
         }
 
+        public IList<string> FindSharedTypes(PokeData pokeData, out IList<string> nonSharedTypes)
+        {
+            List<string> result = new();
+            nonSharedTypes = new List<string>();
+
+            foreach(string type in Types)
+            {
+                if (pokeData.Types.Contains(type))
+                {
+                    result.Add(type);
+                } else
+                {
+                    nonSharedTypes.Add(type);
+                }
+            }
+            //prevent issues in case a pokemon is actually typeless (is currently only possible with very nieche moves and only during combat but eh now its fixed either way)
+            nonSharedTypes.Add("none");
+            nonSharedTypes.Add("none");
+            return result;
+        }
     }
 }

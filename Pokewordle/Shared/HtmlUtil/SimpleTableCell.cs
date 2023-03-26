@@ -11,7 +11,7 @@ namespace Pokewordle.Shared.HtmlUtil
         private readonly string HtmlClass;
         private readonly string HtmlId;
 
-        public SimpleTableCell(string displayString = "", Color? fontColor = null, Color? background = null,
+        public SimpleTableCell(string displayString = "", Color? background = null, Color? fontColor = null,
             string htmlClass = "", string htmlId = "")
         {
             DisplayString = displayString;
@@ -33,13 +33,15 @@ namespace Pokewordle.Shared.HtmlUtil
             {
                 sb.Append($"id=\"{HtmlId}\" ");
             }
+
+            sb.Append($"style = \"background-color: {Background};\"");
             sb.Append(">\n");
 
-            sb.Append($"<pre style = \"background-color: #{Background};\">");
+            //sb.Append($"<pre style = \"background-color: {Background};\">");
 
             sb.Append(DisplayString);
 
-            sb.Append("</pre>\n");
+            //sb.Append("</pre>\n");
             sb.Append("</td>");
 
             return sb.ToString();
