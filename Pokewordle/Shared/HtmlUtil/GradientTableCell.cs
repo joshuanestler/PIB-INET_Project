@@ -5,13 +5,13 @@ namespace Pokewordle.Shared.HtmlUtil
 {
     public class GradientTableCell : ITableCell
     {
-        private readonly string DisplayString;
-        private readonly string FontColor;
-        private readonly string Degrees;
-        private readonly string Background1;
-        private readonly string Background2;
-        private readonly string HtmlClass;
-        private readonly string HtmlId;
+        public readonly string DisplayString;
+        public readonly string FontColor;
+        public readonly string Degrees;
+        public readonly string Background1;
+        public readonly string Background2;
+        public readonly string HtmlClass;
+        public readonly string HtmlId;
 
         public GradientTableCell(
             string displayString,

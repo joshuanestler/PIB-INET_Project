@@ -1,6 +1,7 @@
 ﻿@page "/fetchdata"
 @using PokeApiNet
 @using Microsoft.AspNetCore.Components.Forms
+@using Pokewordle.Components.Cells
 @inject HttpClient Http
 @inject PokeApiClient PokeClient
 
@@ -29,7 +30,7 @@
                 {
                     //Console.WriteLine(guess.ToRowString(displayedColumns));
                     //@((MarkupString)guess.ToRowString(displayedColumns));
-                    <Pokewordle.Components.Cells.TemplateRow TableCells=guess.GetTableCells(displayedColumns)></Pokewordle.Components.Cells.TemplateRow>
+                    <TemplateRow TableCells=guess.GetTableCells(displayedColumns)></TemplateRow>
                 }
             </tbody>
         </table>
@@ -70,7 +71,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        pokemonToGuess = await LoadPokemon(1);
+        System.Random random = new();
+        pokemonToGuess = await LoadPokemon(random.Next(500) + 1);
     }
 
     private void AddGuessedPokemon(PokeData guessPokeData)
