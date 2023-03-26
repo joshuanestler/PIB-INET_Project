@@ -40,12 +40,26 @@ namespace Pokewordle.Shared
                     dictionaryBuilder.Add(ColumnType.TYPE2, new SimpleTableCell(sharedTypes[1], ColorScheme.COLOR_CORRECT, htmlClass: "game-pokemon-type-field", htmlId: "type2"));
                     break;
             }
+            
+            dictionaryBuilder.Add(ColumnType.TYPES, CreateMatchResultCell(pokeDataGuessed.GetDisplayTypesString(), pokeDataGuessed.MatchTypes(pokeDataToGuess)));
 
             dictionaryBuilder.Add(ColumnType.HEIGHT, AsGradientTableCell(pokeDataToGuess.Height_m, pokeDataGuessed.Height_m, 2, htmlId: "height"));
             dictionaryBuilder.Add(ColumnType.WEIGHT, AsGradientTableCell(pokeDataToGuess.Weight_kg, pokeDataGuessed.Weight_kg, 40, htmlId: "weight"));
 
 
             ColumnData = dictionaryBuilder.ToImmutable();
+        }
+
+        private static SimpleTableCell CreateMatchResultCell(string content, MatchingResult matchingResult, string htmlClass = "", string htmlId = "")
+        {
+            Color backgroundColor = matchingResult switch
+            {
+                MatchingResult.NONE => ColorScheme.COLOR_MISTAKE,
+                MatchingResult.ALL => ColorScheme.COLOR_CORRECT,
+                _ => ColorScheme.COLOR_SEMI_CORRECT_MISTAKE
+            };
+
+            return new SimpleTableCell(content, backgroundColor, htmlClass: htmlClass, htmlId: htmlId);
         }
 
         private static int PercentualOffset(int baseValue, int offsetValue, int offsetPercent)

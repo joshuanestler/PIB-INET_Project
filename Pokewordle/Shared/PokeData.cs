@@ -1,6 +1,7 @@
 ﻿using PokeApiNet;
 using System.Collections.Immutable;
 using System.Drawing;
+using System.Text;
 
 namespace Pokewordle.Shared
 {
@@ -53,6 +54,57 @@ namespace Pokewordle.Shared
             nonSharedTypes.Add("none");
             nonSharedTypes.Add("none");
             return sharedTypes;
+        }
+
+        public MatchingResult MatchTypes(PokeData pokeData)
+        {
+            int matchCount = 0;
+            foreach (string type in Types)
+            {
+                if (pokeData.Types.Contains(type))
+                {
+                    matchCount++;
+                }
+            }
+            if (this.Types.Count == pokeData.Types.Count)
+            {
+                if (matchCount == this.Types.Count)
+                {
+                    return MatchingResult.ALL;
+                } else if (matchCount > 0)
+                {
+                    return MatchingResult.PARTIAL;
+                } else
+                {
+                    return MatchingResult.NONE;
+                }
+            } else
+            {
+                if (matchCount > 0)
+                {
+                    return MatchingResult.PARTIAL;
+                }
+                else
+                {
+                    return MatchingResult.NONE;
+                }
+            }
+        }
+
+        public string GetDisplayTypesString()
+        {
+            StringBuilder sb = new StringBuilder();
+            bool first = true;
+            foreach(string typeName in Types)
+            {
+                if (!first)
+                {
+                    sb.AppendLine();
+                }
+                sb.Append(typeName);
+                first = false;
+            }
+            return sb.ToString();
         }
     }
 }
