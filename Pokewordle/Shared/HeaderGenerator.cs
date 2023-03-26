@@ -9,6 +9,7 @@ namespace Pokewordle.Shared
             {ColumnType.NAME, "Pokémon"},
             {ColumnType.TYPE1, "Type 1"},
             {ColumnType.TYPE2, "Type 2"},
+            {ColumnType.TYPES, "Type"},
             {ColumnType.GENERATION, "Gen"},
             {ColumnType.HEIGHT, "Height (m)"},
             {ColumnType.WEIGHT, "Weight (kg)"},
