@@ -1,0 +1,12 @@
+﻿@namespace Pokewordle.CustomCells
+@using Pokewordle.Shared.HtmlUtil
+
+<td class="@cell.HtmlClass" id="@cell.HtmlId">
+    <pre style="background-color: @cell.Background;">@cell.DisplayString</pre>
+</td>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public SimpleTableCell cell { get; set; }
+}
