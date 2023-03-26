@@ -27,8 +27,9 @@
             <tbody>
                 @foreach (var guess in displayData)
                 {
-                    Console.WriteLine(guess.ToRowString(displayedColumns));
-                    @((MarkupString)guess.ToRowString(displayedColumns));
+                    //Console.WriteLine(guess.ToRowString(displayedColumns));
+                    //@((MarkupString)guess.ToRowString(displayedColumns));
+                    <Pokewordle.Components.Cells.TemplateRow TableCells=guess.GetTableCells(displayedColumns)></Pokewordle.Components.Cells.TemplateRow>
                 }
             </tbody>
         </table>

@@ -5,6 +5,7 @@
         NAME,
         TYPE1,
         TYPE2,
+        TYPES,
         GENERATION,
         HEIGHT,
         WEIGHT,

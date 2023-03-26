@@ -1,0 +1,24 @@
+﻿@using Pokewordle.Shared.HtmlUtil;
+
+@if (TableCell is null)
+{
+    <td></td>
+} else
+{
+    if (TableCell is SimpleTableCell simpleTableCell)
+    {
+        <SimpleCell Cell="simpleTableCell"></SimpleCell>
+    } else if (TableCell is GradientTableCell gradientTableCell)
+    {
+
+    } else
+    {
+        <td></td>
+    }
+}
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public ITableCell? TableCell { get; set; }
+}

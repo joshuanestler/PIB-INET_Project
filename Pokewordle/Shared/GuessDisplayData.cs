@@ -121,6 +121,23 @@ namespace Pokewordle.Shared
             return sb.ToString();
         }
 
+
+        public IList<ITableCell> GetTableCells(IEnumerable<ColumnType> columnTypes)
+        {
+            List<ITableCell> tableCells = new List<ITableCell>();
+            foreach(ColumnType columnType in columnTypes)
+            {
+                if (ColumnData.TryGetValue(columnType, out ITableCell? tableCell) && tableCell is not null)
+                {
+                    tableCells.Add(tableCell);
+                } else
+                {
+                    tableCells.Add(EmptyCell);
+                }
+            }
+            return tableCells;
+        }
+
         private static readonly Dictionary<string, Color> typeColors = new()
             {
                 { "normal", Color.Beige },

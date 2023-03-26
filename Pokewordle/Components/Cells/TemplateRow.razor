@@ -1,0 +1,13 @@
+﻿@using Pokewordle.Shared.HtmlUtil;
+
+<tr>
+    @foreach(ITableCell tableCell in TableCells) {
+        <TemplateCell TableCell=tableCell></TemplateCell>
+    }
+</tr>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public IList<ITableCell> TableCells { get; set; }
+}

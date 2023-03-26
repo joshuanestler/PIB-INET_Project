@@ -30,23 +30,29 @@ namespace Pokewordle.Shared
 
         public IList<string> FindSharedTypes(PokeData pokeData, out IList<string> nonSharedTypes)
         {
-            List<string> result = new();
+            List<string> sharedTypes = new();
             nonSharedTypes = new List<string>();
 
             foreach(string type in Types)
             {
                 if (pokeData.Types.Contains(type))
                 {
-                    result.Add(type);
+                    sharedTypes.Add(type);
                 } else
                 {
                     nonSharedTypes.Add(type);
                 }
             }
+
+            if (pokeData.Types.Count == 1 && this.Types.Count == 1)
+            {
+                sharedTypes.Add("none");
+            }
+
             //prevent issues in case a pokemon is actually typeless (is currently only possible with very nieche moves and only during combat but eh now its fixed either way)
             nonSharedTypes.Add("none");
             nonSharedTypes.Add("none");
-            return result;
+            return sharedTypes;
         }
     }
 }

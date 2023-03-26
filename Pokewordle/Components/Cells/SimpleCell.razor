@@ -1,0 +1,13 @@
+﻿@namespace Pokewordle.Components.Cells
+@inherits Microsoft.AspNetCore.Components.ComponentBase
+@using Pokewordle.Shared.HtmlUtil
+
+<td class="@Cell.HtmlClass" id="@Cell.HtmlId">
+    <pre style="background-color: @Cell.Background;">@Cell.DisplayString</pre>
+</td>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public SimpleTableCell Cell { get; set; }
+}
