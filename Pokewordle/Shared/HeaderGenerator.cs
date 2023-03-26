@@ -16,19 +16,6 @@ namespace Pokewordle.Shared
             {ColumnType.ABILITIES, "Abilities"},
         };
 
-        /*
-         <tr>
-                    <th>Pokémon</th>
-                    <th>Type 1</th>
-                    <th>Type 2</th>
-                    <th>Gen</th>
-                    <th>Height (m)</th>
-                    <th>Weight (kg)</th>
-                    <th>Evolution</th>
-                    <th>Abilities</th>
-                </tr>
-        */
-
         public static string ToHeaderString(IEnumerable<ColumnType> columnTypes)
         {
             StringBuilder sb = new();
