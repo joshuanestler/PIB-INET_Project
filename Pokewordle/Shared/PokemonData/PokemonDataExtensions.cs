@@ -34,7 +34,7 @@ namespace Pokewordle.Shared.PokemonData
             return sharedTypes;
         }
 
-        public static MatchingResult MatchTypes(this IPokeData pokeData, PokeData compareData)
+        public static MatchingResult MatchTypes(this IPokeData pokeData, IPokeData compareData)
         {
             int matchCount = 0;
             foreach (string type in pokeData.Types)
