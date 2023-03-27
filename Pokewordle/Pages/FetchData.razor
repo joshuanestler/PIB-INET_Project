@@ -104,12 +104,12 @@
     private async Task<IPokeData> LoadPokemon(int id)
     {
         Pokemon pokemon = await PokeClient.GetResourceAsync<Pokemon>(id);
-        return new PokeData(pokemon);
+        return new FetchablePokeData(pokemon);
     }
     private async Task<IPokeData> LoadPokemon(string name)
     {
         Pokemon pokemon = await PokeClient.GetResourceAsync<Pokemon>(name);
-        return new PokeData(pokemon);
+        return new FetchablePokeData(pokemon);
     }
 
 }
