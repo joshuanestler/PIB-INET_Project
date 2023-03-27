@@ -1,51 +1,29 @@
-﻿using PokeApiNet;
-using System.Collections.Immutable;
-using System.Drawing;
+﻿using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace Pokewordle.Shared
+namespace Pokewordle.Shared.PokemonData
 {
-    public class PokeData
+    public static class PokemonDataExtensions
     {
-        public readonly string Name;
 
-        public readonly ImmutableHashSet<string> Types;
-
-        //public readonly int Generation;
-
-        public readonly int Height_m;
-        public readonly int Weight_kg;
-        //public int EvolutionType { get; set; }
-
-        public readonly IImmutableList<string> Abilities;
-
-        public PokeData(Pokemon pokemon)
-        {
-            Name = pokemon.Name;
-            Types = pokemon.Types.ConvertAll(pkmnType => pkmnType.Type.Name).ToImmutableHashSet();
-            //Generation = pokemon.
-            Height_m = pokemon.Height;
-            Weight_kg = pokemon.Weight;
-            Abilities = pokemon.Abilities.ConvertAll(pokemonAbility => pokemonAbility.Ability.Name).ToImmutableList();
-        }
-
-        public IList<string> FindSharedTypes(PokeData pokeData, out IList<string> nonSharedTypes)
+        public static IList<string> FindSharedTypes(this IPokeData pokeData, IPokeData compareData, out IList<string> nonSharedTypes)
         {
             List<string> sharedTypes = new();
             nonSharedTypes = new List<string>();
 
-            foreach(string type in Types)
+            foreach (string type in Types)
             {
                 if (pokeData.Types.Contains(type))
                 {
                     sharedTypes.Add(type);
-                } else
+                }
+                else
                 {
                     nonSharedTypes.Add(type);
                 }
             }
 
-            if (pokeData.Types.Count == 1 && this.Types.Count == 1)
+            if (pokeData.Types.Count == 1 && Types.Count == 1)
             {
                 sharedTypes.Add("none");
             }
@@ -56,29 +34,32 @@ namespace Pokewordle.Shared
             return sharedTypes;
         }
 
-        public MatchingResult MatchTypes(PokeData pokeData)
+        public static MatchingResult MatchTypes(this IPokeData pokeData, PokeData compareData)
         {
             int matchCount = 0;
-            foreach (string type in Types)
+            foreach (string type in pokeData.Types)
             {
-                if (pokeData.Types.Contains(type))
+                if (compareData.Types.Contains(type))
                 {
                     matchCount++;
                 }
             }
-            if (this.Types.Count == pokeData.Types.Count)
+            if (pokeData.Types.Count == compareData.Types.Count)
             {
-                if (matchCount == this.Types.Count)
+                if (matchCount == pokeData.Types.Count)
                 {
                     return MatchingResult.ALL;
-                } else if (matchCount > 0)
+                }
+                else if (matchCount > 0)
                 {
                     return MatchingResult.PARTIAL;
-                } else
+                }
+                else
                 {
                     return MatchingResult.NONE;
                 }
-            } else
+            }
+            else
             {
                 if (matchCount > 0)
                 {
@@ -90,12 +71,11 @@ namespace Pokewordle.Shared
                 }
             }
         }
-
-        public string GetDisplayTypesString()
+        public static string GetDisplayTypesString(this IPokeData pokeData)
         {
             StringBuilder sb = new StringBuilder();
             bool first = true;
-            foreach(string typeName in Types)
+            foreach (string typeName in pokeData.Types)
             {
                 if (!first)
                 {

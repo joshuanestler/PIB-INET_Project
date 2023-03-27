@@ -5,7 +5,9 @@
 <td class="@Cell.HtmlClass" id="@Cell.HtmlId" style="padding: 0px; background-color: @Cell.Background;">
     @foreach(string typeName in Cell.TypeNames)
     {
-        <div class="pokemon-type" style="text-align:center; vertical-align: middle; border-radius: 5px; margin: 5px; background-color: @PokeTypeTableCell.TypeNameToColorHexString(typeName)">@typeName</div>
+        <div class="poke-type-border" style="border-width: 3px; border-radius:5px; padding: 5px; margin: 5px;">
+            <div class="pokemon-type" style="text-align:center; vertical-align: middle; border-radius: 5px; margin: 5px; background-color: @PokeTypeTableCell.TypeNameToColorHexString(typeName)">@typeName</div>
+        </div>
         Console.WriteLine(typeName);
     }
 </td>
