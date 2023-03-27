@@ -3,7 +3,7 @@
 @using Pokewordle.Shared.Extensions;
 @using Pokewordle.Shared.HtmlUtil
 
-<td class="@Cell.HtmlClass" id="@Cell.HtmlId" style="padding: 0px; background-color: @Cell.Background;">
+<td class="@Cell.HtmlClass" id="@Cell.HtmlId" style="width: @(Cell.TypeNames.Length * 80 + 20)px; padding: 5px; background-color: @Cell.Background;">
     @foreach(string typeName in Cell.TypeNames)
     {
         <div class="poke-type-outer-border" style="width: 70px; float: left; border-radius:10px; padding: 3px; margin: 5px; background-color: @PokeTypeTableCell.TypeNameToColorHexString(typeName)">
