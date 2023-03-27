@@ -2,8 +2,9 @@
 {
     public class FetchableData<TOut>
     {
-        private TOut _value = null;
-        public TOut Value { get => _value ?? GetValue(); }
+        private TOut _value = default;
+        private bool _valueFetched = false;
+        public TOut Value { get => _valueFetched ? _value : FetchValue(); }
 
         private Func<TOut> _ValueGetter;
 
@@ -12,11 +13,12 @@
             this._ValueGetter = valueGetter;
         }
 
-        private TOut? GetValue()
+        private TOut FetchValue()
         {
             _value = _ValueGetter.Invoke();
+            _valueFetched = true;
             return _value;
         }
-
     }
+
 }
