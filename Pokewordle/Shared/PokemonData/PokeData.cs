@@ -10,6 +10,7 @@ namespace Pokewordle.Shared.PokemonData
         public string Name { get; }
 
         public IImmutableList<string> Types { get; }
+        public IImmutableList<string> FilledTypes { get; }
 
         //public readonly int Generation;
 
@@ -22,11 +23,13 @@ namespace Pokewordle.Shared.PokemonData
         public PokeData(Pokemon pokemon)
         {
             Name = pokemon.Name;
-            Types = PokemonDataHelper.BuildTypeList(pokemon, 2);
+            Types = pokemon.Types.ConvertAll(type => type.Type.Name).ToImmutableList();
+            FilledTypes = PokemonDataHelper.BuildTypeList(Types, 2);
             //Generation = pokemon.
             Height_m = pokemon.Height / 10f;
             Weight_kg = pokemon.Weight / 10f;
             Abilities = pokemon.Abilities.ConvertAll(pokemonAbility => pokemonAbility.Ability.Name).ToImmutableList();
+            PokeApiClient pokeApiClient = new();
         }
 
     }

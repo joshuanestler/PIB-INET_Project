@@ -5,9 +5,9 @@ namespace Pokewordle.Shared.PokemonData
 {
     public class PokemonDataHelper
     {
-        public static IImmutableList<string> BuildTypeList(Pokemon apiPokemon, int minimumListCount, string fillerTypeName = "none")
+        public static IImmutableList<string> BuildTypeList(IEnumerable<string> typeNames, int minimumListCount, string fillerTypeName = "none")
         {
-            List<string> typeList = apiPokemon.Types.ConvertAll(pkmnType => pkmnType.Type.Name);
+            List<string> typeList = new(typeNames);
             while (typeList.Count < minimumListCount)
             {
                 typeList.Add(fillerTypeName);

@@ -37,13 +37,13 @@ namespace Pokewordle.Shared.PokemonData
         }
         public static bool IsType1Shared(this IPokeData pokeData, IPokeData compareData, out string type1)
         {
-            type1 = pokeData.Types[0];
-            return compareData.Types.Contains(type1);
+            type1 = pokeData.FilledTypes[0];
+            return compareData.FilledTypes.Contains(type1);
         }
         public static bool IsType2Shared(this IPokeData pokeData, IPokeData compareData, out string type2)
         {
-            type2 = pokeData.Types[1];
-            return compareData.Types.Contains(type2);
+            type2 = pokeData.FilledTypes[1];
+            return compareData.FilledTypes.Contains(type2);
         }
 
         public static MatchingResult MatchTypes(this IPokeData pokeData, IPokeData compareData)

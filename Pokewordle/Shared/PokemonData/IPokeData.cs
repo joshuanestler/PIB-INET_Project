@@ -8,8 +8,9 @@ namespace Pokewordle.Shared.PokemonData
     {
         string Name { get; }
 
-        //ALWAYS CONTAINS AT LEAST 2 VALUES
         IImmutableList<string> Types { get; }
+        //ALWAYS CONTAINS AT LEAST 2 VALUES
+        IImmutableList<string> FilledTypes { get; }
 
         //public readonly int Generation;
 
