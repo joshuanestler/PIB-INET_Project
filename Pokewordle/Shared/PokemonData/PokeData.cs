@@ -13,8 +13,8 @@ namespace Pokewordle.Shared.PokemonData
 
         //public readonly int Generation;
 
-        public int Height_m { get; }
-        public int Weight_kg { get; }
+        public float Height_m { get; }
+        public float Weight_kg { get; }
         //public int EvolutionType { get; set; }
 
         public IImmutableList<string> Abilities { get; }
@@ -24,8 +24,8 @@ namespace Pokewordle.Shared.PokemonData
             Name = pokemon.Name;
             Types = pokemon.Types.ConvertAll(pkmnType => pkmnType.Type.Name).ToImmutableList();
             //Generation = pokemon.
-            Height_m = pokemon.Height;
-            Weight_kg = pokemon.Weight;
+            Height_m = pokemon.Height / 10f;
+            Weight_kg = pokemon.Weight / 10f;
             Abilities = pokemon.Abilities.ConvertAll(pokemonAbility => pokemonAbility.Ability.Name).ToImmutableList();
         }
 

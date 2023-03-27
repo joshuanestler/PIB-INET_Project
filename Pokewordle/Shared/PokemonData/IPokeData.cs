@@ -12,8 +12,8 @@ namespace Pokewordle.Shared.PokemonData
 
         //public readonly int Generation;
 
-        int Height_m { get; }
-        int Weight_kg { get; }
+        float Height_m { get; }
+        float Weight_kg { get; }
         //public int EvolutionType { get; set; }
 
         IImmutableList<string> Abilities { get; }

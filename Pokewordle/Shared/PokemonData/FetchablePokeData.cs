@@ -11,11 +11,11 @@ namespace Pokewordle.Shared.PokemonData
         public IImmutableList<string> Types => _typesFetchable.Value;
         private readonly FetchableData<IImmutableList<string>> _typesFetchable;
 
-        public int Height_m => _heightFetchable.Value;
-        private readonly FetchableData<int> _heightFetchable;
+        public float Height_m => _heightFetchable.Value;
+        private readonly FetchableData<float> _heightFetchable;
 
-        public int Weight_kg => _weightFetchable.Value;
-        private readonly FetchableData<int> _weightFetchable;
+        public float Weight_kg => _weightFetchable.Value;
+        private readonly FetchableData<float> _weightFetchable;
 
         public IImmutableList<string> Abilities => _abilitiesFetchable.Value;
         private readonly FetchableData<IImmutableList<string>> _abilitiesFetchable;
@@ -26,8 +26,8 @@ namespace Pokewordle.Shared.PokemonData
             this.apiPokemon = pokemon;
             _nameFetchable = new(() => apiPokemon.Name);
             _typesFetchable = new(() => apiPokemon.Types.ConvertAll(pkmnType => pkmnType.Type.Name).ToImmutableList());
-            _heightFetchable = new(() => apiPokemon.Height / 10);
-            _weightFetchable = new(() => apiPokemon.Weight / 10);
+            _heightFetchable = new(() => apiPokemon.Height / 10f);
+            _weightFetchable = new(() => apiPokemon.Weight / 10f);
             _abilitiesFetchable = new(() => apiPokemon.Abilities.ConvertAll(pkmnAbility => pkmnAbility.Ability.Name).ToImmutableList());
         }
     }

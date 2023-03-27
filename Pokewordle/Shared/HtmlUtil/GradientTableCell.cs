@@ -28,13 +28,13 @@ namespace Pokewordle.Shared.HtmlUtil
             HtmlId = htmlId;
         }
 
-        private static int PercentualOffset(int baseValue, int offsetValue, int offsetPercent)
+        private static int PercentualOffset(int baseValue, int offsetValue, float offsetPercent)
         {
             double diff = offsetValue - baseValue;
             return baseValue + (int)Math.Round(diff / 100 * offsetPercent);
         }
 
-        private static Color PercentualColorOffset(Color baseColor, Color offsetColor, int offsetPercent)
+        private static Color PercentualColorOffset(Color baseColor, Color offsetColor, float offsetPercent)
         {
             int r = PercentualOffset(baseColor.R, offsetColor.R, offsetPercent);
             int g = PercentualOffset(baseColor.G, offsetColor.G, offsetPercent);
@@ -42,20 +42,27 @@ namespace Pokewordle.Shared.HtmlUtil
             return Color.FromArgb(r, g, b);
         }
 
-        private static int AsPercentLimit100(int value, int value100Percent)
+        private static float AsPercentLimit0to100(float value, float value100Percent)
         {
             if (value >= value100Percent)
             {
                 return 100;
             }
 
-            return (int)Math.Round((100d / (double)value100Percent) * value);
+            float calculated = (100f / value100Percent) * value;
+
+            if (calculated <= 0)
+            {
+                return 0;
+            }
+
+            return calculated;
         }
 
-        public static GradientTableCell FromValues(int targetValue, int guessValue, int maxOffsetValue, string htmlClass = "", string htmlId = "")
+        public static GradientTableCell FromValues(float targetValue, float guessValue, float maxOffsetValue, string htmlClass = "", string htmlId = "")
         {
-            int difference = Math.Min(Math.Abs(guessValue - targetValue), maxOffsetValue);
-            int percent = AsPercentLimit100(difference, maxOffsetValue);
+            float difference = Math.Min(Math.Abs(guessValue - targetValue), maxOffsetValue);
+            float percent = AsPercentLimit0to100(difference, maxOffsetValue);
             Color correctColor = ColorScheme.COLOR_CORRECT;
             Color mistakeColor = ColorScheme.COLOR_MISTAKE;
 

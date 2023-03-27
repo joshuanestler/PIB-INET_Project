@@ -83,7 +83,7 @@ namespace Pokewordle.Shared.GuessDisplayData
             List<ITableCell> tableCells = new List<ITableCell>();
             foreach (ColumnType columnType in columnTypes)
             {
-                if (ColumnData.TryGetValue(columnType, out FetchableData<ITableCell> tableCellFetchable) && tableCellFetchable is not null)
+                if (ColumnData.TryGetValue(columnType, out FetchableData<ITableCell>? tableCellFetchable) && tableCellFetchable is not null)
                 {
                     tableCells.Add(tableCellFetchable.Value);
                 }
