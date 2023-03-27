@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Pokewordle.Shared.HtmlUtil
 {
-    public class GradientTableCell : ITableCell
+    public readonly record struct GradientTableCell : ITableCell
     {
         public readonly string DisplayString;
         public readonly string FontColor;
