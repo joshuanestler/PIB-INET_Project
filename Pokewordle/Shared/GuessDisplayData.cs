@@ -1,5 +1,6 @@
 ﻿using Pokewordle.Shared.Extensions;
 using Pokewordle.Shared.HtmlUtil;
+using Pokewordle.Shared.PokemonData;
 using System.Collections.Immutable;
 using System.Drawing;
 using System.Text;
@@ -48,28 +49,6 @@ namespace Pokewordle.Shared
 
             ColumnData = dictionaryBuilder.ToImmutable();
         }
-
-
-
-
-        //public string ToRowString(IEnumerable<ColumnType> columnTypes)
-        //{
-        //    StringBuilder sb = new();
-        //    sb.AppendLine("<tr>");
-        //    foreach(ColumnType columnType in columnTypes)
-        //    {
-        //        if (ColumnData.TryGetValue(columnType, out ITableCell? tableCell) && tableCell is not null)
-        //        {
-        //            sb.AppendLine(tableCell.ToTableCellString());
-        //        } else
-        //        {
-        //            sb.AppendLine(EmptyCell.ToTableCellString());
-        //        }
-        //    }
-        //    sb.AppendLine("</tr>");
-        //    return sb.ToString();
-        //}
-
 
         public IList<ITableCell> GetTableCells(IEnumerable<ColumnType> columnTypes)
         {

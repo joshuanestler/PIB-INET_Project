@@ -28,29 +28,6 @@ namespace Pokewordle.Shared.HtmlUtil
             HtmlId = htmlId;
         }
 
-        public string ToTableCellString()
-        {
-            StringBuilder sb = new();
-            sb.Append("<td ");
-            if (HtmlClass.Length > 0)
-            {
-                sb.Append($"class=\"{HtmlClass}\" ");
-            }
-            if (HtmlId.Length > 0)
-            {
-                sb.Append($"id=\"{HtmlId}\" ");
-            }
-            sb.Append($"style = \"background: linear-gradient({Degrees}deg, {Background1}, {Background2});\" ");
-            sb.Append(">");
-
-            sb.Append(DisplayString);
-
-            sb.Append("</td>");
-
-            return sb.ToString();
-        }
-
-
         private static int PercentualOffset(int baseValue, int offsetValue, int offsetPercent)
         {
             double diff = offsetValue - baseValue;

@@ -19,9 +19,5 @@ namespace Pokewordle.Shared.PokemonData
         IImmutableList<string> Abilities { get; }
 
 
-        IList<string> FindSharedTypes(PokeData pokeData, out IList<string> nonSharedTypes);
-        MatchingResult MatchTypes(PokeData pokeData);
-        string GetDisplayTypesString();
-
     }
 }
