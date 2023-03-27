@@ -59,7 +59,7 @@ namespace Pokewordle.Shared.HtmlUtil
             Color correctColor = ColorScheme.COLOR_CORRECT;
             Color mistakeColor = ColorScheme.COLOR_MISTAKE;
 
-            char appendArrow;
+            char arrow;
             Color upperColor;
             Color lowerColor;
 
@@ -67,22 +67,22 @@ namespace Pokewordle.Shared.HtmlUtil
             {
                 upperColor = correctColor;
                 lowerColor = correctColor;
-                appendArrow = ' ';
+                arrow = ' ';
             }
             else if (targetValue < guessValue)
             {
                 upperColor = correctColor;
                 lowerColor = PercentualColorOffset(correctColor, mistakeColor, percent);
-                appendArrow = '↓';
+                arrow = '↓';
             }
             else
             {
                 lowerColor = correctColor;
                 upperColor = PercentualColorOffset(correctColor, mistakeColor, percent);
-                appendArrow = '↑';
+                arrow = '↑';
             }
 
-            return new GradientTableCell(guessValue.ToString() + ' ' + appendArrow, upperColor, lowerColor, 0, htmlClass: htmlClass, htmlId: htmlId);
+            return new GradientTableCell(arrow + ' ' + guessValue.ToString(), upperColor, lowerColor, 0, htmlClass: htmlClass, htmlId: htmlId);
         }
 
     }
