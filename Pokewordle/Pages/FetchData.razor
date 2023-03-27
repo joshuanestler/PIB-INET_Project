@@ -45,7 +45,7 @@
 
     private PokeData? pokemonToGuess;
     private List<PokeData> pokemonsGuessed = new();
-    private List<GuessDisplayData> displayData = new();
+    private List<IGuessDisplayData> displayData = new();
 
     private List<string> pokemonTypes = new ();
 
@@ -84,7 +84,7 @@
             return;
         }
 
-        GuessDisplayData guessDisplayData = new GuessDisplayData(pokemonToGuess, guessPokeData);
+        IGuessDisplayData guessDisplayData = new LazyGuessDisplayData(pokemonToGuess, guessPokeData);
         displayData.Add(guessDisplayData);
         pokemonsGuessed.Add(guessPokeData);
         //Console.WriteLine(guessDisplayData.ToRowString(displayedColumns));
