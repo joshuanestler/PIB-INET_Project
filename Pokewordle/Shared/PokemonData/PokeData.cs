@@ -22,7 +22,7 @@ namespace Pokewordle.Shared.PokemonData
         public PokeData(Pokemon pokemon)
         {
             Name = pokemon.Name;
-            Types = pokemon.Types.ConvertAll(pkmnType => pkmnType.Type.Name).ToImmutableList();
+            Types = PokemonDataHelper.BuildTypeList(pokemon, 2);
             //Generation = pokemon.
             Height_m = pokemon.Height / 10f;
             Weight_kg = pokemon.Weight / 10f;

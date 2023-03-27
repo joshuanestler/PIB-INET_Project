@@ -1,4 +1,6 @@
-﻿using System.Runtime.CompilerServices;
+﻿using PokeApiNet;
+using System;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Pokewordle.Shared.PokemonData
@@ -35,40 +37,13 @@ namespace Pokewordle.Shared.PokemonData
         }
         public static bool IsType1Shared(this IPokeData pokeData, IPokeData compareData, out string type1)
         {
-            //TODO: consider always adding none at least once to Types list in IPokeData to get rid of the if
-            if (pokeData.Types.Count < 1 || compareData.Types.Count < 1)
-            {
-                type1 = "ERROR: No types assigned to pokemon!";
-                return false;
-            }
-
             type1 = pokeData.Types[0];
-            return pokeData.Types[0].Equals(compareData.Types[0]);
+            return compareData.Types.Contains(type1);
         }
         public static bool IsType2Shared(this IPokeData pokeData, IPokeData compareData, out string type2)
         {
-            //TODO: consider always adding none twice to Types list in IPokeData to get rid of the ifs
-            if (compareData.Types.Count < 2)
-            {
-                if (pokeData.Types.Count >= 2)
-                {
-                    type2 = pokeData.Types[1];
-                    return false;
-                } else
-                {
-                    type2 = "none";
-                    return true;
-                }
-            }
-
-            if (pokeData.Types.Count < 2)
-            {
-                type2 = "none";
-                return false;
-            }
-
             type2 = pokeData.Types[1];
-            return pokeData.Types[1].Equals(compareData.Types[1]);
+            return compareData.Types.Contains(type2);
         }
 
         public static MatchingResult MatchTypes(this IPokeData pokeData, IPokeData compareData)

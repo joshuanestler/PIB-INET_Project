@@ -25,7 +25,7 @@ namespace Pokewordle.Shared.PokemonData
         {
             this.apiPokemon = pokemon;
             _nameFetchable = new(() => apiPokemon.Name);
-            _typesFetchable = new(() => apiPokemon.Types.ConvertAll(pkmnType => pkmnType.Type.Name).ToImmutableList());
+            _typesFetchable = new(() => PokemonDataHelper.BuildTypeList(apiPokemon, 2));
             _heightFetchable = new(() => apiPokemon.Height / 10f);
             _weightFetchable = new(() => apiPokemon.Weight / 10f);
             _abilitiesFetchable = new(() => apiPokemon.Abilities.ConvertAll(pkmnAbility => pkmnAbility.Ability.Name).ToImmutableList());
