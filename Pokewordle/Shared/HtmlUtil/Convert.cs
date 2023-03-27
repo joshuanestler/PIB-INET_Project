@@ -4,11 +4,11 @@ namespace Pokewordle.Shared.HtmlUtil
 {
     public static class Convert
     {
-        public static string ColorToHexString(Color? color)
+        public static string ColorToHexString(Color? color, Color colorIfNull)
         {
             if (color is null)
             {
-                return "#AAAAAA";
+                return ColorToHexString(colorIfNull);
             }
             return ColorToHexString(color.Value);
         }
