@@ -44,7 +44,7 @@
     private static string value = "";
 
     private PokeData? pokemonToGuess;
-    private List<PokeData> pokemonsGuessed = new();
+    private List<IPokeData> pokemonsGuessed = new();
     private List<IGuessDisplayData> displayData = new();
 
     private List<string> pokemonTypes = new ();
@@ -77,7 +77,7 @@
         pokemonToGuess = await LoadPokemon(random.Next(500) + 1);
     }
 
-    private void AddGuessedPokemon(PokeData guessPokeData)
+    private void AddGuessedPokemon(IPokeData guessPokeData)
     {
         if (pokemonToGuess is null)
         {
@@ -93,20 +93,20 @@
 
     private async Task AttemptGuess(int id)
     {
-        PokeData guessPokeData = await LoadPokemon(id);
+        IPokeData guessPokeData = await LoadPokemon(id);
         AddGuessedPokemon(guessPokeData);
     }
     private async Task AttemptGuess(string name)
     {
-        PokeData guessPokeData = await LoadPokemon(name);
+        IPokeData guessPokeData = await LoadPokemon(name);
         AddGuessedPokemon(guessPokeData);
     }
-    private async Task<PokeData> LoadPokemon(int id)
+    private async Task<IPokeData> LoadPokemon(int id)
     {
         Pokemon pokemon = await PokeClient.GetResourceAsync<Pokemon>(id);
         return new PokeData(pokemon);
     }
-    private async Task<PokeData> LoadPokemon(string name)
+    private async Task<IPokeData> LoadPokemon(string name)
     {
         Pokemon pokemon = await PokeClient.GetResourceAsync<Pokemon>(name);
         return new PokeData(pokemon);
