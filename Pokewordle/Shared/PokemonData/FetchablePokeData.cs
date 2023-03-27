@@ -34,6 +34,7 @@ namespace Pokewordle.Shared.PokemonData
             _heightFetchable = new(() => apiPokemon.Height / 10f);
             _weightFetchable = new(() => apiPokemon.Weight / 10f);
             _abilitiesFetchable = new(() => apiPokemon.Abilities.ConvertAll(pkmnAbility => pkmnAbility.Ability.Name).ToImmutableList());
+            //Generation: Pokemon -> Species -> Generation
         }
     }
 }

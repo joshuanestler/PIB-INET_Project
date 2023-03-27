@@ -1,9 +1,10 @@
-﻿using System.Drawing;
+﻿using Pokewordle.Components.Cells;
+using System.Drawing;
 using System.Text;
 
 namespace Pokewordle.Shared.HtmlUtil
 {
-    public readonly record struct GradientTableCell : ITableCell
+    public readonly record struct GradientCellData : ICellData
     {
         public readonly string DisplayString;
         public readonly string FontColor;
@@ -13,7 +14,9 @@ namespace Pokewordle.Shared.HtmlUtil
         public readonly string HtmlClass;
         public readonly string HtmlId;
 
-        public GradientTableCell(
+        public Type CellType => typeof(GradientCell);
+
+        public GradientCellData(
             string displayString,
             Color background1, Color background2,
             int degrees = 0, Color? fontColor = null,
@@ -59,7 +62,7 @@ namespace Pokewordle.Shared.HtmlUtil
             return calculated;
         }
 
-        public static GradientTableCell FromValues(float targetValue, float guessValue, float maxOffsetValue, string htmlClass = "", string htmlId = "")
+        public static GradientCellData FromValues(float targetValue, float guessValue, float maxOffsetValue, string htmlClass = "", string htmlId = "")
         {
             float difference = Math.Min(Math.Abs(guessValue - targetValue), maxOffsetValue);
             float percent = AsPercentLimit0to100(difference, maxOffsetValue);
@@ -89,7 +92,7 @@ namespace Pokewordle.Shared.HtmlUtil
                 arrow = '↑';
             }
 
-            return new GradientTableCell(arrow.ToString() + ' ' + guessValue.ToString(), upperColor, lowerColor, 0, htmlClass: htmlClass, htmlId: htmlId);
+            return new GradientCellData(arrow.ToString() + ' ' + guessValue.ToString(), upperColor, lowerColor, 0, htmlClass: htmlClass, htmlId: htmlId);
         }
 
     }

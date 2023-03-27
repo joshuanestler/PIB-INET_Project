@@ -2,7 +2,7 @@
 
 namespace Pokewordle.Shared.HtmlUtil
 {
-    public interface ITableCell
+    public interface ICellData
     {
 
     }

@@ -1,27 +1,22 @@
 ﻿@using Pokewordle.Shared.HtmlUtil;
 
-@if (TableCell is null)
-{
-    <td></td>
-} else
-{
-    if (TableCell is SimpleTableCell simpleTableCell)
-    {
-        <SimpleCell Cell="simpleTableCell"></SimpleCell>
-    } else if (TableCell is GradientTableCell gradientTableCell)
-    {
-        <GradientCell Cell=gradientTableCell></GradientCell>
-    } else if (TableCell is PokeTypeTableCell pokeTypeTableCell)
-    {
-      <PokeTypeCell Cell=pokeTypeTableCell></PokeTypeCell>  
-    } else
-    {
+@switch (TableCell) {
+    case SimpleCellData simpleTableCell:
+        <SimpleCell Cell="@simpleTableCell"></SimpleCell>
+        break;
+    case GradientCellData gradientTableCell:
+        <GradientCell Cell=@gradientTableCell></GradientCell>
+        break;
+    case PokeTypeCellData pokeTypeTableCell:
+        <PokeTypeCell Cell=@pokeTypeTableCell></PokeTypeCell>
+        break;
+    default:
         <td></td>
-    }
+        break;
 }
 
 @code {
     [Parameter]
     [EditorRequired]
-    public ITableCell? TableCell { get; set; }
+    public ICellData? TableCell { get; set; }
 }

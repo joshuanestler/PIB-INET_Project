@@ -1,9 +1,10 @@
-﻿using System.Drawing;
+﻿using Pokewordle.Components.Cells;
+using System.Drawing;
 using System.Text;
 
 namespace Pokewordle.Shared.HtmlUtil
 {
-    public readonly record struct SimpleTableCell : ITableCell
+    public readonly record struct SimpleCellData : ICellData
     {
         public readonly string DisplayString;
         public readonly string FontColor;
@@ -11,7 +12,9 @@ namespace Pokewordle.Shared.HtmlUtil
         public readonly string HtmlClass;
         public readonly string HtmlId;
 
-        public SimpleTableCell(string displayString = "", Color? background = null, Color? fontColor = null,
+        public Type CellType => typeof(SimpleCell);
+
+        public SimpleCellData(string displayString = "", Color? background = null, Color? fontColor = null,
             string htmlClass = "", string htmlId = "")
         {
             DisplayString = displayString;

@@ -12,6 +12,7 @@ namespace Pokewordle.Shared.PokemonData
         //ALWAYS CONTAINS AT LEAST 2 VALUES
         IImmutableList<string> FilledTypes { get; }
 
+        //Generation: Pokemon -> Species -> Generation
         //public readonly int Generation;
 
         float Height_m { get; }
@@ -19,7 +20,6 @@ namespace Pokewordle.Shared.PokemonData
         //public int EvolutionType { get; set; }
 
         IImmutableList<string> Abilities { get; }
-
 
     }
 }

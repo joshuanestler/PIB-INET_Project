@@ -6,7 +6,7 @@
         <td>No Data</td>
     } else
     {
-        @foreach (ITableCell tableCell in TableCells)
+        @foreach (ICellData tableCell in TableCells)
         {
             <TemplateCell TableCell=tableCell></TemplateCell>
             //This creates an unnecessary td at the end
@@ -19,5 +19,5 @@
     //private bool firstCell = true;
     [Parameter]
     [EditorRequired]
-    public IList<ITableCell>? TableCells { get; set; }
+    public IList<ICellData>? TableCells { get; set; }
 }

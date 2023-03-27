@@ -4,6 +4,6 @@ namespace Pokewordle.Shared.GuessDisplayData
 {
     public interface IGuessDisplayData
     {
-        IList<ITableCell> GetRowCells(IEnumerable<ColumnType> columnTypes);
+        IList<ICellData> GetRowCells(IEnumerable<ColumnType> columnTypes);
     }
 }

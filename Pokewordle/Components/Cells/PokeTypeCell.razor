@@ -7,7 +7,7 @@
     @foreach(string typeName in Cell.TypeNames)
     {
         <div class="poke-type-border">
-            <div class="pokemon-type" style="background-color: @PokeTypeTableCell.TypeNameToColorHexString(typeName)">@typeName.FirstCharToUpper()</div>
+            <div class="pokemon-type" style="background-color: @PokeTypeCellData.TypeNameToColorHexString(typeName)">@typeName.FirstCharToUpper()</div>
         </div>
         Console.WriteLine(typeName);
     }
@@ -16,5 +16,5 @@
 @code {
     [Parameter]
     [EditorRequired]
-    public PokeTypeTableCell Cell { get; set; }
+    public PokeTypeCellData Cell { get; set; }
 }

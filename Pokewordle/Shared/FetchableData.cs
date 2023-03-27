@@ -1,4 +1,6 @@
-﻿namespace Pokewordle.Shared
+﻿using PokeApiNet;
+
+namespace Pokewordle.Shared
 {
     public class FetchableData<TOut>
     {
@@ -20,5 +22,4 @@
             return _value;
         }
     }
-
 }

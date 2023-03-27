@@ -7,8 +7,8 @@ namespace Pokewordle.Shared.GuessDisplayData
 {
     public class LazyGuessDisplayData : IGuessDisplayData
     {
-        public readonly IImmutableDictionary<ColumnType, FetchableData<ITableCell>> ColumnData;
-        public static readonly ITableCell EmptyCell = new SimpleTableCell();
+        public readonly IImmutableDictionary<ColumnType, FetchableData<ICellData>> ColumnData;
+        public static readonly ICellData EmptyCell = new SimpleCellData();
 
         private readonly IPokeData pokeDataGuessed;
         private readonly IPokeData pokeDataToGuess;
@@ -17,7 +17,7 @@ namespace Pokewordle.Shared.GuessDisplayData
         {
             this.pokeDataToGuess = pokeDataToGuess ?? throw new ArgumentNullException("Pokemon to guess was null!");
             this.pokeDataGuessed = pokeDataGuessed ?? throw new ArgumentNullException("Pokemon guessed was null!");
-            ImmutableDictionary<ColumnType, FetchableData<ITableCell>>.Builder dictionaryBuilder = ImmutableDictionary.CreateBuilder<ColumnType, FetchableData<ITableCell>>();
+            ImmutableDictionary<ColumnType, FetchableData<ICellData>>.Builder dictionaryBuilder = ImmutableDictionary.CreateBuilder<ColumnType, FetchableData<ICellData>>();
 
             dictionaryBuilder.Add(ColumnType.NAME, new(CreateNameCell));
 
@@ -31,59 +31,59 @@ namespace Pokewordle.Shared.GuessDisplayData
             ColumnData = dictionaryBuilder.ToImmutable();
         }
 
-        private ITableCell CreateNameCell()
+        private ICellData CreateNameCell()
         {
-            return new SimpleTableCell(pokeDataGuessed.Name.FirstCharToUpper(),
+            return new SimpleCellData(pokeDataGuessed.Name.FirstCharToUpper(),
                 pokeDataToGuess.Name.Equals(pokeDataGuessed.Name) ? ColorScheme.COLOR_CORRECT : ColorScheme.COLOR_MISTAKE,
                 htmlId: "name");
         }
 
-        private ITableCell CreateType1Cell()
+        private ICellData CreateType1Cell()
         {
             if (pokeDataGuessed.IsType1Shared(pokeDataToGuess, out string typeName))
             {
-                return new PokeTypeTableCell(new string[] { typeName }, ColorScheme.COLOR_CORRECT, htmlClass: "game-pokemon-type-field", htmlId: "type1");
+                return new PokeTypeCellData(new string[] { typeName }, ColorScheme.COLOR_CORRECT, htmlClass: "game-pokemon-type-field", htmlId: "type1");
             }
             else
             {
-                return new PokeTypeTableCell(new string[] { typeName }, ColorScheme.COLOR_MISTAKE, htmlClass: "game-pokemon-type-field", htmlId: "type1");
+                return new PokeTypeCellData(new string[] { typeName }, ColorScheme.COLOR_MISTAKE, htmlClass: "game-pokemon-type-field", htmlId: "type1");
             }
         }
-        private ITableCell CreateType2Cell()
+        private ICellData CreateType2Cell()
         {
             if (pokeDataGuessed.IsType2Shared(pokeDataToGuess, out string typeName))
             {
-                return new PokeTypeTableCell(new string[] { typeName }, ColorScheme.COLOR_CORRECT, htmlClass: "game-pokemon-type-field", htmlId: "type2");
+                return new PokeTypeCellData(new string[] { typeName }, ColorScheme.COLOR_CORRECT, htmlClass: "game-pokemon-type-field", htmlId: "type2");
             }
             else
             {
-                return new PokeTypeTableCell(new string[] { typeName }, ColorScheme.COLOR_MISTAKE, htmlClass: "game-pokemon-type-field", htmlId: "type2");
+                return new PokeTypeCellData(new string[] { typeName }, ColorScheme.COLOR_MISTAKE, htmlClass: "game-pokemon-type-field", htmlId: "type2");
             }
         }
-        private ITableCell CreateTypesCell()
+        private ICellData CreateTypesCell()
         {
-            return new PokeTypeTableCell(pokeDataGuessed.Types,
+            return new PokeTypeCellData(pokeDataGuessed.Types,
                 pokeDataGuessed.MatchTypes(pokeDataToGuess).ToTruePartialFalseColor(),
                 htmlClass: "game-pokemon-type-field", htmlId: "type2"
                 );
         }
 
-        private ITableCell CreateHeightCell()
+        private ICellData CreateHeightCell()
         {
-            return GradientTableCell.FromValues(pokeDataToGuess.Height_m, pokeDataGuessed.Height_m, 2, htmlId: "height");
+            return GradientCellData.FromValues(pokeDataToGuess.Height_m, pokeDataGuessed.Height_m, 2, htmlId: "height");
         }
 
-        private ITableCell CreateWeightCell()
+        private ICellData CreateWeightCell()
         {
-            return GradientTableCell.FromValues(pokeDataToGuess.Weight_kg, pokeDataGuessed.Weight_kg, 2, htmlId: "weight");
+            return GradientCellData.FromValues(pokeDataToGuess.Weight_kg, pokeDataGuessed.Weight_kg, 2, htmlId: "weight");
         }
 
-        public IList<ITableCell> GetRowCells(IEnumerable<ColumnType> columnTypes)
+        public IList<ICellData> GetRowCells(IEnumerable<ColumnType> columnTypes)
         {
-            List<ITableCell> tableCells = new List<ITableCell>();
+            List<ICellData> tableCells = new List<ICellData>();
             foreach (ColumnType columnType in columnTypes)
             {
-                if (ColumnData.TryGetValue(columnType, out FetchableData<ITableCell>? tableCellFetchable) && tableCellFetchable is not null)
+                if (ColumnData.TryGetValue(columnType, out FetchableData<ICellData>? tableCellFetchable) && tableCellFetchable is not null)
                 {
                     tableCells.Add(tableCellFetchable.Value);
                 }
