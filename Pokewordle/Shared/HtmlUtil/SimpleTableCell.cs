@@ -15,8 +15,8 @@ namespace Pokewordle.Shared.HtmlUtil
             string htmlClass = "", string htmlId = "")
         {
             DisplayString = displayString;
-            Background = Convert.ColorToHexString(background);
-            FontColor = Convert.ColorToHexString(fontColor);
+            Background = Convert.ColorToHexString(background, ColorScheme.COLOR_TYPE_NOT_FOUND);
+            FontColor = Convert.ColorToHexString(fontColor, ColorScheme.COLOR_TYPE_NOT_FOUND);
             HtmlClass = htmlClass;
             HtmlId = htmlId;
         }
