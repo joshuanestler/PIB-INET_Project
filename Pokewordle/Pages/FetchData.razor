@@ -1,7 +1,9 @@
 ﻿@page "/fetchdata"
-@    using PokeApiNet
-@    using Microsoft.AspNetCore.Components.Forms
-@    using Pokewordle.Components.Cells
+@using PokeApiNet
+@using Microsoft.AspNetCore.Components.Forms
+@using Pokewordle.Components.Cells
+@using Pokewordle.Shared.GuessDisplayData;
+@using Pokewordle.Shared.PokemonData;
 @inject HttpClient Http
 @inject PokeApiClient PokeClient
 
@@ -30,7 +32,7 @@
                 {
                     //Console.WriteLine(guess.ToRowString(displayedColumns));
                     //@((MarkupString)guess.ToRowString(displayedColumns));
-                    <TemplateRow TableCells=guess.GetTableCells(displayedColumns)></TemplateRow>
+                    <TemplateRow TableCells=guess.GetRowCells(displayedColumns)></TemplateRow>
                 }
             </tbody>
         </table>

@@ -9,10 +9,10 @@ namespace Pokewordle.Shared.HtmlUtil
         public readonly string HtmlClass;
         public readonly string HtmlId;
 
-        public PokeTypeTableCell(IEnumerable<string> typeNames, string background, string htmlClass = "", string htmlId = "")
+        public PokeTypeTableCell(IEnumerable<string> typeNames, Color background, string htmlClass = "", string htmlId = "")
         {
             this.TypeNames = typeNames.ToArray();
-            this.Background = background;
+            this.Background = Convert.ColorToHexString(background);
             this.HtmlClass = htmlClass;
             this.HtmlId = htmlId;
         }

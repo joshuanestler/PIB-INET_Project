@@ -3,9 +3,9 @@ using Pokewordle.Shared.HtmlUtil;
 using Pokewordle.Shared.PokemonData;
 using System.Collections.Immutable;
 
-namespace Pokewordle.Shared
+namespace Pokewordle.Shared.GuessDisplayData
 {
-    public class LazyGuessDisplayData
+    public class LazyGuessDisplayData : IGuessDisplayData
     {
         public readonly IImmutableDictionary<ColumnType, FetchableData<ITableCell>> ColumnData;
         public static readonly ITableCell EmptyCell = new SimpleTableCell();
@@ -15,8 +15,8 @@ namespace Pokewordle.Shared
 
         public LazyGuessDisplayData(IPokeData pokeDataToGuess, IPokeData pokeDataGuessed)
         {
-            this.pokeDataToGuess = pokeDataToGuess;
-            this.pokeDataGuessed = pokeDataGuessed;
+            this.pokeDataToGuess = pokeDataToGuess ?? throw new ArgumentNullException("Pokemon to guess was null!");
+            this.pokeDataGuessed = pokeDataGuessed ?? throw new ArgumentNullException("Pokemon guessed was null!");
             ImmutableDictionary<ColumnType, FetchableData<ITableCell>>.Builder dictionaryBuilder = ImmutableDictionary.CreateBuilder<ColumnType, FetchableData<ITableCell>>();
 
             dictionaryBuilder.Add(ColumnType.NAME, new(CreateNameCell));
@@ -42,27 +42,29 @@ namespace Pokewordle.Shared
         {
             if (pokeDataGuessed.IsType1Shared(pokeDataToGuess, out string typeName))
             {
-                return new SimpleTableCell(typeName, ColorScheme.COLOR_CORRECT, htmlClass: "game-pokemon-type-field", htmlId: "type1");
-            } else
+                return new PokeTypeTableCell(new string[] { typeName }, ColorScheme.COLOR_CORRECT, htmlClass: "game-pokemon-type-field", htmlId: "type1");
+            }
+            else
             {
-                return new SimpleTableCell(typeName, ColorScheme.COLOR_MISTAKE, htmlClass: "game-pokemon-type-field", htmlId: "type1");
+                return new PokeTypeTableCell(new string[] { typeName }, ColorScheme.COLOR_MISTAKE, htmlClass: "game-pokemon-type-field", htmlId: "type1");
             }
         }
         private ITableCell CreateType2Cell()
         {
             if (pokeDataGuessed.IsType2Shared(pokeDataToGuess, out string typeName))
             {
-                return new SimpleTableCell(typeName, ColorScheme.COLOR_CORRECT, htmlClass: "game-pokemon-type-field", htmlId: "type2");
+                return new PokeTypeTableCell(new string[] { typeName }, ColorScheme.COLOR_CORRECT, htmlClass: "game-pokemon-type-field", htmlId: "type2");
             }
             else
             {
-                return new SimpleTableCell(typeName, ColorScheme.COLOR_MISTAKE, htmlClass: "game-pokemon-type-field", htmlId: "type2");
+                return new PokeTypeTableCell(new string[] { typeName }, ColorScheme.COLOR_MISTAKE, htmlClass: "game-pokemon-type-field", htmlId: "type2");
             }
         }
         private ITableCell CreateTypesCell()
         {
             return new PokeTypeTableCell(pokeDataGuessed.Types,
-                HtmlUtil.Convert.ColorToHexString(pokeDataGuessed.MatchTypes(pokeDataToGuess).ToTruePartialFalseColor())
+                pokeDataGuessed.MatchTypes(pokeDataToGuess).ToTruePartialFalseColor(),
+                htmlClass: "game-pokemon-type-field", htmlId: "type2"
                 );
         }
 
@@ -76,5 +78,21 @@ namespace Pokewordle.Shared
             return GradientTableCell.FromValues(pokeDataToGuess.Weight_kg, pokeDataGuessed.Weight_kg, 2, htmlId: "weight");
         }
 
+        public IList<ITableCell> GetRowCells(IEnumerable<ColumnType> columnTypes)
+        {
+            List<ITableCell> tableCells = new List<ITableCell>();
+            foreach (ColumnType columnType in columnTypes)
+            {
+                if (ColumnData.TryGetValue(columnType, out FetchableData<ITableCell> tableCellFetchable) && tableCellFetchable is not null)
+                {
+                    tableCells.Add(tableCellFetchable.Value);
+                }
+                else
+                {
+                    tableCells.Add(EmptyCell);
+                }
+            }
+            return tableCells;
+        }
     }
 }
