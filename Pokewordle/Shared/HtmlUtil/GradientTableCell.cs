@@ -82,7 +82,7 @@ namespace Pokewordle.Shared.HtmlUtil
                 arrow = '↑';
             }
 
-            return new GradientTableCell(arrow + ' ' + guessValue.ToString(), upperColor, lowerColor, 0, htmlClass: htmlClass, htmlId: htmlId);
+            return new GradientTableCell(arrow.ToString() + ' ' + guessValue.ToString(), upperColor, lowerColor, 0, htmlClass: htmlClass, htmlId: htmlId);
         }
 
     }
