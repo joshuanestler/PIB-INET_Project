@@ -11,9 +11,9 @@ namespace Pokewordle.Shared.PokemonData
             List<string> sharedTypes = new();
             nonSharedTypes = new List<string>();
 
-            foreach (string type in Types)
+            foreach (string type in pokeData.Types)
             {
-                if (pokeData.Types.Contains(type))
+                if (compareData.Types.Contains(type))
                 {
                     sharedTypes.Add(type);
                 }
@@ -23,7 +23,7 @@ namespace Pokewordle.Shared.PokemonData
                 }
             }
 
-            if (pokeData.Types.Count == 1 && Types.Count == 1)
+            if (compareData.Types.Count == 1 && pokeData.Types.Count == 1)
             {
                 sharedTypes.Add("none");
             }
