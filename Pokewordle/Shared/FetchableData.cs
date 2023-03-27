@@ -2,7 +2,7 @@
 {
     public class FetchableData<TOut>
     {
-        private TOut _value;
+        private TOut _value = default;
         private bool _valueFetched = false;
         public TOut Value { get => _valueFetched ? _value : FetchValue(); }
 
