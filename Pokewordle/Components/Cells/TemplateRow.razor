@@ -9,11 +9,14 @@
         @foreach (ITableCell tableCell in TableCells)
         {
             <TemplateCell TableCell=tableCell></TemplateCell>
+            //This creates an unnecessary td at the end
+            <td style="width: 2px;"></td>
         }
     }
 </tr>
 
 @code {
+    private bool firstCell = true;
     [Parameter]
     [EditorRequired]
     public IList<ITableCell>? TableCells { get; set; }
