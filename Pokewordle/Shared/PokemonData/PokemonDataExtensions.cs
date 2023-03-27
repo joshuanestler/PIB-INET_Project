@@ -52,7 +52,7 @@ namespace Pokewordle.Shared.PokemonData
             {
                 if (pokeData.Types.Count >= 2)
                 {
-                    type2 = pokeData.Types[0];
+                    type2 = pokeData.Types[1];
                     return false;
                 } else
                 {
