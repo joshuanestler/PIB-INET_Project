@@ -1,0 +1,33 @@
+#game-table {
+    table-layout: auto;
+    border: 3px solid black;
+    border-collapse: collapse;
+    padding: 5px;
+    margin-top: 20px;
+}
+
+#game-table thead {
+    /*background: linear-gradient(20deg, rgba(236,16,16,1) 0%, rgba(235,191,191,1) 50%, rgba(236,16,16,1) 100%);*/
+    background: rgba(0, 0, 0, 0.29);
+    /*border: 3px solid black;  */
+    border-bottom: 3px solid black;
+}
+
+#game-table th, #game-table td {
+    /*font-size: 50px;   */
+    /*width: 500px;*/
+    /*height: 500px;*/
+    padding: 10px;
+    margin: 15px;
+    /*border-color: green;*/
+}
+
+#game-table th {
+    font-size: 20px;
+}
+
+#game-table td {
+    border-width: 1px;
+    border-color: black;
+}
+
