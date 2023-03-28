@@ -9,7 +9,7 @@ namespace Pokewordle.Shared
             {ColumnType.NAME, 20},
             {ColumnType.TYPE1, 4},
             {ColumnType.TYPE2, 4},
-            {ColumnType.TYPES, 11},
+            {ColumnType.TYPES, 13},
             {ColumnType.GENERATION, 1},
             {ColumnType.HEIGHT, 1},
             {ColumnType.WEIGHT, 3},
