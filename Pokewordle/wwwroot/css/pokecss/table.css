@@ -1,0 +1,61 @@
+#game-table {
+    table-layout: auto;
+    border: 3px solid black;
+    border-collapse: separate;
+    /*padding: 5px;*/
+    margin-top: 20px;
+    border-spacing: 0.8em;
+    background-color: rgba(255,255,255,0.1);
+    box-shadow: 0.7em 0.7em rgba(0,0,0,0.3);
+    font-size: 1.2em;
+}
+#game-table tr {
+    /*height: 100%;*/
+    /*width: 100%;*/
+    /*box-sizing: border-box;*/
+}
+
+#game-table thead {
+    /*background: linear-gradient(20deg, rgba(236,16,16,1) 0%, rgba(235,191,191,1) 50%, rgba(236,16,16,1) 100%);*/
+    /*border: 3px solid black;  */
+    border-bottom: 3px solid black;
+    /*box-sizing: border-box;*/
+}
+
+#game-table th, #game-table td {
+    /*font-size: 50px;   */
+    /*width: 500px;*/
+    /*height: 500px;*/
+    padding: 0.2em;
+    /*margin: 15px;*/
+    /*height: 100%;*/
+    /*width: 100%;*/
+    /*box-sizing: border-box;*/
+    /*border-color: green;*/
+    border-radius: 10px;
+}
+
+#game-table th {
+    font-size: 20px;
+    border-width: 1px;
+    /*background: rgba(0, 0, 0, 0.29);*/
+    background: rgba(255,255,255,0.25);
+    box-shadow: -0.3em -0.3em rgba(0,0,0,0.3);
+    /*border-color: transparent;*/
+}
+
+#game-table td {
+    background: rgba(255,255,255,0.15);
+    /*box-shadow: 0.15em 0.15em rgba(0,0,0,0.3);*/
+    border-width: 2px;
+    /*border-width: 1px;*/
+    /*border-color: black;*/
+}
+
+/*.cell-wrapper {*/
+/*    background: red;*/
+/*    height: 100%;*/
+/*    !*width: 100%;*!*/
+/*    box-sizing: border-box;*/
+/*}*/
+

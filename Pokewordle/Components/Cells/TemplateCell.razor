@@ -1,5 +1,6 @@
 ﻿@using Pokewordle.Shared.HtmlUtil;
 
+@* <div class="cell-wrapper"> *@
 @switch (TableCell) {
     case SimpleCellData simpleTableCell:
         <SimpleCell Cell="@simpleTableCell"></SimpleCell>
@@ -10,10 +11,14 @@
     case PokeTypeCellData pokeTypeTableCell:
         <PokeTypeCell Cell=@pokeTypeTableCell></PokeTypeCell>
         break;
+    case ImageCellData imageCellData:
+        <ImageCell Cell="imageCellData"></ImageCell>
+        break;
     default:
         <td></td>
         break;
 }
+@* </div> *@
 
 @code {
     [Parameter]

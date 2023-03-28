@@ -20,18 +20,29 @@ namespace Pokewordle.Shared.GuessDisplayData
             this.pokeDataGuessed = pokeDataGuessed ?? throw new ArgumentNullException("Pokemon guessed was null!");
             ImmutableDictionary<ColumnType, FetchableData<ICellData>>.Builder dictionaryBuilder = ImmutableDictionary.CreateBuilder<ColumnType, FetchableData<ICellData>>();
 
+            dictionaryBuilder.Add(ColumnType.SPRITE, new(CreateSpriteCell));
+
             dictionaryBuilder.Add(ColumnType.NAME, new(CreateNameCell));
 
             dictionaryBuilder.Add(ColumnType.TYPE1, new(CreateType1Cell));
             dictionaryBuilder.Add(ColumnType.TYPE2, new(CreateType2Cell));
             dictionaryBuilder.Add(ColumnType.TYPES, new(CreateTypesCell));
+            dictionaryBuilder.Add(ColumnType.ABILITIES, new(CreateAbilitiesCell));
 
             dictionaryBuilder.Add(ColumnType.HEIGHT, new(CreateHeightCell));
             dictionaryBuilder.Add(ColumnType.WEIGHT, new(CreateWeightCell));
 
             dictionaryBuilder.Add(ColumnType.GENERATION, new(CreateGenerationCell));
 
+
             ColumnData = dictionaryBuilder.ToImmutable();
+        }
+
+        private async Task<ICellData> CreateSpriteCell()
+        {
+            return new ImageCellData(ColumnType.SPRITE, pokeDataGuessed.SpriteUrl,
+                pokeDataToGuess.Name.Equals(pokeDataGuessed.Name) ? ColorScheme.COLOR_CORRECT : ColorScheme.COLOR_MISTAKE,
+                htmlId: "sprite");
         }
 
         private async Task<ICellData> CreateNameCell()
@@ -67,7 +78,14 @@ namespace Pokewordle.Shared.GuessDisplayData
         {
             return new PokeTypeCellData(ColumnType.TYPES, pokeDataGuessed.Types,
                 pokeDataGuessed.MatchTypes(pokeDataToGuess).ToTruePartialFalseColor(),
-                htmlClass: "game-pokemon-type-field", htmlId: "type2"
+                htmlClass: "game-pokemon-type-field", htmlId: "types"
+                );
+        }
+        private async Task<ICellData> CreateAbilitiesCell()
+        {
+            return new SimpleCellData(ColumnType.ABILITIES, pokeDataGuessed.Abilities.Aggregate((item, otherItems) => otherItems + ", " + item),
+                pokeDataGuessed.MatchAbilities(pokeDataToGuess).ToTruePartialFalseColor(),
+                htmlClass: "game-pokemon-abilities-field", htmlId: "abilities"
                 );
         }
 

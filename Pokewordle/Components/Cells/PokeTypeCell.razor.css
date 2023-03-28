@@ -1,10 +1,12 @@
 ﻿td {
-    display: flex;
+    /*display: flex;*/
     align-items: center;
     justify-content: center;
+    text-align: center;
 }
 
-.poke-type-border {
+/*.
+poke-type-border {
     float: left;
     border-width: 3px;
     border-radius: 10px;
@@ -12,11 +14,21 @@
     margin: 5px;
     width: 70px;
     background-color: #000000;
-}
+} */
 
 .pokemon-type {
-    text-align: center;
-    vertical-align: middle;
-    border-radius: 10px;
-    margin: 0px;
+    /*float: left;*/
+    /*text-align: center;*/
+    /*vertical-align: middle;*/
+    border-radius: 15px;
+    width: 5em;
+    padding: 2px 10px;
+    margin: 2px 2px;
+    border: 2px solid black;
+}
+
+.type-wrapper {
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
 }

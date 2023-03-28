@@ -20,7 +20,16 @@ namespace Pokewordle.Shared.PokemonData
 
         public float Weight_kg { get; }
 
+        public int HP { get; }
+        public int Atk { get; }
+        public int Def { get; }
+        public int SpA { get; }
+        public int SpD { get; }
+        public int Spe { get; }
+
         public IImmutableList<string> Abilities { get; }
+
+        public string SpriteUrl { get; }
 
         private readonly Pokemon apiPokemon;
         private readonly PokeApiClient pokeApiClient;
@@ -35,7 +44,16 @@ namespace Pokewordle.Shared.PokemonData
             FilledTypes =PokemonDataHelper.BuildTypeList(Types, 2);
             Height_m = apiPokemon.Height / 10f;
             Weight_kg = apiPokemon.Weight / 10f;
+
+            HP = apiPokemon.Stats[0].BaseStat;
+            Atk = apiPokemon.Stats[1].BaseStat;
+            Def = apiPokemon.Stats[2].BaseStat;
+            SpA = apiPokemon.Stats[3].BaseStat;
+            SpD = apiPokemon.Stats[4].BaseStat;
+            Spe = apiPokemon.Stats[5].BaseStat;
+
             Abilities = apiPokemon.Abilities.ConvertAll(pkmnAbility => pkmnAbility.Ability.Name).ToImmutableList();
+            SpriteUrl = apiPokemon.Sprites.FrontDefault;
         }
 
         public async Task<int> GetGeneration()
@@ -47,5 +65,6 @@ namespace Pokewordle.Shared.PokemonData
             _generation = (await pokeApiClient.GetGeneration(apiPokemon)).Id;
             return _generation;
         }
+
     }
 }
