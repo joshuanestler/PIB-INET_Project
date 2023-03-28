@@ -58,7 +58,6 @@ namespace Pokewordle.Shared
                 sb.AppendLine("</th>");
                 //sb.AppendLine("<th/>");
             }
-            sb.AppendLine("<th/>");
             sb.AppendLine("</tr>");
             return sb.ToString();
         }
