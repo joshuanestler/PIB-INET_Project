@@ -6,11 +6,11 @@ namespace Pokewordle.Shared
     {
         private static readonly Dictionary<ColumnType, float> s_ColumnWidths = new()
         {
-            {ColumnType.SPRITE, 3},
+            {ColumnType.SPRITE, 4},
             {ColumnType.NAME, 10},
             {ColumnType.TYPE1, 6},
             {ColumnType.TYPE2, 6},
-            {ColumnType.TYPES, 6},
+            {ColumnType.TYPES, 15},
             {ColumnType.GENERATION, 5},
             {ColumnType.HEIGHT, 5},
             {ColumnType.WEIGHT, 5},
