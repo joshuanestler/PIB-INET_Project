@@ -3,7 +3,7 @@
 @using Pokewordle.Shared.HtmlUtil
 
 @* TODO clean up temp assignment of cell.background to border-color *@
-<td class="@Cell.HtmlClass" id="@Cell.HtmlId" style="width: @(Cell.GetColumnWidth())em; border-color: @Cell.Background; box-shadow: -0.2em -0.2em @Cell.Background">@Cell.DisplayString</td>
+<td class="@Cell.HtmlClass" id="@Cell.HtmlId" style="background: @Cell.Background;">@Cell.DisplayString</td>
 
 @code {
     [Parameter]
