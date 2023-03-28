@@ -3,12 +3,12 @@
 @using Pokewordle.Shared.Extensions;
 @using Pokewordle.Shared.HtmlUtil
 
-<td class="@Cell.HtmlClass" id="@Cell.HtmlId" style="width: @(Cell.TypeNames.Length * 80)px; padding: 0px; background-color: @Cell.Background;">
+<td class="@Cell.HtmlClass" id="@Cell.HtmlId" style="width: 13em; background-color: @Cell.Background;">
     @foreach(string typeName in Cell.TypeNames)
     {
-        <div class="poke-type-border">
+        @* <div class="poke-type-border"> *@
             <div class="pokemon-type" style="background-color: @PokeTypeCellData.TypeNameToColorHexString(typeName)">@typeName.FirstCharToUpper()</div>
-        </div>
+        @* </div> *@
         Console.WriteLine(typeName);
     }
 </td>

@@ -12,7 +12,7 @@ body {
 }
 
 #game-container {
-    background-image: linear-gradient(315deg, #0f0f0f, #181818);
+    /*background-image: linear-gradient(315deg, #2f2f2f, #383838);*/
     border-radius: 10px;
     padding: 20px;
     display: grid;
@@ -30,10 +30,10 @@ body {
     margin-bottom: 0px;
 }
 
-tbody td {
+/* tbody td {
     background-color: #222222;
     border-radius: 7px;
-}
+} */
 
 .game-pokemon-type-field > pre {
     color: #ffffff;
@@ -44,12 +44,15 @@ tbody td {
     display: inline-block;
 }
 
+/*
 #game-table td,
 #game-table th {
     width: 7vw;
     height: 7vw;
     text-align: center;
 }
+*/
+
 
 .pokemon-selected-image {
     width: 7vw;
@@ -57,11 +60,25 @@ tbody td {
     margin: 0 auto;
 }
 
-#game-input-field {
-    margin-top: 20px;
-    text-align: center;
-    width: 20vw;
-    height: 2em;
+/*#game-input-field {*/
+/*    margin-top: 20px;*/
+/*    text-align: center;*/
+/*    width: 20vw;*/
+/*    height: 5em;*/
+/*    border: 3px solid black;*/
+/*}*/
+
+#txtWord {
+    outline: none;
+    border: none;
+    
+    appearance: none;
+    justify-self: center;
+    width: 10em;
+    /*height: 3em;*/
+    border-bottom: 1px solid black;
+    font-size: 1.5em;
+    padding: 0.1em 0.2em;
 }
 
 #submit-button {

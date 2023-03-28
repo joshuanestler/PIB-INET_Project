@@ -8,9 +8,11 @@
 @inject PokeApiClient PokeClient
 
 <PageTitle>Guess a Pokemon</PageTitle>
+<SimpleRow />
 
 <h1>Guess a Pokemon</h1>
 
+<link href="/css/pokecss/table.css" rel="stylesheet" />
 <div id="game-container">
     <input id="txtWord" name="txtWord" placeholder="Enter your guess"
            value="@value" @onchange="onChange"/>
@@ -41,6 +43,7 @@
 </div>
 
 @code {
+
     private static string value = "";
 
     private IPokeData? pokemonToGuess;
@@ -75,6 +78,11 @@
     {
         System.Random random = new();
         pokemonToGuess = await LoadPokemon(random.Next(500) + 1);
+        await AttemptGuess("Venusaur");
+        await AttemptGuess("Charizard");
+        await AttemptGuess("Blastoise");
+        await AttemptGuess("Machoke");
+        await AttemptGuess("Scizor");
     }
 
     private void AddGuessedPokemon(IPokeData guessPokeData)

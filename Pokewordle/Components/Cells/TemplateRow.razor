@@ -1,5 +1,6 @@
 ﻿@using Pokewordle.Shared.HtmlUtil;
 
+@* <link href="/css/owncss/custom.css" rel="stylesheet" /> *@
 <tr>
     @if (TableCells is null)
     {
@@ -9,7 +10,7 @@
         @foreach (ICellData tableCell in TableCells)
         {
             <TemplateCell TableCell=tableCell></TemplateCell>
-            //This creates an unnecessary td at the end
+            //TODO This creates an unnecessary td at the end
             <td style="width: 2px;"></td>
         }
     }
