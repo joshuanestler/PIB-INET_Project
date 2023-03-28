@@ -7,39 +7,43 @@
 @inject HttpClient Http
 @inject PokeApiClient PokeClient
 
-<PageTitle>Guess a Pokemon</PageTitle>
-<SimpleRow />
+<div class="page-content">
+    <PageTitle>Guess a Pokemon</PageTitle>
+    <SimpleRow/>
 
-<h1>Guess a Pokemon</h1>
+    <h1>Guess a Pokemon</h1>
 
-<link href="/css/pokecss/table.css" rel="stylesheet" />
-<div id="game-container">
-    <input id="txtWord" name="txtWord" placeholder="Enter your guess"
-           value="@value" @onchange="onChange"/>
+    <link href="/css/pokecss/table.css" rel="stylesheet"/>
+    <div id="game-container">
+        <input id="txtWord" name="txtWord" placeholder="Enter your guess"
+               value="@value" @onchange="onChange"/>
 
 
-    @if (pokemonToGuess == null)
-    {
-        <p><em>Loading...</em></p>
-    }
-    else
-    {
-        <table id="game-table">
-            <thead>
+        @if (pokemonToGuess == null)
+        {
+            <p>
+                <em>Loading...</em>
+            </p>
+        }
+        else
+        {
+            <table id="game-table">
+                <thead>
                 @((MarkupString)HeaderGenerator.ToHeaderString(displayedColumns))
-            </thead>
+                </thead>
 
-            <tbody>
+                <tbody>
                 @foreach (var guess in displayData)
                 {
                     //Console.WriteLine(guess.ToRowString(displayedColumns));
                     //@((MarkupString)guess.ToRowString(displayedColumns));
                     <TemplateRow TableCellsTask=@guess.GetRowCells(displayedColumns)></TemplateRow>
                 }
-            </tbody>
-        </table>
-    }
+                </tbody>
+            </table>
+        }
 
+    </div>
 </div>
 
 @code {
@@ -50,9 +54,10 @@
     private List<IPokeData> pokemonsGuessed = new();
     private List<IGuessDisplayData> displayData = new();
 
-    private List<string> pokemonTypes = new ();
+    private List<string> pokemonTypes = new();
 
     private List<ColumnType> displayedColumns = new() { ColumnType.NAME, ColumnType.GENERATION, ColumnType.TYPES, ColumnType.TYPE1, ColumnType.TYPE2, ColumnType.HEIGHT, ColumnType.WEIGHT };
+
 
     private async Task onChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
     {
@@ -66,8 +71,8 @@
         if (!pokemonTypes.Contains(guess))
         {
             Console.WriteLine($"Cannot guess: {guess}");
-            //TODO: Fetch pokemonTypes and then add return again;
-            //return;
+    //TODO: Fetch pokemonTypes and then add return again;
+    //return;
         }
 
         Console.WriteLine($"Guessing: {guess}");
@@ -79,7 +84,7 @@
         System.Random random = new();
         pokemonToGuess = await LoadPokemon(random.Next(500) + 1);
         await AttemptGuess("Venusaur");
-        await AttemptGuess("Charizard");
+        // await AttemptGuess("Charizard");
         await AttemptGuess("Blastoise");
         await AttemptGuess("Machoke");
         await AttemptGuess("Scizor");
@@ -95,8 +100,8 @@
         IGuessDisplayData guessDisplayData = new LazyGuessDisplayData(pokemonToGuess, guessPokeData);
         displayData.Add(guessDisplayData);
         pokemonsGuessed.Add(guessPokeData);
-        //Console.WriteLine(guessDisplayData.ToRowString(displayedColumns));
-        //StateHasChanged();
+    //Console.WriteLine(guessDisplayData.ToRowString(displayedColumns));
+    // StateHasChanged();
     }
 
     private async Task AttemptGuess(int id)
@@ -104,17 +109,20 @@
         IPokeData guessPokeData = await LoadPokemon(id);
         AddGuessedPokemon(guessPokeData);
     }
+
     private async Task AttemptGuess(string name)
     {
         IPokeData guessPokeData = await LoadPokemon(name);
         AddGuessedPokemon(guessPokeData);
     }
+
     private async Task<IPokeData> LoadPokemon(int id)
     {
         Pokemon pokemon = await PokeClient.GetResourceAsync<Pokemon>(id);
         PokeApiClient client = PokeClient;
         return new FetchablePokeData(pokemon, PokeClient);
     }
+
     private async Task<IPokeData> LoadPokemon(string name)
     {
         Pokemon pokemon = await PokeClient.GetResourceAsync<Pokemon>(name);
