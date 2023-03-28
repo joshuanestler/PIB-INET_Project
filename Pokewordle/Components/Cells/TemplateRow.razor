@@ -4,7 +4,7 @@
 <tr>
     @if (TableCells is null)
     {
-        <td>No Data</td>
+        <td>Loading . . .</td>
     } else
     {
         @foreach (ICellData tableCell in TableCells)
@@ -20,5 +20,13 @@
     //private bool firstCell = true;
     [Parameter]
     [EditorRequired]
+    public Task<IList<ICellData>>? TableCellsTask { get; set; }
+
     public IList<ICellData>? TableCells { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        TableCells = await TableCellsTask;
+    }
 }

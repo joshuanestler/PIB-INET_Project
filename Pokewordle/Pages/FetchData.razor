@@ -34,7 +34,7 @@
                 {
                     //Console.WriteLine(guess.ToRowString(displayedColumns));
                     //@((MarkupString)guess.ToRowString(displayedColumns));
-                    <TemplateRow TableCells=guess.GetRowCells(displayedColumns)></TemplateRow>
+                    <TemplateRow TableCellsTask=@guess.GetRowCells(displayedColumns)></TemplateRow>
                 }
             </tbody>
         </table>
@@ -52,7 +52,7 @@
 
     private List<string> pokemonTypes = new ();
 
-    private List<ColumnType> displayedColumns = new() { ColumnType.NAME, ColumnType.TYPES, ColumnType.TYPE1, ColumnType.TYPE2, ColumnType.HEIGHT, ColumnType.WEIGHT };
+    private List<ColumnType> displayedColumns = new() { ColumnType.NAME, ColumnType.GENERATION, ColumnType.TYPES, ColumnType.TYPE1, ColumnType.TYPE2, ColumnType.HEIGHT, ColumnType.WEIGHT };
 
     private async Task onChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
     {
@@ -112,12 +112,13 @@
     private async Task<IPokeData> LoadPokemon(int id)
     {
         Pokemon pokemon = await PokeClient.GetResourceAsync<Pokemon>(id);
-        return new FetchablePokeData(pokemon);
+        PokeApiClient client = PokeClient;
+        return new FetchablePokeData(pokemon, PokeClient);
     }
     private async Task<IPokeData> LoadPokemon(string name)
     {
         Pokemon pokemon = await PokeClient.GetResourceAsync<Pokemon>(name);
-        return new FetchablePokeData(pokemon);
+        return new FetchablePokeData(pokemon, PokeClient);
     }
 
 }
