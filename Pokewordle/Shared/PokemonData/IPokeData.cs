@@ -13,7 +13,6 @@ namespace Pokewordle.Shared.PokemonData
         IImmutableList<string> FilledTypes { get; }
 
         //Generation: Pokemon -> Species -> Generation
-        //public readonly int Generation;
 
         float Height_m { get; }
         float Weight_kg { get; }
@@ -21,5 +20,6 @@ namespace Pokewordle.Shared.PokemonData
 
         IImmutableList<string> Abilities { get; }
 
+        Task<int> GetGeneration();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using PokeApiNet;
+using Pokewordle.Shared.Extensions;
 using System.Collections.Immutable;
 
 namespace Pokewordle.Shared.PokemonData
@@ -6,35 +7,45 @@ namespace Pokewordle.Shared.PokemonData
 
     public class FetchablePokeData : IPokeData
     {
-        public string Name => _nameFetchable.Value;
-        private readonly FetchableData<string> _nameFetchable;
+        public string Name { get; }
 
-        public IImmutableList<string> Types => _typesFetchable.Value;
-        private readonly FetchableData<IImmutableList<string>> _typesFetchable;
+        public IImmutableList<string> Types { get; }
 
-        public IImmutableList<string> FilledTypes => _filledTypesFetchable.Value;
-        private readonly FetchableData<IImmutableList<string>> _filledTypesFetchable;
+        public IImmutableList<string> FilledTypes { get; }
 
-        public float Height_m => _heightFetchable.Value;
-        private readonly FetchableData<float> _heightFetchable;
+        private int _generation = 0;
+        private bool _generationFetched = false;
 
-        public float Weight_kg => _weightFetchable.Value;
-        private readonly FetchableData<float> _weightFetchable;
+        public float Height_m { get; }
 
-        public IImmutableList<string> Abilities => _abilitiesFetchable.Value;
-        private readonly FetchableData<IImmutableList<string>> _abilitiesFetchable;
+        public float Weight_kg { get; }
+
+        public IImmutableList<string> Abilities { get; }
 
         private readonly Pokemon apiPokemon;
-        public FetchablePokeData(Pokemon pokemon)
+        private readonly PokeApiClient pokeApiClient;
+
+        public FetchablePokeData(Pokemon pokemon, PokeApiClient pokeApiClient)
         {
+            this.pokeApiClient = pokeApiClient;
             this.apiPokemon = pokemon;
-            _nameFetchable = new(() => apiPokemon.Name);
-            _typesFetchable = new(() => apiPokemon.Types.ConvertAll(type => type.Type.Name).ToImmutableList());
-            _filledTypesFetchable = new(() => PokemonDataHelper.BuildTypeList(Types, 2));
-            _heightFetchable = new(() => apiPokemon.Height / 10f);
-            _weightFetchable = new(() => apiPokemon.Weight / 10f);
-            _abilitiesFetchable = new(() => apiPokemon.Abilities.ConvertAll(pkmnAbility => pkmnAbility.Ability.Name).ToImmutableList());
-            //Generation: Pokemon -> Species -> Generation
+
+            Name = apiPokemon.Name;
+            Types = apiPokemon.Types.ConvertAll(type => type.Type.Name).ToImmutableList();
+            FilledTypes =PokemonDataHelper.BuildTypeList(Types, 2);
+            Height_m = apiPokemon.Height / 10f;
+            Weight_kg = apiPokemon.Weight / 10f;
+            Abilities = apiPokemon.Abilities.ConvertAll(pkmnAbility => pkmnAbility.Ability.Name).ToImmutableList();
+        }
+
+        public async Task<int> GetGeneration()
+        {
+            if (_generationFetched)
+            {
+                return _generation;
+            }
+            _generation = (await pokeApiClient.GetGeneration(apiPokemon)).Id;
+            return _generation;
         }
     }
 }

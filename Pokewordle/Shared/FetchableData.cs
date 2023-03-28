@@ -6,18 +6,20 @@ namespace Pokewordle.Shared
     {
         private TOut _value = default;
         private bool _valueFetched = false;
-        public TOut Value { get => _valueFetched ? _value : FetchValue(); }
 
-        private Func<TOut> _ValueGetter;
+        private Func<Task<TOut>> _ValueGetter;
 
-        public FetchableData(Func<TOut> valueGetter)
+        public FetchableData(Func<Task<TOut>> valueGetter)
         {
             this._ValueGetter = valueGetter;
         }
 
-        private TOut FetchValue()
+        public async Task<TOut> FetchValue()
         {
-            _value = _ValueGetter.Invoke();
+            if (_valueFetched) {
+                return _value;
+            }
+            _value = await _ValueGetter.Invoke();
             _valueFetched = true;
             return _value;
         }

@@ -6,6 +6,8 @@ namespace Pokewordle.Shared.HtmlUtil
 {
     public readonly record struct GradientCellData : ICellData
     {
+        public ColumnType ColumnType { get; }
+
         public readonly string DisplayString;
         public readonly string FontColor;
         public readonly string Degrees;
@@ -16,19 +18,27 @@ namespace Pokewordle.Shared.HtmlUtil
 
         public Type CellType => typeof(GradientCell);
 
-        public GradientCellData(
+        public GradientCellData(ColumnType columnType,
             string displayString,
             Color background1, Color background2,
             int degrees = 0, Color? fontColor = null,
             string htmlClass = "", string htmlId = "")
         {
+            this.ColumnType = columnType;
+
             DisplayString = displayString;
+
             FontColor = Convert.ColorToHexString(fontColor, ColorScheme.COLOR_TYPE_NOT_FOUND);
             Degrees = degrees.ToString();
             Background1 = Convert.ColorToHexString(background1);
             Background2 = Convert.ColorToHexString(background2);
             HtmlClass = htmlClass;
             HtmlId = htmlId;
+        }
+
+        public string GetColumnWidth()
+        {
+            return HeaderGenerator.GetColumnWidth(ColumnType).ToString();
         }
 
         private static int PercentualOffset(int baseValue, int offsetValue, float offsetPercent)
@@ -62,7 +72,7 @@ namespace Pokewordle.Shared.HtmlUtil
             return calculated;
         }
 
-        public static GradientCellData FromValues(float targetValue, float guessValue, float maxOffsetValue, string htmlClass = "", string htmlId = "")
+        public static GradientCellData FromValues(ColumnType columnType, float targetValue, float guessValue, float maxOffsetValue, string htmlClass = "", string htmlId = "")
         {
             float difference = Math.Min(Math.Abs(guessValue - targetValue), maxOffsetValue);
             float percent = AsPercentLimit0to100(difference, maxOffsetValue);
@@ -92,7 +102,7 @@ namespace Pokewordle.Shared.HtmlUtil
                 arrow = '↑';
             }
 
-            return new GradientCellData(arrow.ToString() + ' ' + guessValue.ToString(), upperColor, lowerColor, 0, htmlClass: htmlClass, htmlId: htmlId);
+            return new GradientCellData(columnType, arrow.ToString() + ' ' + guessValue.ToString(), upperColor, lowerColor, 0, htmlClass: htmlClass, htmlId: htmlId);
         }
 
     }
