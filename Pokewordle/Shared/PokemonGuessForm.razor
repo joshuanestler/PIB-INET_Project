@@ -1,0 +1,53 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using PokeApiNet
+@inject PokeApiClient client
+
+@using Microsoft.Fast.Components.FluentUI
+@using Pokewordle.Shared.Extensions
+
+<div id="game-input">
+    <FluentCombobox @ref="PokemonNameGuessBox" TOption="string" Items="PokemonNames"
+                    Autocomplete="ComboboxAutocomplete.Both" OptionText="s => s.FirstCharToUpper()" 
+                    Placeholder="Enter your guess..." SelectedOptionChanged="ValueChangedHandler"
+                    Id="name-input" Style="width: 70%">
+    </FluentCombobox>
+</div>
+
+
+
+@code {
+    private FluentCombobox<string> PokemonNameGuessBox;
+
+    [Parameter]
+    [Required]
+    public List<string> PokemonNames { get; set; }
+    
+    [Parameter]
+    [Required]
+    public EventCallback<string> ValueChanged { get; set; }
+
+    private void ValueChangedHandler(string? value)
+    {
+        if (value == null) return;
+        
+        PokemonNameGuessBox.Open = false;
+        PokemonNameGuessBox.Value = "";
+        PokemonNameGuessBox.SelectedOption = null;
+        
+        // Invoke the ValueChanged event callback
+        ValueChanged.InvokeAsync(value);
+        
+        // Clear the combobox
+        StateHasChanged();
+    }
+    
+    public void UpdatePokemonNames(List<string> pokemonNames)
+    {
+        PokemonNames = pokemonNames;
+        StateHasChanged();
+    }
+
+    public void Disable() {
+        PokemonNameGuessBox.Disabled = true;
+    }
+}
