@@ -35,6 +35,22 @@ namespace Pokewordle.Shared.PokemonData
             nonSharedTypes.Add("none");
             return sharedTypes;
         }
+
+        public static List<string> FindSharedAbilities(this IPokeData pokeData, IPokeData compareData)
+        {
+            List<string> sharedTypes = new();
+
+            foreach (string type in pokeData.Abilities)
+            {
+                if (compareData.Types.Contains(type))
+                {
+                    sharedTypes.Add(type);
+                }
+            }
+
+            return sharedTypes;
+        }
+
         public static bool IsType1Shared(this IPokeData pokeData, IPokeData compareData, out string type1)
         {
             type1 = pokeData.FilledTypes[0];
@@ -83,6 +99,45 @@ namespace Pokewordle.Shared.PokemonData
                 }
             }
         }
+
+        public static MatchingResult MatchAbilities(this IPokeData pokeData, IPokeData compareData)
+        {
+            int matchCount = 0;
+            foreach (string type in pokeData.Abilities)
+            {
+                if (compareData.Abilities.Contains(type))
+                {
+                    matchCount++;
+                }
+            }
+            if (pokeData.Abilities.Count == compareData.Abilities.Count)
+            {
+                if (matchCount == pokeData.Abilities.Count)
+                {
+                    return MatchingResult.ALL;
+                }
+                else if (matchCount > 0)
+                {
+                    return MatchingResult.PARTIAL;
+                }
+                else
+                {
+                    return MatchingResult.NONE;
+                }
+            }
+            else
+            {
+                if (matchCount > 0)
+                {
+                    return MatchingResult.PARTIAL;
+                }
+                else
+                {
+                    return MatchingResult.NONE;
+                }
+            }
+        }
+
         public static string GetDisplayTypesString(this IPokeData pokeData)
         {
             StringBuilder sb = new StringBuilder();

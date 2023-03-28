@@ -6,13 +6,14 @@ namespace Pokewordle.Shared
     {
         private static readonly Dictionary<ColumnType, float> s_ColumnWidths = new()
         {
-            {ColumnType.NAME, 20},
-            {ColumnType.TYPE1, 4},
-            {ColumnType.TYPE2, 4},
-            {ColumnType.TYPES, 13},
-            {ColumnType.GENERATION, 1},
-            {ColumnType.HEIGHT, 1},
-            {ColumnType.WEIGHT, 3},
+            {ColumnType.SPRITE, 3},
+            {ColumnType.NAME, 10},
+            {ColumnType.TYPE1, 6},
+            {ColumnType.TYPE2, 6},
+            {ColumnType.TYPES, 6},
+            {ColumnType.GENERATION, 5},
+            {ColumnType.HEIGHT, 5},
+            {ColumnType.WEIGHT, 5},
             {ColumnType.EVOLUTION, 8},
             {ColumnType.ABILITIES, 5},
         };
@@ -28,6 +29,7 @@ namespace Pokewordle.Shared
 
         private static readonly Dictionary<ColumnType, string> s_Headers = new()
         {
+            {ColumnType.SPRITE, "Pokémon"},
             {ColumnType.NAME, "Pokémon"},
             {ColumnType.TYPE1, "Type 1"},
             {ColumnType.TYPE2, "Type 2"},
@@ -45,7 +47,7 @@ namespace Pokewordle.Shared
             sb.AppendLine("<tr>");
             foreach(ColumnType columnType in columnTypes)
             {
-                sb.Append($"<th style=\"width: {GetColumnWidth(columnType)}em;\">");
+                sb.Append($"<th style=\"min-width: {GetColumnWidth(columnType)}em; max-width: {GetColumnWidth(columnType)}em;\">");
                 if (s_Headers.TryGetValue(columnType, out string? header) && header is not null)
                 {
                     sb.Append(header);
@@ -54,7 +56,7 @@ namespace Pokewordle.Shared
                     sb.Append("ERROR");
                 }
                 sb.AppendLine("</th>");
-                sb.AppendLine("<th/>");
+                //sb.AppendLine("<th/>");
             }
             sb.AppendLine("</tr>");
             return sb.ToString();

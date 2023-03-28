@@ -15,8 +15,6 @@
 
     <link href="/css/pokecss/table.css" rel="stylesheet"/>
     <div id="game-container">
-        <input id="txtWord" name="txtWord" placeholder="Enter your guess"
-               value="@value" @onchange="onChange"/>
 
 
         @if (pokemonToGuess == null)
@@ -39,10 +37,14 @@
                     //@((MarkupString)guess.ToRowString(displayedColumns));
                     <TemplateRow TableCellsTask=@guess.GetRowCells(displayedColumns)></TemplateRow>
                 }
-                </tbody>
-            </table>
-        }
+            </tbody>
+        </table>
+    }
+    
+        <input id="txtWord" name="txtWord" placeholder="Enter your guess"
+           value="@value" @onchange="onChange"/>
 
+        <div style="height: 200"></div>
     </div>
 </div>
 
@@ -56,7 +58,7 @@
 
     private List<string> pokemonTypes = new();
 
-    private List<ColumnType> displayedColumns = new() { ColumnType.NAME, ColumnType.GENERATION, ColumnType.TYPES, ColumnType.TYPE1, ColumnType.TYPE2, ColumnType.HEIGHT, ColumnType.WEIGHT };
+    private List<ColumnType> displayedColumns = new() { ColumnType.SPRITE, ColumnType.NAME, ColumnType.GENERATION, ColumnType.TYPES, ColumnType.ABILITIES, ColumnType.TYPE1, ColumnType.TYPE2, ColumnType.HEIGHT, ColumnType.WEIGHT };
 
 
     private async Task onChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)

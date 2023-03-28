@@ -2,6 +2,7 @@
 {
     public enum ColumnType
     {
+        SPRITE,
         NAME,
         TYPE1,
         TYPE2,
