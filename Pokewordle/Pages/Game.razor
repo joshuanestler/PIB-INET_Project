@@ -1,10 +1,9 @@
-﻿@page "/fetchdata"
+﻿@page "/"
+
 @using PokeApiNet
-@using Microsoft.AspNetCore.Components.Forms
 @using Pokewordle.Components.Cells
 @using Pokewordle.Shared.GuessDisplayData;
 @using Pokewordle.Shared.PokemonData;
-@inject HttpClient Http
 @inject PokeApiClient PokeClient
 
 <PageTitle>Guess a Pokemon</PageTitle>
@@ -12,9 +11,6 @@
 <h1>Guess a Pokemon</h1>
 
 <div id="game-container">
-    <input id="txtWord" name="txtWord" placeholder="Enter your guess"
-           value="@value" @onchange="onChange"/>
-
 
     @if (pokemonToGuess == null)
     {
@@ -22,13 +18,15 @@
     }
     else
     {
+        <PokemonGuessForm @ref="guessForm" PokemonNames="pokemonTypes" ValueChanged="AttemptGuess"></PokemonGuessForm>
+        
         <table id="game-table">
             <thead>
                 @((MarkupString)HeaderGenerator.ToHeaderString(displayedColumns))
             </thead>
 
             <tbody>
-                @foreach (var guess in displayData)
+                @foreach (IGuessDisplayData guess in displayData)
                 {
                     //Console.WriteLine(guess.ToRowString(displayedColumns));
                     //@((MarkupString)guess.ToRowString(displayedColumns));
@@ -41,6 +39,7 @@
 </div>
 
 @code {
+    private PokemonGuessForm guessForm;
     private static string value = "";
 
     private IPokeData? pokemonToGuess;
@@ -51,30 +50,14 @@
 
     private List<ColumnType> displayedColumns = new() { ColumnType.NAME, ColumnType.GENERATION, ColumnType.TYPES, ColumnType.TYPE1, ColumnType.TYPE2, ColumnType.HEIGHT, ColumnType.WEIGHT };
 
-    private async Task onChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
-    {
-        if (args.Value is null)
-        {
-            return;
-        }
-
-        string guess = (string)args.Value;
-
-        if (!pokemonTypes.Contains(guess))
-        {
-            Console.WriteLine($"Cannot guess: {guess}");
-            //TODO: Fetch pokemonTypes and then add return again;
-            //return;
-        }
-
-        Console.WriteLine($"Guessing: {guess}");
-        await AttemptGuess(guess);
-    }
-
     protected override async Task OnInitializedAsync()
     {
+        // Load pokedex data
+        Pokedex pokedex = await PokeClient.GetResourceAsync<Pokedex>(1);
+        pokemonTypes = pokedex.PokemonEntries.Select(p => p.PokemonSpecies.Name).ToList();
+
         System.Random random = new();
-        pokemonToGuess = await LoadPokemon(random.Next(500) + 1);
+        pokemonToGuess = await LoadPokemon(pokemonTypes[random.Next(pokemonTypes.Count)]);
     }
 
     private void AddGuessedPokemon(IPokeData guessPokeData)
@@ -87,6 +70,13 @@
         IGuessDisplayData guessDisplayData = new LazyGuessDisplayData(pokemonToGuess, guessPokeData);
         displayData.Add(guessDisplayData);
         pokemonsGuessed.Add(guessPokeData);
+        
+        // Check if the user guessed the correct pokemon
+        if (guessPokeData.Name == pokemonToGuess.Name)
+        {
+            WinGame();
+        }
+        
         //Console.WriteLine(guessDisplayData.ToRowString(displayedColumns));
         //StateHasChanged();
     }
@@ -96,9 +86,8 @@
         IPokeData guessPokeData = await LoadPokemon(id);
         AddGuessedPokemon(guessPokeData);
     }
-    private async Task AttemptGuess(string name)
-    {
-        IPokeData guessPokeData = await LoadPokemon(name);
+    private async Task AttemptGuess(string name) {
+        IPokeData guessPokeData = await LoadPokemon(name.ToLower());
         AddGuessedPokemon(guessPokeData);
     }
     private async Task<IPokeData> LoadPokemon(int id)
@@ -113,4 +102,10 @@
         return new FetchablePokeData(pokemon, PokeClient);
     }
 
+    /// <summary>
+    /// Called when the user guesses the correct pokemon
+    /// </summary>
+    private void WinGame() {
+        guessForm.Disable();
+    }
 }

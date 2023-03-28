@@ -2,7 +2,9 @@
 @inherits Microsoft.AspNetCore.Components.ComponentBase
 @using Pokewordle.Shared.HtmlUtil
 
-<td class="@Cell.HtmlClass" id="@Cell.HtmlId" style="width: @(Cell.GetColumnWidth())em; background-color: @Cell.Background;">@Cell.DisplayString</td>
+<td class="square @Cell.HtmlClass" id="@Cell.HtmlId" style="width: @(Cell.GetColumnWidth())em; background-color: @Cell.Background;">
+    <div class="square-content">@Cell.DisplayString</div>
+</td>
 
 @code {
     [Parameter]

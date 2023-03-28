@@ -1,0 +1,15 @@
+﻿#game-input {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#name-input {
+    width: 100%;
+    height: 2em;
+    font-size: 1.5em;
+    text-align: center;
+}
