@@ -4,11 +4,11 @@
 @using Pokewordle.Shared.HtmlUtil
 
 @* TODO fix temp assignment border-color = Cell.background *@
-<td class="@Cell.HtmlClass" id="@Cell.HtmlId" style="border-color: @Cell.Background; box-shadow: -0.2em -0.2em @Cell.Background">
+<td class="@Cell.HtmlClass" id="@Cell.HtmlId" style="background: @Cell.Background">
     <div class="type-wrapper">
     @foreach (string typeName in Cell.TypeNames)
     {
-        <div class="pokemon-type" style="background-color: @PokeTypeCellData.TypeNameToColorHexString(typeName)">@typeName.FirstCharToUpper()</div>
+        <div class="pokemon-type" style="background: @PokeTypeCellData.TypeNameToColorHexString(typeName)">@typeName.FirstCharToUpper()</div>
         Console.WriteLine(typeName);
     }
     </div>
