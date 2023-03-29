@@ -14,7 +14,7 @@
                     Autocomplete="ComboboxAutocomplete.Both" OptionText="s => s.FirstCharToUpper()"
                     Placeholder="Enter your guess..." SelectedOptionChanged="ValueChangedHandler"
                     Appearance="Appearance.Filled"
-                    Id="name-input" Style="width: 70%;">
+                    Id="name-input" Style="width: 70%; height: 7rem;">
     </FluentCombobox>
 </div>
 
@@ -65,6 +65,7 @@
     [Inject]
     NeutralFillRest NeutralFillRest  { get; set; } = default!;
 
+
     private void ValueChangedHandler(string? value)
     {
         if (value == null) return;
@@ -98,13 +99,16 @@
             // await BaseLayerLuminance.SetValueFor(ref1!.Element, (float)0.15);
 
     //Set to Excel color
-            // await AccentBaseColor.SetValueFor(PokemonNameGuessBox!.Element, "#185ABD".ToSwatch());
+            await AccentBaseColor.SetValueFor(PokemonNameGuessBox!.Element, "#0c4337".ToSwatch());
             // await BodyFont.SetValueFor(PokemonNameGuessBox!.Element, "Comic Sans MS");
             // await FillColor.SetValueFor(PokemonNameGuessBox!.Element, new Swatch(Color.FromArgb(50, 50, 50, 50)));
             // await FillColor.SetValueFor(PokemonNameGuessBox!.Element, "#185ABD".ToSwatch());
-            // await BaseLayerLuminance.SetValueFor(PokemonNameGuessBox!.Element, (float)0.5);
-            await BaseLayerLuminance.SetValueFor(PokemonNameGuessBox!.Element, (float)0.5);
-            await NeutralBaseColor.SetValueFor(PokemonNameGuessBox!.Element, "#185ABD".ToSwatch());
+            await BaseLayerLuminance.SetValueFor(PokemonNameGuessBox!.Element, (float)0.15);
+            // await BaseLayerLuminance.SetValueFor(PokemonNameGuessBox!.Element, (float)1);
+            // await NeutralBaseColor.SetValueFor(PokemonNameGuessBox!.Element, "#0a4537".ToSwatch());
+            await NeutralBaseColor.SetValueFor(PokemonNameGuessBox!.Element, "#2b3539".ToSwatch());
+            
+
                 // await NeutralFillActive.SetValueFor(PokemonNameGuessBox!.Element, "#185ABD".ToSwatch());
                     // await NeutralFillRest.SetValueFor(PokemonNameGuessBox!.Element, "#185ABD".ToSwatch());
 
