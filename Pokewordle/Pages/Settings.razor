@@ -5,7 +5,14 @@
 
 <p>Language</p>
 
+
 <p>Choose Game Columns</p>
+
+<ul>
+    <li>One</li>
+    <li>Two</li>
+    <li>Three</li>
+</ul>
 
 @code
 {
@@ -14,15 +21,8 @@
     {
 
         SharedSettings.GameColumnTypes.Clear();
-        SharedSettings.GameColumnTypes.AddRange(new ColumnType[] { ColumnType.SPRITE, ColumnType.NAME, ColumnType.GENERATION, ColumnType.TYPES, ColumnType.ABILITIES });
+        SharedSettings.GameColumnTypes.AddRange(new ColumnType[] { ColumnType.SPRITE, ColumnType.NAME, ColumnType.GENERATION, ColumnType.TYPES, ColumnType.ABILITIES, ColumnType.SPRITE });
 
-        // Load pokedex data
-        
-        // await AttemptGuess("Venusaur");
-        // await AttemptGuess("Charizard");
-        // await AttemptGuess("Blastoise");
-        // await AttemptGuess("Machoke");
-        // await AttemptGuess("Scizor");
     }
 
 }

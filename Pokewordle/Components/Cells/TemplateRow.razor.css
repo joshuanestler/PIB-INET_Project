@@ -1,2 +1,6 @@
 ﻿.square-container {
 }
+
+tr {
+    transform: rotate(-180deg);
+}
