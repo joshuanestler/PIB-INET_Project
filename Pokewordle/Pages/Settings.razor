@@ -1,7 +1,28 @@
 ﻿@page "/settings"
+@using Pokewordle.Shared.Util;
 
 <PageTitle>Settings</PageTitle>
 
 <p>Language</p>
 
 <p>Choose Game Columns</p>
+
+@code
+{
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        SharedSettings.GameColumnTypes.Clear();
+        SharedSettings.GameColumnTypes.AddRange(new ColumnType[] { ColumnType.SPRITE, ColumnType.NAME, ColumnType.GENERATION, ColumnType.TYPES, ColumnType.ABILITIES });
+
+        // Load pokedex data
+        
+        // await AttemptGuess("Venusaur");
+        // await AttemptGuess("Charizard");
+        // await AttemptGuess("Blastoise");
+        // await AttemptGuess("Machoke");
+        // await AttemptGuess("Scizor");
+    }
+
+}
