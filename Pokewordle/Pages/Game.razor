@@ -4,6 +4,7 @@
 @using Pokewordle.Shared.GuessDisplayData;
 @using Pokewordle.Shared.PokemonData;
 @using Microsoft.Fast.Components.FluentUI;
+@using Microsoft.Fast.Components.FluentUI.DesignTokens
 @inject PokeApiClient PokeClient
 
 <div class="page-content">
@@ -15,13 +16,13 @@
     {
         
         <div style="display: grid; height: 100vh; justify-items: center; align-content: center;">
-                <FluentProgressRing style="width: 10em; height: 10em"></FluentProgressRing>
+                <FluentProgressRing @ref="_FluentProgressRing" style="width: 10em; height: 10em;"></FluentProgressRing>
         </div> 
     }
     else
     {
         <div id="game-container">
-            <h1>Guess a Pokemon</h1>
+            <h1 class="game-title">Guess a Pokemon</h1>
 
 
             <PokemonGuessForm @ref="_pokemonGuessForm" ValueChanged="AttemptGuess" PokemonNames="_pokemonTypes"></PokemonGuessForm>
@@ -47,7 +48,10 @@
 
 @code
 {
+    [Inject]
+    private AccentBaseColor AccentBaseColor { get; set; } = default!;
 
+    private FluentProgressRing _FluentProgressRing;
     private PokemonGuessForm? _pokemonGuessForm;
 
     private IPokeData? _pokemonToGuess;
@@ -118,5 +122,14 @@
     private void WinGame()
     {
         _pokemonGuessForm?.Disable();
+    }
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await AccentBaseColor.SetValueFor(_FluentProgressRing!.Element, "#064c3a".ToSwatch());
+            StateHasChanged();
+        }
     }
 }

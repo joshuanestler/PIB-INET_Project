@@ -11,6 +11,12 @@ body {
     display: grid;
 }
 
+#game-container .game-title {
+    font-size: 3rem;
+    font-weight: bolder;
+    margin-bottom: 1rem;
+}
+
 #game-container {
     /*background-image: linear-gradient(315deg, #0f0f0f, #181818);*/
     border-radius: 10px;
