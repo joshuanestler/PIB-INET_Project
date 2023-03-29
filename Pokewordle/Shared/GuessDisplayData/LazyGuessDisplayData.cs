@@ -91,12 +91,12 @@ namespace Pokewordle.Shared.GuessDisplayData
 
         private async Task<ICellData> CreateHeightCell()
         {
-            return GradientCellData.FromValues(ColumnType.HEIGHT, pokeDataToGuess.Height_m, pokeDataGuessed.Height_m, 2, htmlId: "height");
+            return GradientCellData.FromValues(ColumnType.HEIGHT, pokeDataToGuess.Height_m, pokeDataGuessed.Height_m, pokeDataToGuess.Height_m / 5, htmlId: "height");
         }
 
         private async Task<ICellData> CreateWeightCell()
         {
-            return GradientCellData.FromValues(ColumnType.WEIGHT, pokeDataToGuess.Weight_kg, pokeDataGuessed.Weight_kg, 2, htmlId: "weight");
+            return GradientCellData.FromValues(ColumnType.WEIGHT, pokeDataToGuess.Weight_kg, pokeDataGuessed.Weight_kg, pokeDataToGuess.Weight_kg / 5, htmlId: "weight");
         }
 
         public async Task<IList<ICellData>> GetRowCells(IEnumerable<ColumnType> columnTypes)
