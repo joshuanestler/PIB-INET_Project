@@ -45,7 +45,6 @@ namespace Pokewordle.Shared
         {
             StringBuilder sb = new();
             sb.AppendLine("<tr>");
-            sb.AppendLine("<th/>");
             foreach (ColumnType columnType in columnTypes)
             {
                 // sb.Append($"<th style=\"min-width: {GetColumnWidth(columnType)}em; max-width: {GetColumnWidth(columnType)}em;\">");

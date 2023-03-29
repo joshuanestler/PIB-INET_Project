@@ -60,17 +60,18 @@
 
     protected override async Task OnInitializedAsync()
     {
-    // Load pokedex data
+        // Load pokedex data
         Pokedex pokedex = await PokeClient.GetResourceAsync<Pokedex>(1);
         _pokemonTypes = pokedex.PokemonEntries.Select(p => p.PokemonSpecies.Name).ToList();
 
         System.Random random = new();
         _pokemonToGuess = await LoadPokemon(_pokemonTypes[random.Next(_pokemonTypes.Count)]);
-    // await AttemptGuess("Venusaur");
-    // await AttemptGuess("Charizard");
-    // await AttemptGuess("Blastoise");
-    // await AttemptGuess("Machoke");
-    // await AttemptGuess("Scizor");
+        
+        // await AttemptGuess("Venusaur");
+        // await AttemptGuess("Charizard");
+        // await AttemptGuess("Blastoise");
+        // await AttemptGuess("Machoke");
+        // await AttemptGuess("Scizor");
     }
 
     private void AddGuessedPokemon(IPokeData guessPokeData)
