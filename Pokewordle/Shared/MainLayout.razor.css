@@ -2,6 +2,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    background: linear-gradient(330deg, rgba(98,113,125,1) 27%, rgba(71,152,142,1) 65%, rgba(34,205,165,1) 89%, rgba(0,255,186,1) 100%);
 }
 
 main {
@@ -12,8 +13,9 @@ main {
 }
 
 .sidebar {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    /*background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);*/
     border-right: 1px solid black;
+    background: rgba(0, 0, 0, 0.4);
     /* Make sidebar static in scrollable area */
     position: sticky;
     top: 0;
@@ -30,7 +32,7 @@ main {
 }
 
 .content {
-    background: linear-gradient(315deg, rgba(33, 4, 41, 1) 9%, rgba(5, 28, 71, 1) 66%);
+    /*background: linear-gradient(315deg, rgba(33, 4, 41, 1) 9%, rgba(5, 28, 71, 1) 66%);*/
     height: 100%;
     width: 100%;
     padding-top: 1.1rem;
