@@ -1,23 +1,23 @@
-body {
-    background-color: #000000;
-    color: #ffffff;
-    font-family: "Lucida Console", Monaco, monospace;
-    font-size: 15px;
-    margin: 20px;
-    padding: 0;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    display: grid;
-}
+/*body {*/
+/*    font-family: "Lucida Console", Monaco, monospace;*/
+/*    font-size: 15px;*/
+/*    margin: 20px;*/
+/*    padding: 0;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    position: relative;*/
+/*    display: grid;*/
+/*}*/
 
 #game-container {
     /*background-image: linear-gradient(315deg, #0f0f0f, #181818);*/
     border-radius: 10px;
     padding: 20px;
-    display: grid;
-    align-items: center;
-    justify-content: center;
+    width: 100%;
+    /*overflow: hidden;*/
+    /*display: grid;*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
     text-align: center;
 }
 
