@@ -1,0 +1,122 @@
+﻿@page "/"
+@using PokeApiNet
+@using Pokewordle.Components.Cells
+@using Pokewordle.Shared.GuessDisplayData;
+@using Pokewordle.Shared.PokemonData;
+@using Microsoft.Fast.Components.FluentUI;
+@inject PokeApiClient PokeClient
+
+<div class="page-content">
+    <PageTitle>Guess a Pokemon</PageTitle>
+    @* <SimpleRow/> *@
+
+    <link href="/css/pokecss/table.css" rel="stylesheet"/>
+    @if (_pokemonToGuess == null)
+    {
+        
+        <div style="display: grid; height: 100vh; justify-items: center; align-content: center;">
+                <FluentProgressRing style="width: 10em; height: 10em"></FluentProgressRing>
+        </div> 
+    }
+    else
+    {
+        <div id="game-container">
+            <h1>Guess a Pokemon</h1>
+
+
+            <PokemonGuessForm @ref="_pokemonGuessForm" ValueChanged="AttemptGuess" PokemonNames="_pokemonTypes"></PokemonGuessForm>
+
+            <table id="game-table">
+                <thead>
+                @((MarkupString)HeaderGenerator.ToHeaderString(_displayedColumns))
+                </thead>
+
+                <tbody>
+                @foreach (IGuessDisplayData guess in _displayData)
+                {
+                    //Console.WriteLine(guess.ToRowString(displayedColumns));
+                    //@((MarkupString)guess.ToRowString(displayedColumns));
+                    <TemplateRow TableCellsTask=@guess.GetRowCells(_displayedColumns)></TemplateRow>
+                }
+                </tbody>
+            </table>
+
+        </div>
+    }
+</div>
+
+@code
+{
+
+    private PokemonGuessForm? _pokemonGuessForm;
+
+    private IPokeData? _pokemonToGuess;
+    private List<IPokeData> _pokemonsGuessed = new();
+    private readonly List<IGuessDisplayData> _displayData = new();
+
+    private List<string> _pokemonTypes = new();
+
+    private readonly List<ColumnType> _displayedColumns = new() { ColumnType.SPRITE, ColumnType.NAME, ColumnType.GENERATION, ColumnType.TYPES, ColumnType.ABILITIES, ColumnType.TYPE1, ColumnType.TYPE2, ColumnType.HEIGHT, ColumnType.WEIGHT };
+
+    protected override async Task OnInitializedAsync()
+    {
+    // Load pokedex data
+        Pokedex pokedex = await PokeClient.GetResourceAsync<Pokedex>(1);
+        _pokemonTypes = pokedex.PokemonEntries.Select(p => p.PokemonSpecies.Name).ToList();
+
+        System.Random random = new();
+        _pokemonToGuess = await LoadPokemon(_pokemonTypes[random.Next(_pokemonTypes.Count)]);
+    // await AttemptGuess("Venusaur");
+    // await AttemptGuess("Charizard");
+    // await AttemptGuess("Blastoise");
+    // await AttemptGuess("Machoke");
+    // await AttemptGuess("Scizor");
+    }
+
+    private void AddGuessedPokemon(IPokeData guessPokeData)
+    {
+        if (_pokemonToGuess is null)
+        {
+            return;
+        }
+
+        IGuessDisplayData guessDisplayData = new LazyGuessDisplayData(_pokemonToGuess, guessPokeData);
+        _displayData.Add(guessDisplayData);
+        _pokemonsGuessed.Add(guessPokeData);
+
+        if (guessPokeData.Name == _pokemonToGuess.Name)
+        {
+            WinGame();
+        }
+    }
+
+    private async Task AttemptGuess(int id)
+    {
+        IPokeData guessPokeData = await LoadPokemon(id);
+        AddGuessedPokemon(guessPokeData);
+    }
+
+    private async Task AttemptGuess(string name)
+    {
+        IPokeData guessPokeData = await LoadPokemon(name);
+        AddGuessedPokemon(guessPokeData);
+    }
+
+    private async Task<IPokeData> LoadPokemon(int id)
+    {
+        Pokemon pokemon = await PokeClient.GetResourceAsync<Pokemon>(id);
+        PokeApiClient client = PokeClient;
+        return new FetchablePokeData(pokemon, PokeClient);
+    }
+
+    private async Task<IPokeData> LoadPokemon(string name)
+    {
+        Pokemon pokemon = await PokeClient.GetResourceAsync<Pokemon>(name);
+        return new FetchablePokeData(pokemon, PokeClient);
+    }
+
+    private void WinGame()
+    {
+        _pokemonGuessForm?.Disable();
+    }
+}
