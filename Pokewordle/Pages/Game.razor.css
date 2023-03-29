@@ -16,6 +16,9 @@ body {
     border-radius: 10px;
     padding: 20px;
     display: grid;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 #pokemon-image {
