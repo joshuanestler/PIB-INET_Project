@@ -1,0 +1,8 @@
+#game-input ::part(listbox) {
+    background-color: red !important;
+    height: 100px !important;
+}
+
+fluent-option {
+    background-color: blue !important;
+}

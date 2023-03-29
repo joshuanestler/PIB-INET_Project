@@ -5,9 +5,11 @@
 @using Microsoft.Fast.Components.FluentUI
 @using Pokewordle.Shared.Extensions
 
+
+<link href="/css/pokecss/SearchBox.css" rel="stylesheet"/>
 <div id="game-input">
     <FluentCombobox @ref="PokemonNameGuessBox" TOption="string" Items="PokemonNames"
-                    Autocomplete="ComboboxAutocomplete.Both" OptionText="s => s.FirstCharToUpper()" 
+                    Autocomplete="ComboboxAutocomplete.Both" OptionText="s => s.FirstCharToUpper()"
                     Placeholder="Enter your guess..." SelectedOptionChanged="ValueChangedHandler"
                     Id="name-input" Style="width: 70%">
     </FluentCombobox>
