@@ -6,7 +6,7 @@
 @using Microsoft.Fast.Components.FluentUI;
 @using Microsoft.Fast.Components.FluentUI.DesignTokens
 @using Pokewordle.Shared.Util;
-@inject PokeApiClient PokeClient
+@inject PokeApiClient PokeClient;
 @inject HttpClient HttpClient;
 
 <div class="page-content">
@@ -31,23 +31,25 @@
 
             <table id="game-table">
                 <thead>
-                @((MarkupString)HeaderGenerator.ToHeaderString(SharedSettings.GameColumnTypes))
+                    @(
+                        (MarkupString)HeaderGenerator.ToHeaderString(SharedSettings.GameColumnTypes)
+                        )
                 </thead>
 
                 <tbody>
-                @for (int i = 0; i < _displayData.Count; i++)
-                {
-                    IGuessDisplayData guess = _displayData[i];
-                    bool visible = true;
-                    if (SharedSettings.GuessHistoryLimit > 0)
+                    @for (int i = 0; i < _displayData.Count; i++)
                     {
+                        IGuessDisplayData guess = _displayData[i];
+                        bool visible = true;
+                        if (SharedSettings.GuessHistoryLimit > 0)
+                        {
                             visible = _displayData.Count - i <= SharedSettings.GuessHistoryLimit;
+                        }
+                        Console.WriteLine(guess.GetPokemonName());
+                        //Console.WriteLine(guess.ToRowString(displayedColumns));
+                        //@((MarkupString)guess.ToRowString(displayedColumns));
+                        <TemplateRow TableCellsTask=@guess.GetRowCells(SharedSettings.GameColumnTypes) ObfuscationList="@guess.GetObfuscationOrder(SharedSettings.GameColumnTypes)" Visible=visible></TemplateRow>
                     }
-                    Console.WriteLine(guess.GetPokemonName());
-                    //Console.WriteLine(guess.ToRowString(displayedColumns));
-                    //@((MarkupString)guess.ToRowString(displayedColumns));
-                    <TemplateRow TableCellsTask=@guess.GetRowCells(SharedSettings.GameColumnTypes) ObfuscationList="@guess.GetObfuscationOrder(SharedSettings.GameColumnTypes)" Visible=visible></TemplateRow>
-                }
                 </tbody>
             </table>
 
@@ -70,13 +72,46 @@
 
     private List<string> _pokemonTypes = new();
 
-    //private readonly List<ColumnType> _displayedColumns = new() { ColumnType.SPRITE, ColumnType.NAME, ColumnType.GENERATION, ColumnType.TYPES, ColumnType.ABILITIES, ColumnType.TYPE1, ColumnType.TYPE2, ColumnType.HEIGHT, ColumnType.WEIGHT };
+    /// <summary>
+    /// Pokemons which have forms cannot be requested simply by their species name unfortunately
+    /// TODO: This is a temporary workaround, find a better way to pull pokemon names to suggest for guessing.
+    /// </summary>
+    private static readonly List<string> _UnFixedNames = new() { "deoxys", "wormadam", "giratina", "shaymin", "basculin", "darmanitan", "tornadus", "thundurus", "landorus", "keldeo", "meloetta", "meowstic", "aegislash", "pumpkaboo", "gourgeist", "zygarde", "oricorio", "lycanroc", "wishiwashi", "minior", " mimikyu", " toxtricity", "eiscue", "indeedee", "morpeko", "urshifu", "basculegion", "enamorus" };
+    private static readonly List<string> _FixedNames = new() { "deoxys-attack", "wormadam-trash", "giratina-origin", "shaymin-sky", "basculin-blue-striped", "darmanitan-standard", "tornadus-therian", "tornadus-therian", "tornadus-therian", "keledo-resolute", "meloetta-aria", "meowstic-female", "aegislash-shield", "pumpkaboo-average", "gourgeist-average", "zygarde-complete", "oricorio-baile", "lycanroc-midnight", "wishiwashi-school", "", "mimikyu-busted", "toxtricity-low-key", "eiscue-ice", "indeedee-male", "morpeko-full-belly", "urshifu-rapid-strike", "basculegion-male", "enamorus-incarnate" };
 
     protected override async Task OnInitializedAsync()
     {
         // Load pokedex data
+        Console.WriteLine("A");
+        _pokemonTypes = new();
+        Console.WriteLine("B");
+        List<string> tempPokemonNames = new List<string>();
+        Console.WriteLine("C");
         Pokedex pokedex = await PokeClient.GetResourceAsync<Pokedex>(1);
-        _pokemonTypes = pokedex.PokemonEntries.Select(p => p.PokemonSpecies.Name).ToList();
+        Console.WriteLine("D");
+        foreach(PokemonEntry pokemon in pokedex.PokemonEntries)
+        {
+            tempPokemonNames.Add(pokemon.PokemonSpecies.Name);
+        }
+        Console.WriteLine("E");
+        foreach (string pokemonName in tempPokemonNames)
+        {
+            int index = _UnFixedNames.IndexOf(pokemonName);
+            if (index >= 0)
+            {
+                string? fixedPokemonName = _FixedNames[index];
+                //Only add the fixed name if a solution has been found!
+                if (fixedPokemonName is not null && !fixedPokemonName.Equals(string.Empty))
+                {
+                    _pokemonTypes.Add(fixedPokemonName);
+                }
+            }
+            else
+            {
+                _pokemonTypes.Add(pokemonName);
+            }
+        }
+        Console.WriteLine("F");
 
         System.Random random = new();
         _pokemonToGuess = await LoadPokemon(_pokemonTypes[random.Next(_pokemonTypes.Count)]);
