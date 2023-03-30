@@ -1,22 +1,25 @@
 ﻿@using Pokewordle.Shared.HtmlUtil;
 @using System.Collections.Immutable;
 @using Pokewordle.Shared.Util;
+@using Microsoft.Fast.Components.FluentUI;
 
-@* <link href="/css/owncss/custom.css" rel="stylesheet" /> *@
 @if (Visible)
 {
     <tr>
         @if (TableCells is null)
         {
-            <td>Loading . . .</td>
+            <!-- full width td-->
+            <td colspan="100%" id="loading-bar-td">
+                <div id="loading-container">
+                    <FluentProgressRing Class="loading-bar"></FluentProgressRing>
+                </div>
+            </td>
         }
         else
         {
-            @for (int i = 0; i < TableCells.Count; i++)
-            {
-                ICellData tableCell = TableCells[i];
-                int obfuscationIndex = ObfuscationList is not null ? ObfuscationList.IndexOf(tableCell.ColumnType) : int.MaxValue;
-                <TemplateCell TableCell=tableCell ObfuscationIndex="obfuscationIndex" IsSolution=IsSolution></TemplateCell>
+            @foreach (ICellData tableCell in TableCells) {
+                int obfuscationIndex = ObfuscationList?.IndexOf(tableCell.ColumnType) ?? int.MaxValue;
+                <TemplateCell TableCell=@tableCell ObfuscationIndex="@obfuscationIndex" IsSolution=@IsSolution></TemplateCell>
             }
         }
     </tr>
