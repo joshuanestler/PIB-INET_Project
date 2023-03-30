@@ -34,6 +34,16 @@ namespace Pokewordle.Shared.GuessDisplayData
 
             dictionaryBuilder.Add(ColumnType.GENERATION, new(CreateGenerationCell));
 
+            dictionaryBuilder.Add(ColumnType.HP, new(CreateHpCell));
+            dictionaryBuilder.Add(ColumnType.ATK, new(CreateAtkCell));
+            dictionaryBuilder.Add(ColumnType.DEF, new(CreateDefCell));
+            dictionaryBuilder.Add(ColumnType.SPA, new(CreateSpACell));
+            dictionaryBuilder.Add(ColumnType.SPD, new(CreateSpDCell));
+            dictionaryBuilder.Add(ColumnType.SPE, new(CreateSpeCell));
+            dictionaryBuilder.Add(ColumnType.BST, new(CreateBstCell));
+
+            dictionaryBuilder.Add(ColumnType.MAXSTATS, new(CreateMaxStatsCell));
+            dictionaryBuilder.Add(ColumnType.MINSTATS, new(CreateMinStatsCell));
 
             ColumnData = dictionaryBuilder.ToImmutable();
         }
@@ -77,27 +87,84 @@ namespace Pokewordle.Shared.GuessDisplayData
         private async Task<ICellData> CreateTypesCell()
         {
             return new PokeTypeCellData(ColumnType.TYPES, pokeDataGuessed.Types,
-                pokeDataGuessed.MatchTypes(pokeDataToGuess).ToTruePartialFalseColor(),
+                pokeDataGuessed.Match(pokeDataToGuess, pokeData => pokeData.Types).ToTruePartialFalseColor(),
                 htmlClass: "game-pokemon-type-field", htmlId: "types"
                 );
         }
         private async Task<ICellData> CreateAbilitiesCell()
         {
             return new SimpleCellData(ColumnType.ABILITIES, pokeDataGuessed.Abilities.Aggregate((item, otherItems) => otherItems + ", " + item),
-                pokeDataGuessed.MatchAbilities(pokeDataToGuess).ToTruePartialFalseColor(),
+                pokeDataGuessed.Match(pokeDataToGuess, pokeData => pokeData.Abilities).ToTruePartialFalseColor(),
                 htmlClass: "game-pokemon-abilities-field", htmlId: "abilities"
                 );
         }
 
         private async Task<ICellData> CreateHeightCell()
         {
-            return GradientCellData.FromValues(ColumnType.HEIGHT, pokeDataToGuess.Height_m, pokeDataGuessed.Height_m, 2, htmlId: "height");
+            return GradientCellData.FromValues(ColumnType.HEIGHT, pokeDataToGuess.Height_m, pokeDataGuessed.Height_m, pokeDataToGuess.Height_m / 5, htmlId: "height");
         }
 
         private async Task<ICellData> CreateWeightCell()
         {
-            return GradientCellData.FromValues(ColumnType.WEIGHT, pokeDataToGuess.Weight_kg, pokeDataGuessed.Weight_kg, 2, htmlId: "weight");
+            return GradientCellData.FromValues(ColumnType.WEIGHT, pokeDataToGuess.Weight_kg, pokeDataGuessed.Weight_kg, pokeDataToGuess.Weight_kg / 5, htmlId: "weight");
         }
+
+        #region StatCells
+
+        private async Task<ICellData> CreateHpCell()
+        {
+            return GradientCellData.FromValues(ColumnType.HP, pokeDataToGuess.HP, pokeDataGuessed.HP, 30, htmlId: "hp");
+        }
+        
+        private async Task<ICellData> CreateAtkCell()
+        {
+            return GradientCellData.FromValues(ColumnType.ATK, pokeDataToGuess.Atk, pokeDataGuessed.Atk, 30, htmlId: "atk");
+        }
+
+        private async Task<ICellData> CreateDefCell()
+        {
+            return GradientCellData.FromValues(ColumnType.DEF, pokeDataToGuess.Def, pokeDataGuessed.Def, 30, htmlId: "def");
+        }
+
+        private async Task<ICellData> CreateSpACell()
+        {
+            return GradientCellData.FromValues(ColumnType.SPA, pokeDataToGuess.SpA, pokeDataGuessed.SpA, 30, htmlId: "spa");
+        }
+
+        private async Task<ICellData> CreateSpDCell()
+        {
+            return GradientCellData.FromValues(ColumnType.SPD, pokeDataToGuess.SpD, pokeDataGuessed.SpD, 30, htmlId: "spd");
+        }
+
+        private async Task<ICellData> CreateSpeCell()
+        {
+            return GradientCellData.FromValues(ColumnType.SPE, pokeDataToGuess.Spe, pokeDataGuessed.Spe, 30, htmlId: "spe");
+        }
+
+        private async Task<ICellData> CreateBstCell()
+        {
+            return GradientCellData.FromValues(ColumnType.BST, pokeDataToGuess.BST, pokeDataGuessed.BST, 30, htmlId: "hp");
+        }
+
+
+        private async Task<ICellData> CreateMinStatsCell()
+        {
+            return new SimpleCellData(ColumnType.MINSTATS, pokeDataGuessed.MinStatNames.Aggregate((item, otherItems) => otherItems + ", " + item),
+                pokeDataGuessed.Match(pokeDataToGuess, pokeData => pokeData.MinStatNames).ToTruePartialFalseColor(),
+                htmlId: "minstats"
+                );
+        }
+
+        private async Task<ICellData> CreateMaxStatsCell()
+        {
+            return new SimpleCellData(ColumnType.MAXSTATS, pokeDataGuessed.MaxStatNames.Aggregate((item, otherItems) => otherItems + ", " + item),
+                pokeDataGuessed.Match(pokeDataToGuess, pokeData => pokeData.MaxStatNames).ToTruePartialFalseColor(),
+                htmlId: "maxstats"
+                );
+        }
+
+        #endregion StatCells
+
 
         public async Task<IList<ICellData>> GetRowCells(IEnumerable<ColumnType> columnTypes)
         {

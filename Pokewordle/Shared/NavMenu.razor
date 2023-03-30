@@ -10,13 +10,13 @@
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="flex-column">
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="oi oi-home" aria-hidden="true"></span> Pokewordle
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="/counter" Match="NavLinkMatch.All">
-                Counter
+            <NavLink class="nav-link" href="settings" Match="NavLinkMatch.All">
+                <span class="oi oi-pencil" aria-hidden="true"></span> Settings
             </NavLink>
         </div>
     </nav>
@@ -31,5 +31,4 @@
     {
         collapseNavMenu = !collapseNavMenu;
     }
-
 }

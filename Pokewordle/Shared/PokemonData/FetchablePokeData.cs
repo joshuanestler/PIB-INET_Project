@@ -27,6 +27,11 @@ namespace Pokewordle.Shared.PokemonData
         public int SpD { get; }
         public int Spe { get; }
 
+        public int BST { get; }
+
+        public IImmutableList<string> MaxStatNames { get; }
+        public IImmutableList<string> MinStatNames { get; }
+
         public IImmutableList<string> Abilities { get; }
 
         public string SpriteUrl { get; }
@@ -51,6 +56,22 @@ namespace Pokewordle.Shared.PokemonData
             SpA = apiPokemon.Stats[3].BaseStat;
             SpD = apiPokemon.Stats[4].BaseStat;
             Spe = apiPokemon.Stats[5].BaseStat;
+
+            BST = HP + Atk + Def + SpA + SpD + Spe;
+
+            int[] stats = { HP, Atk, Def, SpA, SpD, Spe };
+            string[] statNames = { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
+            int minStat = stats.Aggregate(HP, Math.Min);
+            int maxStat = stats.Aggregate(HP, Math.Max);
+            List<string> minStatNames = new();
+            List<string> maxStatNames = new();
+            for(int i = 0; i < stats.Length; i++)
+            {
+                if (stats[i] == minStat) minStatNames.Add(statNames[i]);
+                if (stats[i] == maxStat) maxStatNames.Add(statNames[i]);
+            }
+            MinStatNames = minStatNames.ToImmutableList();
+            MaxStatNames = maxStatNames.ToImmutableList();
 
             Abilities = apiPokemon.Abilities.ConvertAll(pkmnAbility => pkmnAbility.Ability.Name).ToImmutableList();
             SpriteUrl = apiPokemon.Sprites.FrontDefault;
