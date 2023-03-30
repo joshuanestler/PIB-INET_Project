@@ -3,7 +3,8 @@
     box-shadow: 0.75rem 0.75rem rgba(0, 0, 0, 0.45);
     /*background-color: rgba(255, 255, 255, 0.25);*/
     /*background: linear-gradient(300deg, #0b624c 0%, #2c3338 100%);*/
-    background: linear-gradient(300deg, #516261 0%, #52716c 100%);
+    /*background: linear-gradient(300deg, #516261 0%, #52716c 100%);*/
+    background: linear-gradient(300deg, #516261 0%, hsl(175, 34%, 30%) 100%);
 }
 
 #game-input ::part(selected-value) {
@@ -26,7 +27,7 @@
     /*background: linear-gradient(153deg, rgba(98,113,125,1) 33%, rgba(71,152,142,1) 100%, rgba(34,205,165,1) 100%, rgba(0,255,186,1) 100%);*/
     /*background: linear-gradient(153deg, rgba(98,113,125,1) 33%, rgba(52,116,108,1) 100%, rgba(34,205,165,1) 100%, rgba(0,255,186,1) 100%);*/
     /*background: linear-gradient(300deg, #0b624c 0%, #2c3338 100%);*/
-    background: linear-gradient(300deg, #516261 0%, #52716c 100%);
+    background: linear-gradient(300deg, #516261 0%, hsl(175, 34%, 30%) 100%);
     
     /*background-color: #59726f;*/
     top: 3rem;
