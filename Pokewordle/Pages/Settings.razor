@@ -79,7 +79,6 @@
 
     private void DisableColumnHeader(ColumnType columnType)
     {
-    //Console.WriteLine($"Click: {columnType}");
         _selectedColumnTypes.Remove(columnType);
         UpdateColumnSettings();
         StateHasChanged();
@@ -87,7 +86,6 @@
 
     private void EnableColumnHeader(ColumnType columnType, int index)
     {
-    //Console.WriteLine($"Click: {columnType}");
         _selectedColumnTypes.Insert(index, columnType);
         UpdateColumnSettings();
         StateHasChanged();
@@ -98,7 +96,6 @@
         if (_selectedType is ColumnType columnType)
         {
             int index = _selectedColumnTypes.IndexOf(before);
-            Console.WriteLine($"Inserting {columnType}");
             EnableColumnHeader(columnType, index);
             _selectedType = null;
         }

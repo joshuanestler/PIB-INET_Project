@@ -9,6 +9,8 @@ namespace Pokewordle.Shared.GuessDisplayData
     public class LazyGuessDisplayData : IGuessDisplayData
     {
         public readonly IImmutableDictionary<ColumnType, FetchableData<ICellData>> ColumnData;
+        public readonly IImmutableList<ColumnType> ObfuscationOrder;
+
         public static readonly ICellData EmptyCell = new SimpleCellData();
 
         private readonly IPokeData pokeDataGuessed;
@@ -18,6 +20,22 @@ namespace Pokewordle.Shared.GuessDisplayData
         {
             this.pokeDataToGuess = pokeDataToGuess ?? throw new ArgumentNullException("Pokemon to guess was null!");
             this.pokeDataGuessed = pokeDataGuessed ?? throw new ArgumentNullException("Pokemon guessed was null!");
+
+            List<ColumnType> columnTypes = Enum.GetValues<ColumnType>().ToList();
+            columnTypes.Remove(ColumnType.NAME);
+            columnTypes.Remove(ColumnType.SPRITE);
+            Random random = new Random();
+            ImmutableList<ColumnType>.Builder listBuilder = ImmutableList.CreateBuilder<ColumnType>();
+            while (columnTypes.Count > 0)
+            {
+                int index = random.Next(columnTypes.Count);
+                listBuilder.Add(columnTypes[index]);
+                columnTypes.RemoveAt(index);
+            }
+            listBuilder.Add(ColumnType.SPRITE);
+            listBuilder.Add(ColumnType.NAME);
+            ObfuscationOrder = listBuilder.ToImmutable();
+
             ImmutableDictionary<ColumnType, FetchableData<ICellData>>.Builder dictionaryBuilder = ImmutableDictionary.CreateBuilder<ColumnType, FetchableData<ICellData>>();
 
             dictionaryBuilder.Add(ColumnType.SPRITE, new(CreateSpriteCell));
@@ -192,6 +210,16 @@ namespace Pokewordle.Shared.GuessDisplayData
             return new SimpleCellData(ColumnType.GENERATION, generationGuessed.ToString(),
                 generationToGuess.Equals(generationGuessed) ? ColorScheme.COLOR_CORRECT : ColorScheme.COLOR_MISTAKE,
                 htmlId: "gen");
+        }
+
+        public IImmutableList<ColumnType> GetObfuscationOrder(IEnumerable<ColumnType> columnTypes)
+        {
+            return ObfuscationOrder.Where(ct => columnTypes.Contains(ct)).ToImmutableList();
+        }
+
+        public string GetPokemonName()
+        {
+            return pokeDataGuessed.Name;
         }
     }
 }

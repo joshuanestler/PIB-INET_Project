@@ -1,22 +1,30 @@
 ﻿@using Pokewordle.Shared.HtmlUtil;
+@using Pokewordle.Shared.Util;
 
 @* <div class="cell-wrapper"> *@
-@switch (TableCell) {
-    case SimpleCellData simpleTableCell:
-        <SimpleCell Cell="@simpleTableCell"></SimpleCell>
-        break;
-    case GradientCellData gradientTableCell:
-        <GradientCell Cell=@gradientTableCell></GradientCell>
-        break;
-    case PokeTypeCellData pokeTypeTableCell:
-        <PokeTypeCell Cell=@pokeTypeTableCell></PokeTypeCell>
-        break;
-    case ImageCellData imageCellData:
-        <ImageCell Cell="imageCellData"></ImageCell>
-        break;
-    default:
-        <td></td>
-        break;
+@if (ObfuscationIndex < SharedSettings.Obfuscation)
+{
+    <td style="background-color: #001020;filter: blur(3px); font-size: xx-large;">?</td>
+} else
+{
+    @switch (TableCell)
+    {
+        case SimpleCellData simpleTableCell:
+            <SimpleCell Cell="@simpleTableCell"></SimpleCell>
+            break;
+        case GradientCellData gradientTableCell:
+            <GradientCell Cell=@gradientTableCell></GradientCell>
+            break;
+        case PokeTypeCellData pokeTypeTableCell:
+            <PokeTypeCell Cell=@pokeTypeTableCell></PokeTypeCell>
+            break;
+        case ImageCellData imageCellData:
+            <ImageCell Cell="imageCellData"></ImageCell>
+            break;
+        default:
+            <td></td>
+            break;
+    }
 }
 @* </div> *@
 
@@ -24,4 +32,8 @@
     [Parameter]
     [EditorRequired]
     public ICellData? TableCell { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public int ObfuscationIndex { get; set; } = int.MaxValue;
 }

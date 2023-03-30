@@ -22,6 +22,7 @@
     }
     else
     {
+        Console.WriteLine("============================");
         <div id="game-container">
             <h1 class="game-title">Guess a Pokemon</h1>
 
@@ -34,11 +35,18 @@
                 </thead>
 
                 <tbody>
-                @foreach (IGuessDisplayData guess in _displayData)
+                @for (int i = 0; i < _displayData.Count; i++)
                 {
+                    IGuessDisplayData guess = _displayData[i];
+                    bool visible = true;
+                    if (SharedSettings.GuessHistoryLimit > 0)
+                    {
+                            visible = _displayData.Count - i <= SharedSettings.GuessHistoryLimit;
+                    }
+                    Console.WriteLine(guess.GetPokemonName());
                     //Console.WriteLine(guess.ToRowString(displayedColumns));
                     //@((MarkupString)guess.ToRowString(displayedColumns));
-                    <TemplateRow TableCellsTask=@guess.GetRowCells(SharedSettings.GameColumnTypes)></TemplateRow>
+                    <TemplateRow TableCellsTask=@guess.GetRowCells(SharedSettings.GameColumnTypes) ObfuscationList="@guess.GetObfuscationOrder(SharedSettings.GameColumnTypes)" Visible=visible></TemplateRow>
                 }
                 </tbody>
             </table>
@@ -57,7 +65,7 @@
     private PokemonGuessForm? _pokemonGuessForm;
 
     private IPokeData? _pokemonToGuess;
-    private List<IPokeData> _pokemonsGuessed = new();
+    private Dictionary<string, IPokeData> _pokemonsGuessed = new();
     private readonly List<IGuessDisplayData> _displayData = new();
 
     private List<string> _pokemonTypes = new();
@@ -66,18 +74,17 @@
 
     protected override async Task OnInitializedAsync()
     {
-    // Load pokedex data
+        // Load pokedex data
         Pokedex pokedex = await PokeClient.GetResourceAsync<Pokedex>(1);
         _pokemonTypes = pokedex.PokemonEntries.Select(p => p.PokemonSpecies.Name).ToList();
 
         System.Random random = new();
         _pokemonToGuess = await LoadPokemon(_pokemonTypes[random.Next(_pokemonTypes.Count)]);
-        Console.WriteLine(_pokemonTypes.Count);
-    // await AttemptGuess("Venusaur");
-    // await AttemptGuess("Charizard");
-    // await AttemptGuess("Blastoise");
-    // await AttemptGuess("Machoke");
-    // await AttemptGuess("Scizor");
+        // await AttemptGuess("Venusaur");
+        // await AttemptGuess("Charizard");
+        // await AttemptGuess("Blastoise");
+        // await AttemptGuess("Machoke");
+        // await AttemptGuess("Scizor");
 
         if (HttpClient is null)
         {
@@ -87,7 +94,7 @@
         Translations.LoadLanguage(HttpClient, 4);
     }
 
-    private void AddGuessedPokemon(IPokeData guessPokeData)
+    private void AddGuessedPokemon(string guessedName, IPokeData guessPokeData)
     {
         if (_pokemonToGuess is null)
         {
@@ -96,7 +103,7 @@
 
         IGuessDisplayData guessDisplayData = new LazyGuessDisplayData(_pokemonToGuess, guessPokeData);
         _displayData.Add(guessDisplayData);
-        _pokemonsGuessed.Add(guessPokeData);
+        _pokemonsGuessed.Add(guessedName, guessPokeData);
 
         if (guessPokeData.Name == _pokemonToGuess.Name)
         {
@@ -104,16 +111,14 @@
         }
     }
 
-    private async Task AttemptGuess(int id)
-    {
-        IPokeData guessPokeData = await LoadPokemon(id);
-        AddGuessedPokemon(guessPokeData);
-    }
-
     private async Task AttemptGuess(string name)
     {
+        if (_pokemonsGuessed.ContainsKey(name) && !SharedSettings.AllowDuplicateGuesses)
+        {
+            return;
+        }
         IPokeData guessPokeData = await LoadPokemon(name);
-        AddGuessedPokemon(guessPokeData);
+        AddGuessedPokemon(name, guessPokeData);
     }
 
     private async Task<IPokeData> LoadPokemon(int id)

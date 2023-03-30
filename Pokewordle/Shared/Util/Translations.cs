@@ -40,7 +40,7 @@ namespace Pokewordle.Shared.Util
                     if (parser.ReadFields() is string[] fields)
                     {
                         s_PokemonNameTranslated[fields[0]] = fields[languageColumn];
-                        Console.WriteLine($"Read {fields[0]} translating to '{fields[languageColumn]}'");
+                        //Console.WriteLine($"Read {fields[0]} translating to '{fields[languageColumn]}'");
                     }
                 }
             }
