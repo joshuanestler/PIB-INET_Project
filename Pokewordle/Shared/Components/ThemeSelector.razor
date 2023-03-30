@@ -21,7 +21,6 @@
     </FluentCombobox>
 </div>
 
-
 @code {
     private FluentCombobox<Theme> ThemeComboBox;
 
@@ -75,9 +74,6 @@
     {
         if (firstRender)
         {
-    //Set to dark mode
-    // await BaseLayerLuminance.SetValueFor(ref1!.Element, (float)0.15);
-
             await AccentBaseColor.SetValueFor(ThemeComboBox!.Element, "#0c4337".ToSwatch());
             await BaseLayerLuminance.SetValueFor(ThemeComboBox!.Element, (float)0.15);
             await NeutralBaseColor.SetValueFor(ThemeComboBox!.Element, "#2b3539".ToSwatch());
