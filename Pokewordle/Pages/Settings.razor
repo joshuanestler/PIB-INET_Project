@@ -97,28 +97,72 @@
     </div>
 
 
+    @* <div class="setting-wrapper"> *@
+    @*     <div class="darken-15 round-border-10"> *@
+    @*         <div class="miscellaneous-settings-container"> *@
+    @*             <div class="miscellaneous-setting"> *@
+    @*                 <p class="left-column">Randomly obfuscate a number of fields per guess</p> *@
+    @*                 <div class="right-column"> *@
+    @*                     <InputNumber TValue="int" @bind-Value="@this._obfuscationValueProperty">Randomly Obfuscated Fields</InputNumber> *@
+    @*                 </div> *@
+    @*             </div> *@
+    @* *@
+    @*             <div class="miscellaneous-setting"> *@
+    @*                 <p class="left-column">Limit Visible Guess History</p> *@
+    @*                 <div class="right-column"> *@
+    @*                     <InputNumber TValue="int" @bind-Value="@this._guessHistoryLimitProperty">Limit Visible Guess History</InputNumber> *@
+    @*                 </div> *@
+    @*             </div> *@
+    @* *@
+    @*             <div class="miscellaneous-setting"> *@
+    @*                 <p class="left-column">Allow Duplicate Guesses</p> *@
+    @*                 <div class="right-column"> *@
+    @*                     <InputCheckbox @bind-Value="@this._allowDuplicateGuessesProperty">Allow Duplicate Guesses</InputCheckbox> *@
+    @*                 </div> *@
+    @*             </div> *@
+    @* *@
+    @*         </div> *@
+    @*     </div> *@
+    @* </div> *@
+
+
+    <link href="/css/pokecss/settingsInput.css" rel="stylesheet"/>
     <div class="setting-wrapper">
-        <div class="darken-15 round-border-10">
-            <div class="miscellaneous-settings-container">
-            <div>
-                <p>Randomly obfuscate a number of fields per guess</p>
-                <InputNumber TValue="int" @bind-Value="@this._obfuscationValueProperty">Randomly Obfuscated Fields</InputNumber>
-            </div>
+        <div class="centering-container">
+            <div class="miscellaneous-settings-container darken-15 round-border-10">
 
-            <div>
-                <p>Limit Visible Guess History</p>
-                <InputNumber TValue="int" @bind-Value="@this._guessHistoryLimitProperty">Limit Visible Guess History</InputNumber>
-            </div>
+                <div class="setting-description-wrapper-wrapper">
+                    <div class="setting-description-wrapper lighten-25 round-border-10">
+                        <p class="left-column">Randomly obfuscate a number of fields per guess</p>
+                    </div>
+                </div>
+                <div class="right-column">
+                    <InputNumber TValue="int" @bind-Value="@this._obfuscationValueProperty">Randomly Obfuscated Fields</InputNumber>
+                </div>
 
-            <div>
-                <p>Allow Duplicate Guesses</p>
-                <InputCheckbox @bind-Value="@this._allowDuplicateGuessesProperty">Allow Duplicate Guesses</InputCheckbox>
+                <div class="setting-description-wrapper-wrapper">
+                    <div class="setting-description-wrapper lighten-25 round-border-10">
+                        <p class="left-column">Limit Visible Guess History</p>
+                    </div>
+                </div>
+                <div class="right-column">
+                    <InputNumber TValue="int" @bind-Value="@this._guessHistoryLimitProperty">Limit Visible Guess History</InputNumber>
+                </div>
+
+                <div class="setting-description-wrapper-wrapper">
+                    <div class="setting-description-wrapper lighten-25 round-border-10">
+                        <p class="left-column">Allow Duplicate Guesses</p>
+                    </div>
+                </div>
+                <div class="right-column">
+                    <InputCheckbox @bind-Value="@this._allowDuplicateGuessesProperty">Allow Duplicate Guesses</InputCheckbox>
+                </div>
+
             </div>
-</div>
         </div>
     </div>
-
 </div>
+
 
 @* *@
 @* <div> *@
