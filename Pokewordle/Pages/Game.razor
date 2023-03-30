@@ -11,7 +11,6 @@
 
 <div class="page-content">
     <PageTitle>Guess a Pokemon</PageTitle>
-    @* <SimpleRow/> *@
 
     <link href="/css/pokecss/table.css" rel="stylesheet"/>
     @if (_pokemonToGuess == null)
@@ -22,12 +21,27 @@
     }
     else
     {
+        <div id="game-status-button-corner" class="darken-30">
+            <button class="game-status-button" onclick="@RevealButtonClick">
+                <span class="game-status-button-icon material-symbols-outlined">
+                    visibility
+                </span>
+                <span class="tooltip darken-30">Reveal Pokémon</span>
+            </button>
+            
+            <button class="game-status-button" onclick="@RestartButtonClick">
+                <span class="game-status-button-icon material-symbols-outlined">
+                    refresh
+                </span>
+                <span class="tooltip darken-30">Restart Game</span>
+            </button>
+        </div>
+        
         <div id="game-container" class="round-border-10">
             <h1 class="game-title">Guess a Pokemon</h1>
-
-
+            
             <PokemonGuessForm @ref="_pokemonGuessForm" ValueChanged="AttemptGuess" PokemonNames="_pokemonTypes"></PokemonGuessForm>
-            <FluentButton onclick="@(() => RevealButtonClick())">¯\_(ツ)_/¯</FluentButton>
+            
             <table id="game-table" class="lighten-10 round-border-10">
                 <thead>
                     @(
@@ -208,6 +222,8 @@
         }
     }
 
+    
+    
     private async void RevealButtonClick()
     {
         if (!_guessing)
@@ -216,5 +232,10 @@
             return;
         }
         AddGuessedPokemon(_pokemonToGuess.Name, _pokemonToGuess);
+    }
+    
+    private async void RestartButtonClick()
+    {
+        await Reset();
     }
 }
