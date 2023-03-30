@@ -11,6 +11,12 @@ body {
     display: grid;
 }
 
+#game-container .game-title {
+    font-size: 3rem;
+    font-weight: bolder;
+    margin-bottom: 1rem;
+}
+
 tbody {
     transform: rotate(180deg);
 }

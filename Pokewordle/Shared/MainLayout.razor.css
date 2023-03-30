@@ -2,6 +2,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    /*background: linear-gradient(330deg, rgba(98,113,125,1) 27%, rgba(71,152,142,1) 65%, rgba(34,205,165,1) 89%, rgba(0,255,186,1) 100%);*/
 }
 
 main {
@@ -9,14 +10,21 @@ main {
     /*background: linear-gradient(133deg, rgba(5,39,103,1) 0%, rgba(26,89,129,1) 40%, rgba(58,6,71,1) 100%); */
     /*background:  linear-gradient(315deg, rgba(33,4,41,1) 9%, rgba(5,28,71,1) 66%);*/
     /*background: white;*/
+    /*overflow:auto;*/
 }
 
 .sidebar {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    /*background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);*/
     border-right: 1px solid black;
+    /*background: rgba(0, 0, 0, 0.4);*/
     /* Make sidebar static in scrollable area */
     position: sticky;
     top: 0;
+    /*background: linear-gradient(330deg, hsl(207, 12%, 44%) 27%, hsl(173, 36%, 44%) 65%, hsl(166, 72%, 47%) 89%, hsl(164, 100%, 50%) 100%);*/
+    /*background: linear-gradient(330deg, hsl(207, 12%, 33%) 27%, hsl(173, 36%, 33%) 65%, hsl(166, 72%, 44%) 89%, hsl(164, 100%, 45%) 100%);*/
+    /*background: linear-gradient(150deg, #167a63 30%, #325151 100%);*/
+    background: linear-gradient(150deg, #088e6b 0%, #2e4947 100%);
+    /*background: linear-gradient(330deg, rgba(98,113,125,1) 27%, rgba(71,152,142,1) 65%, rgba(34,205,165,1) 89%, rgba(0,255,186,1) 100%);*/
 }
 
 .top-row {
@@ -30,10 +38,16 @@ main {
 }
 
 .content {
-    background: linear-gradient(315deg, rgba(33, 4, 41, 1) 9%, rgba(5, 28, 71, 1) 66%);
+    /*background: linear-gradient(315deg, rgba(33, 4, 41, 1) 9%, rgba(5, 28, 71, 1) 66%);*/
     height: 100%;
     width: 100%;
     padding-top: 1.1rem;
+
+    /*background: linear-gradient(330deg, hsl(207, 12%, 44%) 27%, hsl(173, 36%, 44%) 65%, hsl(166, 72%, 47%) 89%, hsl(164, 100%, 50%) 100%);*/
+    /*background: linear-gradient(330deg, hsl(207, 12%, 15%) 22%, hsl(173, 36%, 15%) 65%, hsl(165, 71%, 16%) 85%, hsl(164, 100%, 20%) 100%);*/
+    /*background-color: rgba(0,0,0,0.55)*/
+    /*background: linear-gradient(315deg, hsl(207, 12%, 15%) 10%, hsl(173, 36%, 15%) 55%, hsl(165, 71%, 16%) 85%, hsl(164, 100%, 20%) 100%);*/
+    background: linear-gradient(315deg, hsl(207, 12%, 15%) 10%, hsl(164, 100%, 18%) 100%);
 }
 
 .top-row ::deep a, .top-row ::deep .btn-link {

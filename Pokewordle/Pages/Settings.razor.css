@@ -1,2 +1,69 @@
-﻿body {
+﻿.content {
+    text-align: center;
+}
+
+.setting-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.column-selection-container {
+    /*display: grid;*/
+    /*gap: 2rem;*/
+    /*grid-gap: 2rem;*/
+    /*grid-template-columns: minmax(50px,auto) minmax(50px,auto) auto;*/
+    display: grid;
+    gap: 2rem;
+    justify-content: center;
+    /* justify-items: center; */
+    align-content: center;
+    /* align-items: center; */
+    grid-auto-flow: column;
+            
+}
+
+.column-container-title {
+    font-size: 1.5rem;
+}
+
+.column-container {
+    padding: 1rem;
+    background: rgba(0,0,0,0.25);
+    border-radius: 10px;
+}
+
+/*.column-container ol, .column-container ul {*/
+/*    list-style-type: none;*/
+/*}*/
+
+.shown-columns {
+    grid-column: 1;
+}
+
+.hidden-columns {
+    grid-column: 2;
+}
+
+.displayedColumn,.hiddenColumn, .selectedColumnToInsert, .insertIcon {
+    padding: 0.5rem;
+    border-radius: 10px;
+}
+
+.displayedColumn:hover,.hiddenColumn:hover, .selectedColumnToInsert:hover, .insertIcon:hover {
+    background: rgba(255,255,255,0.25);
+}
+
+.hiddenColumn {
+    
+}
+
+.selectedColumnToInsert {
+    background: rgba(255,255,255,0.25);
+}
+
+.insertIcon {
+    width: fit-content;
+    margin: auto;
+    padding: 0.5rem 1rem;
 }
