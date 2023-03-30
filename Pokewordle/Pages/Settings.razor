@@ -11,40 +11,40 @@
 <div style="display: flex">
     <div>
         <p>Shown Columns</p>
-        <ul>
+        <div>
             @for(int i = 0; i < _selectedColumnTypes.Count; i++)
             {
                 ColumnType columnType = _selectedColumnTypes[i];
                 if (_selectedType is not null)
                 {
-                    <li class="insertAppend" onclick="@(() => InsertSelectedHeader(columnType))">Insert</li>
+                    <div class="insertAppend" onclick="@(() => InsertSelectedHeader(columnType))">Insert</div>
                 }
-                <li class="displayedColumn" onclick="@(() => DisableColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</li>
+                <div class="displayedColumn" onclick="@(() => DisableColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</div>
             }
             @if (_selectedType is not null)
             {
-                <li class="insertAppend" onclick="@(() => AppendSelectedHeader())">Append</li>
+                <div class="insertAppend" onclick="@(() => AppendSelectedHeader())">Append</div>
             }
-        </ul>
+        </div>
     </div>
     <div style="float: left; width: 100px"></div>
     <div style="float: left">
         <p>Other Columns</p>
-        <ul>
+        <div>
             @foreach(ColumnType columnType in Enum.GetValues<ColumnType>())
             {
                 if (!_selectedColumnTypes.Contains(columnType))
                 {
                     if (_selectedType == columnType)
                     {
-                        <li class="selectedColumnToInsert" style="background-color: #FFFFFF" onclick="@(() => SelectColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</li>
+                        <div class="selectedColumnToInsert" style="background-color: #FFFFFF" onclick="@(() => SelectColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</div>
                     } else
                     {
-                        <li class="hiddenColumns" onclick="@(() => SelectColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</li>
+                        <div class="hiddenColumns" onclick="@(() => SelectColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</div>
                     }
                 }
             }
-        </ul>
+        </div>
     </div>
 
 </div>
