@@ -34,7 +34,7 @@ Console.WriteLine("Theme: " + theme);
 SharedSettings.SelectedTheme = theme;
 
 string language = await settingsService.GetSettingAsync("language");
-if (language.Length < 1) {
+if (!SharedSettings.Languages.Contains(language)) {
     language = SharedSettings.Languages[0];
 }
 SharedSettings.SelectedLanguage = language;
