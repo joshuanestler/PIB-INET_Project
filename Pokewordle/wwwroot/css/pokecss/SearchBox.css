@@ -38,6 +38,7 @@
     /*padding: 50px;*/
     box-shadow: 0.75rem 0.75rem rgba(0, 0, 0, 0.45);
     overflow: hidden;
+    /*overflow: clip;*/
     border-radius: 0 0 10px 10px;
     border: 1px solid black;
     /*padding: 0rem 1rem;*/
