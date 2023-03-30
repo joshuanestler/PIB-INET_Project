@@ -1,0 +1,15 @@
+.sidebar {
+    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+}
+
+.content {
+    background: linear-gradient(315deg, rgba(33, 4, 41, 1) 9%, rgba(5, 28, 71, 1) 66%);
+}
+
+#game-input ::part(control) {
+    background: linear-gradient(315deg, #445575 10%, #49516f 100%);
+}
+
+#game-input ::part(listbox) {
+    background: linear-gradient(315deg, #445575 10%, #49516f 100%);
+}
