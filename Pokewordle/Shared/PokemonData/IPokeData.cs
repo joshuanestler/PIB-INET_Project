@@ -26,7 +26,10 @@ namespace Pokewordle.Shared.PokemonData
         int SpD { get; }
         int Spe { get; }
 
+        int BST { get; }
 
+        IImmutableList<string> MaxStatNames { get; }
+        IImmutableList<string> MinStatNames { get; }
 
         Task<int> GetGeneration();
     }

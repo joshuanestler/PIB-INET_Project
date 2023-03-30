@@ -40,7 +40,7 @@ namespace Pokewordle.Shared.GuessDisplayData
             }
 
             dictionaryBuilder.Add(ColumnType.TYPES, new PokeTypeCellData(ColumnType.TYPES, pokeDataGuessed.Types,
-                pokeDataGuessed.MatchTypes(pokeDataToGuess).ToTruePartialFalseColor())
+                pokeDataGuessed.Match(pokeDataToGuess, pokeData => pokeData.Types).ToTruePartialFalseColor())
                 );
 
             dictionaryBuilder.Add(ColumnType.HEIGHT, GradientCellData.FromValues(ColumnType.HEIGHT, pokeDataToGuess.Height_m, pokeDataGuessed.Height_m, 2, htmlId: "height"));

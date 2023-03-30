@@ -16,6 +16,17 @@ namespace Pokewordle.Shared
             {ColumnType.WEIGHT, 4},
             {ColumnType.EVOLUTION, 8},
             {ColumnType.ABILITIES, 4},
+
+            {ColumnType.HP, 4},
+            {ColumnType.ATK, 4},
+            {ColumnType.DEF, 4},
+            {ColumnType.SPA, 4},
+            {ColumnType.SPD, 4},
+            {ColumnType.SPE, 4},
+            {ColumnType.BST, 4},
+
+            {ColumnType.MINSTATS, 5},
+            {ColumnType.MAXSTATS, 5},
         };
 
         public static float GetColumnWidth(ColumnType columnType)
@@ -39,6 +50,17 @@ namespace Pokewordle.Shared
             {ColumnType.WEIGHT, "Weight (kg)"},
             {ColumnType.EVOLUTION, "Evolution"},
             {ColumnType.ABILITIES, "Abilities"},
+
+            {ColumnType.HP, "HP"},
+            {ColumnType.ATK, "Atk"},
+            {ColumnType.DEF, "Def"},
+            {ColumnType.SPA, "SpA"},
+            {ColumnType.SPD, "SpD"},
+            {ColumnType.SPE, "Spe"},
+            {ColumnType.BST, "BST"},
+
+            {ColumnType.MINSTATS, "Min Stats"},
+            {ColumnType.MAXSTATS, "Max Stats"},
         };
 
         public static string GetHeader(ColumnType columnType)

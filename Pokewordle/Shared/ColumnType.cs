@@ -11,6 +11,17 @@
         HEIGHT,
         WEIGHT,
         EVOLUTION,
-        ABILITIES
+        ABILITIES,
+
+        HP,
+        ATK,
+        DEF,
+        SPA,
+        SPD,
+        SPE,
+        BST,
+
+        MAXSTATS,
+        MINSTATS
     }
 }
