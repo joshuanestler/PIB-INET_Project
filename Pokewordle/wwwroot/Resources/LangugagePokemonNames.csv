@@ -17,7 +17,7 @@ NAME_PkMn_BEEDRILL,Beedrill,スピアー,Dardargnan,Bibor,Beedrill,Beedrill,독�
 NAME_PkMn_PIDGEY,Pidgey,ポッポ,Roucool,Taubsi,Pidgey,Pidgey,구구,波波,波波
 NAME_PkMn_PIDGEOTTO,Pidgeotto,ピジョン,Roucoups,Tauboga,Pidgeotto,Pidgeotto,피죤,比比鳥,比比鸟
 NAME_PkMn_PIDGEOT,Pidgeot,ピジョット,Roucarnage,Tauboss,Pidgeot,Pidgeot,피죤투,大比鳥,大比鸟
-NAME_PkMn_RATATTA,Ratatta,コラッタ,Ratatta,Rattfratz,Ratatta,Ratatta,꼬렛,小拉達,小拉达
+NAME_PkMn_RATTATA,Rattata,コラッタ,Rattata,Rattfratz,Rattata,Rattata,꼬렛,小拉達,小拉达
 NAME_PkMn_RATICATE,Raticate,ラッタ,Rattatac,Rattikarl,Raticate,Raticate,레트라,拉達,拉达
 NAME_PkMn_SPEAROW,Spearow,オニスズメ,Piafabec,Habitak,Spearow,Spearow,깨비참,烈雀,烈雀
 NAME_PkMn_FEAROW,Fearow,オニドリル,Rapasdepic,Ibitak,Fearow,Fearow,깨비드릴조,大嘴雀,大嘴雀
@@ -27,10 +27,10 @@ NAME_PkMn_PIKACHU,Pikachu,ピカチュウ,Pikachu,Pikachu,Pikachu,Pikachu,피카
 NAME_PkMn_RAICHU,Raichu,ライチュウ,Raichu,Raichu,Raichu,Raichu,라이츄,雷丘,雷丘
 NAME_PkMn_SANDSHREW,Sandshrew,サンド,Sabelette,Sandan,Sandshrew,Sandshrew,모래두지,穿山鼠,穿山鼠
 NAME_PkMn_SANDSLASH,Sandslash,サンドパン,Sablaireau,Sandamer,Sandslash,Sandslash,고지,穿山王,穿山王
-NAME_PkMn_NIDORAN-F,Nidoran♀,ニドラン♀,Nidoran♀,Nidoran♀,Nidoran♀,Nidoran♀,니드런♀,尼多蘭,尼多兰
+NAME_PkMn_NIDORAN-F,Nidoran-F,ニドラン♀,Nidoran♀,Nidoran♀,Nidoran♀,Nidoran♀,니드런♀,尼多蘭,尼多兰
 NAME_PkMn_NIDORINA,Nidorina,ニドリーナ,Nidorina,Nidorina,Nidorina,Nidorina,니드리나,尼多娜,尼多娜
 NAME_PkMn_NIDOQUEEN,Nidoqueen,ニドクイン,Nidoqueen,Nidoqueen,Nidoqueen,Nidoqueen,니드퀸,尼多后,尼多后
-NAME_PkMn_NIDORAN-M,Nidoran♂,ニドラン♂,Nidoran♂,Nidoran♂,Nidoran♂,Nidoran♂,니드런♂,尼多朗,尼多朗
+NAME_PkMn_NIDORAN-M,Nidoran-M,ニドラン♂,Nidoran♂,Nidoran♂,Nidoran♂,Nidoran♂,니드런♂,尼多朗,尼多朗
 NAME_PkMn_NIDORINO,Nidorino,ニドリーノ,Nidorino,Nidorino,Nidorino,Nidorino,니드리노,尼多力諾,尼多力诺
 NAME_PkMn_NIDOKING,Nidoking,ニドキング,Nidoking,Nidoking,Nidoking,Nidoking,니드킹,尼多王,尼多王
 NAME_PkMn_CLEFAIRY,Clefairy,ピッピ,Mélofée,Piepi,Clefairy,Clefairy,삐삐,皮皮,皮皮
@@ -55,7 +55,7 @@ NAME_PkMn_PERSIAN,Persian,ペルシアン,Persian,Snobilikat,Persian,Persian,페
 NAME_PkMn_PSYDUCK,Psyduck,コダック,Psykokwak,Enton,Psyduck,Psyduck,고라파덕,可達鴨,可达鸭
 NAME_PkMn_GOLDUCK,Golduck,ゴルダック,Akwakwak,Entoron,Golduck,Golduck,골덕,哥達鴨,哥达鸭
 NAME_PkMn_MANKEY,Mankey,マンキー,Férosinge,Mankey,Mankey,Mankey,망키,猴怪,猴怪
-NAME_PkMn_PRIMAPE,Primape,オコリザル,Colosinge,Rasaff,Primape,Primape,성원숭,火爆猴,火爆猴
+NAME_PkMn_PRIMEAPE,Primeape,オコリザル,Colosinge,Rasaff,Primeape,Primeape,성원숭,火爆猴,火爆猴
 NAME_PkMn_GROWLITHE,Growlithe,ガーヂィ,Caninos,Fuakno,Growlithe,Growlithe,가디,卡蒂狗,卡蒂狗
 NAME_PkMn_ARCANINE,Arcanine,ウインヂィ,Arcanin,Arkani,Arcanine,Arcanine,윈디,風速狗,风速狗
 NAME_PkMn_POLIWAG,Poliwag,ニョロモ,Ptitard,Quapsel,Poliwag,Poliwag,발챙이,蚊香蝌蚪,蚊香蝌蚪
@@ -125,10 +125,10 @@ NAME_PkMn_SCYTHER,Scyther,ストライク,Insécateur,Sichlor,Scyther,Scyther,�
 NAME_PkMn_JYNX,Jynx,ルージュラ,Lippoutou,Rossana,Jynx,Jynx,루주라,迷唇姐,迷唇姐
 NAME_PkMn_ELECTABUZZ,Electabuzz,エレブー,Élektek,Elektek,Electabuzz,Electabuzz,에레브,電擊獸,电击兽
 NAME_PkMn_MAGMAR,Magmar,ブーバー,Magmar,Magmar,Magmar,Magmar,마그마,鴨嘴火獸,鸭嘴火兽
-NAME_PkMn_PINISIR,Pinisir,カイロス,Scarabrute,Pinisir,Pinisir,Pinisir,쁘사이저,凱羅斯,凯罗斯
+NAME_PkMn_PINSIR,Pinsir,カイロス,Scarabrute,Pinsir,Pinsir,Pinsir,쁘사이저,凱羅斯,凯罗斯
 NAME_PkMn_TAUROS,Tauros,ケンタロス,Tauros,Tauros,Tauros,Tauros,켄타로스,肯泰羅,肯泰罗
 NAME_PkMn_MAGIKARP,Magikarp,コイキング,Magicarpe,Magikarp,Magikarp,Magikarp,잉어킹,鯉魚王,鲤鱼王
-NAME_PkMn_GYRADOS,Gyrados,ギャラドス,Léviator,Garados,Gyrados,Gyrados,갸라도스,暴鯉龍,暴鲤龙
+NAME_PkMn_GYARADOS,Gyarados,ギャラドス,Léviator,Garados,Gyarados,Gyarados,갸라도스,暴鯉龍,暴鲤龙
 NAME_PkMn_LAPRAS,Lapras,ラプラス,Lokhlass,Lapras,Lapras,Lapras,라프라스,拉普拉斯,拉普拉斯
 NAME_PkMn_DITTO,Ditto,メタモン,Métamorph,Ditto,Ditto,Ditto,메타몽,百變怪,百变怪
 NAME_PkMn_EEVEE,Eevee,イーブイ,Évoli,Evoli,Eevee,Eevee,이브이,伊布,伊布
@@ -226,7 +226,7 @@ NAME_PkMn_OCTILLERY,Octillery,オクタン,Octillery,Octillery,Octillery,Octille
 NAME_PkMn_DELIBIRD,Delibird,デリバード,Cadoizo,Botogel,Delibird,Delibird,딜리버드,信使鳥,信使鸟
 NAME_PkMn_MANTINE,Mantine,マンタイン,Démanta,mantax,Mantine,Mantine,만타인,巨翅飛魚,巨翅飞鱼
 NAME_PkMn_SKARMORY,Skarmory,エアームド,Airmure,Panzaeron,Skarmory,Skarmory,무장조,盔甲鳥,盔甲鸟
-NAME_PkMn_HOUNDOOR,Houndoor,デルビル,Malosse,Hunduster,Houndoor,Houndoor,델빌,戴魯比,戴鲁比
+NAME_PkMn_HOUNDOUR,Houndour,デルビル,Malosse,Hunduster,Houndour,Houndour,델빌,戴魯比,戴鲁比
 NAME_PkMn_HOUNDOOM,Houndoom,ヘルガー,Démolosse,Hundemon,Houndoom,Houndoom,헬가,黑魯加,黑鲁加
 NAME_PkMn_KINGDRA,Kingdra,キングドラ,Hyporoi,Seedraking,Kingdra,Kingdra,킹드라,刺龍王,刺龙王
 NAME_PkMn_PHANPY,Phanpy,ゴマゾウ,Phanpy,Phanpy,Phanpy,Phanpy,코코리,小小象,小小象
@@ -274,7 +274,7 @@ NAME_PkMn_LUDICOLO,Ludicolo,ルンパッパ,Ludicolo,Kappalores,Ludicolo,Ludicol
 NAME_PkMn_SEEDOT,Seedot,タネボー,Grainipiot,Samurzel,Seedot,Seedot,도토링,橡實果,橡实果
 NAME_PkMn_NUZLEAF,Nuzleaf,コノハナ,Pifeuil,Blanas,Nuzleaf,Nuzleaf,잎새코,長鼻葉,长鼻叶
 NAME_PkMn_SHIFTRY,Shiftry,ダーテング,Tengalice,Tengulist,Shiftry,Shiftry,다탱구,狡猾天狗,狡猾天狗
-NAME_PkMn_TAILOW,Tailow,スバメ,Nirondelle,Schwalbini,Tailow,Tailow,테일로,傲骨燕,傲骨燕
+NAME_PkMn_TAILLOW,Taillow,スバメ,Nirondelle,Schwalbini,Taillow,Taillow,테일로,傲骨燕,傲骨燕
 NAME_PkMn_SWELLOW,Swellow,オオスバメ,Hélédelle,Schwalboss,Swellow,Swellow,스왈로,大王燕,大王燕
 NAME_PkMn_WINGULL,Wingull,キャモメ,Goélise,Wingull,Wingull,Wingull,갈모매,長翅鷗,长翅鸥
 NAME_PkMn_PELIPPER,Pelipper,ペリッパー,Bekipan,Pelipper,Pelipper,Pelipper,패리퍼,大嘴鷗,大嘴鸥
@@ -310,7 +310,7 @@ NAME_PkMn_MEDICHAM,Medicham,チャーレム,Charmina,Meditalis,Medicham,Medicham
 NAME_PkMn_ELECTRIKE,Electrike,ラクライ,Dynavolt,Frizelbliz,Electrike,Electrike,썬더라이,落雷獸,落雷兽
 NAME_PkMn_MANECTRIC,Manectric,ライボルト,Élecsprint,Voltenso,Manectric,Manectric,썬더볼트,雷電獸,雷电兽
 NAME_PkMn_PLUSLE,Plusle,プラスル,Posipi,Plusle,Plusle,Plusle,플러시,正電拍拍,正电拍拍
-NAME_PkMn_MINUM,Minum,マイナン,Négapi,Minun,Minum,Minum,마이농,負電拍拍,负电拍拍
+NAME_PkMn_MINUN,Minun,マイナン,Négapi,Minun,Minun,Minun,마이농,負電拍拍,负电拍拍
 NAME_PkMn_VOLBEAT,Volbeat,バルビート,Muciole,Volbeat,Volbeat,Volbeat,볼비트,電螢蟲,电萤虫
 NAME_PkMn_ILLUMISE,Illumise,イルミーゼ,Lumivole,Illumise,Illumise,Illumise,네오비트,甜甜螢,甜甜萤
 NAME_PkMn_ROSELIA,Roselia,ロゼリア,Rosélia,Roselia,Roselia,Roselia,로젤리아,毒薔薇,毒蔷薇
@@ -543,7 +543,7 @@ NAME_PkMn_SWADLOON,Swadloon,クルマユ,Couverdure,Folikon,Swadloon,Swadloon,�
 NAME_PkMn_LEAVANNY,Leavanny,ハハコモリ,Manternel,Matrifol,Leavanny,Leavanny,모아머,保母蟲,保母虫
 NAME_PkMn_VENIPEDE,Venipede,フシデ,Venipatte,Toxiped,Venipede,Venipede,마디네,百足蜈蚣,百足蜈蚣
 NAME_PkMn_WHIRLIPEDE,Whirlipede,ホイーガ,Scobolide,Rollum,Whirlipede,Whirlipede,휠구,車輪毬,车轮毬
-NAME_PkMn_SCOLIOPEDE,Scoliopede,ペンドラー,Brutapode,Cerapendra,Scoliopede,Scoliopede,펜드라,蜈蚣王,蜈蚣王
+NAME_PkMn_SCOLIPEDE,Scolipede,ペンドラー,Brutapode,Cerapendra,Scolipede,Scolipede,펜드라,蜈蚣王,蜈蚣王
 NAME_PkMn_COTTONEE,Cottonee,モンメン,Doudouvet,Waumboll,Cottonee,Cottonee,소미안,木棉球,木棉球
 NAME_PkMn_WHIMSICOTT,Whimsicott,エルフーン,Farfaduvet,Elfun,Whimsicott,Whimsicott,엘풍,風妖精,风妖精
 NAME_PkMn_PETILIL,Petilil,チュリネ,Chlorobule,Lilminip,Petilil,Petilil,치릴리,百合根娃娃,百合根娃娃
@@ -589,7 +589,7 @@ NAME_PkMn_EMOLGA,Emolga,エモンガ,Emolga,Emolga,Emolga,Emolga,에몽가,電�
 NAME_PkMn_KARRABLAST,Karrablast,カブルモ,Carabing,Laukaps,Karrablast,Karrablast,딱정곤,蓋蓋蟲,盖盖虫
 NAME_PkMn_ESCAVALIER,Escavalier,シュバルゴ,Lançargot,Cavalanzas,Escavalier,Escavalier,슈바르고,騎士蝸牛,骑士蜗牛
 NAME_PkMn_FOONGUS,Foongus,タマゲタケ,Trompignon,Tarnpignon,Foongus,Foongus,깜놀버슬,哎呀球菇,哎呀球菇
-NAME_PkMn_AMOONGUS,Amoongus,モロバレル,Gaulet,Hutsassa,Amoongus,Amoongus,뽀록나,敗露球菇,败露球菇
+NAME_PkMn_AMOONGUSS,Amoonguss,モロバレル,Gaulet,Hutsassa,Amoonguss,Amoonguss,뽀록나,敗露球菇,败露球菇
 NAME_PkMn_FRILLISH,Frillish,プルリル,Viskuse,Quabbel,Frillish,Frillish,탱그릴,輕飄飄,轻飘飘
 NAME_PkMn_JELLICENT,Jellicent,ブルンゲル,Moyade,Apoquallyp,Jellicent,Jellicent,탱탱겔,胖嘟嘟,胖嘟嘟
 NAME_PkMn_ALOMOMOLA,Alomomola,ママンボウ,Mamambo,Mamolida,Alomomola,Alomomola,맘복치,保母曼波,保母曼波
@@ -620,7 +620,7 @@ NAME_PkMn_STUNFISK,Stunfisk,マッギョ,Limonde,Flunschlik,Stunfisk,Stunfisk,�
 NAME_PkMn_MIENFOO,Mienfoo,コジョフー,Kungfouine,Lin-Fu,Mienfoo,Mienfoo,비조푸,功夫鼬,功夫鼬
 NAME_PkMn_MIENSHAO,Mienshao,コジョンド,Shaofouine,Wie-Shu,Mienshao,Mienshao,비조도,師父鼬,师父鼬
 NAME_PkMn_DRUDDIGON,Druddigon,クリムガン,Drakkarmin,Shardrago,Druddigon,Druddigon,크리만,赤面龍,赤面龙
-NAME_PkMn_GOLETTE,Golette,ゴビット,Gringolem,Golbit,Golette,Golette,골비람,泥偶小人,泥偶小人
+NAME_PkMn_GOLETT,Golett,ゴビット,Gringolem,Golbit,Golette,Golette,골비람,泥偶小人,泥偶小人
 NAME_PkMn_GOLURK,Golurk,ゴルーグ,Golemastoc,Golgantes,Golurk,Golurk,골루그,泥偶巨人,泥偶巨人
 NAME_PkMn_PAWNIARD,Pawniard,コマタナ,Scalpion,Gladiantri,Pawniard,Pawniard,자망칼,駒刀小兵,驹刀小兵
 NAME_PkMn_BISHARP,Bisharp,キルキザン,Scalproie,Caesurio,Bisharp,Bisharp,절각참,劈斬司令,劈斩司令
@@ -733,7 +733,7 @@ NAME_PkMn_PIKIPEK,Pikipek,ツツケラ,Picassaut,Peppeck,Pikipek,Pikipek,콕코�
 NAME_PkMn_TRUMBEAK,Trumbeak,ケララッパ,Piclairon,Trompeck,Trumbeak,Trumbeak,크라파,喇叭啄鳥,喇叭啄鸟
 NAME_PkMn_TOUCANNON,Toucannon,ドデカバシ,Bazoukan,Tukanon,Toucannon,Toucannon,왕큰부리,銃嘴大鳥,铳嘴大鸟
 NAME_PkMn_YUNGOOS,Yungoos,ヤングース,Manglouton,Mangunior,Yungoos,Yungoos,영구스,貓鼬少,猫鼬少
-NAME_PkMn_GUMCHOOS,Gumchoos,デカグース,Argouste,Manguspektor,Gumchoos,Gumchoos,형사구스,貓鼬探長,猫鼬探长
+NAME_PkMn_GUMSHOOS,Gumshoos,デカグース,Argouste,Manguspektor,Gumchoos,Gumchoos,형사구스,貓鼬探長,猫鼬探长
 NAME_PkMn_GRUBBIN,Grubbin,アゴジムシ,Larvibule,Mabula,Grubbin,Grubbin,턱지충이,強顎雞母蟲,强颚鸡母虫
 NAME_PkMn_CHARJABUG,Charjabug,デンジムシ,Chrysapile,Akkup,Charjabug,Charjabug,전지충이,蟲電寶,虫电宝
 NAME_PkMn_VIKAVOLT,Vikavolt,クワガノン,Lucanon,Donarion,Vikavolt,Vikavolt,투구뿌논,鍬農炮蟲,锹农炮虫
@@ -768,7 +768,7 @@ NAME_PkMn_PASSIMIAN,Passimian,ナゲツケサル,Quartermac,Quartermak,Passimian
 NAME_PkMn_WIMPOD,Wimpod,コソクムシ,Sovkipou,Reißlaus,Wimpod,Wimpod,꼬시레,膽小蟲,胆小虫
 NAME_PkMn_GOLISOPOD,Golisopod,グソクムシャ,Sarmuraï,Tectass,Golisopod,Golisopod,갑주무사,具甲武者,具甲武者
 NAME_PkMn_SANDYGAST,Sandygast,スナバァ,Bacabouh,Sankabuh,Sandygast,Sandygast,모래꿍,沙丘娃,沙丘娃
-NAME_PkMn_PALOSAND,Palosand,シロデスナ,Trépassable,Colossand,Palosand,Palosand,모래성이당,噬沙堡爺,噬沙堡爺
+NAME_PkMn_PALOSSAND,Palossand,シロデスナ,Trépassable,Colossand,Palossand,Palossand,모래성이당,噬沙堡爺,噬沙堡爺
 NAME_PkMn_PYUKUMUKU,Pyukumuku,ナマコブシ,Concombaffe,Gufa,Pyukumuku,Pyukumuku,해무기,拳海參,拳海参
 NAME_PkMn_TYPENULL,Type: Null,タイプ：ヌル,Type:0,Typ:Null,Código Cero,Tipo Zero,타입：널,屬性：空,属性：空
 NAME_PkMn_SILVALLY,Silvally,シルヴァヂィ,Silvallié,Amigento,Silvally,Silvally,실버디,銀伴戰獸,银伴战兽
@@ -809,7 +809,7 @@ NAME_PkMn_ZERAORA,Zeraora,ゼラオラ,Zeraora,Zeraora,Zeraora,Zeraora,제라오
 NAME_PkMn_MELTAN,Meltan,メルタン,Meltan,Meltan,Meltan,Meltan,멜탄,美錄坦,美录坦
 NAME_PkMn_MELMETAL,Melmetal,メルメタル,Melmetal,Melmetal,Melmetal,Melmetal,멜메탈,美錄梅塔,美录梅塔
 NAME_PkMn_GROOKEY,Grookey,サルノリ,Ouistempo,Chimpep,Grookey,Grookey,흥나숭,敲音猴,敲音猴
-NAME_PkMn_THWAKEY,Thwakey,バチンキー,Badabouin,Chimstix,Thwakey,Thwakey,채키몽,啪咚猴,啪咚猴
+NAME_PkMn_THWACKEY,Thwackey,バチンキー,Badabouin,Chimstix,Thwackey,Thwackey,채키몽,啪咚猴,啪咚猴
 NAME_PkMn_RILLABOOM,Rillaboom,ゴリランダー,Gorythmic,Gortrom,Rillaboom,Rillaboom,고릴타,轟擂金剛猩,轰擂金刚猩
 NAME_PkMn_SCORBUNNY,Scorbunny,ヒバニー,Flambino,Hopplo,Scorbunny,Scorbunny,염버니,炎兔兒,炎兔儿
 NAME_PkMn_RABOOT,Raboot,ラビフット,Lapyro,Kickerlo,Raboot,Raboot,래비풋,騰蹴小將,腾蹴小将
@@ -817,7 +817,7 @@ NAME_PkMn_CINDERACE,Cinderace,エースバーン,Pyrobut,Liberlo,Cinderace,Cinde
 NAME_PkMn_SOBBLE,Sobble,メッソン,Larméléon,Memmeon,Sobble,Sobble,울머기,淚眼蜥,泪眼蜥
 NAME_PkMn_DRIZZILE,Drizzile,ジメレオン,Arrozard,Phlegleon,Drizzile,Drizzile,누겔레온,變澀蜥,变涩蜥
 NAME_PkMn_INTELEON,Inteleon,インテレオン,Lézargus,Intelleon,Inteleon,Inteleon,인텔리레온,千面避役,千面避役
-NAME_PkMn_SKOWVET,Skowvet,ホシガリス,Rongourmand,Raffel,Skowvet,Skowvet,탐리스,貪心栗鼠,贪心栗鼠
+NAME_PkMn_SKWOVET,Skwovet,ホシガリス,Rongourmand,Raffel,Skwovet,Skwovet,탐리스,貪心栗鼠,贪心栗鼠
 NAME_PkMn_GREEDENT,Greedent,ヨクバリス,Rongrigou,Schlaraffel,Greedent,Greedent,요씽리스,藏飽栗鼠,藏饱栗鼠
 NAME_PkMn_ROOKIDEE,Rookidee,ココガラ,Minisange,Meikro,Rookidee,Rookidee,파라꼬,稚山雀,稚山雀
 NAME_PkMn_CORVISQUIRE,Corvisquire,アオガラス,Bleuseille,Kranoviz,Corvisquire,Corvisquire,파크로우,藍鴉,蓝鸦
@@ -869,7 +869,7 @@ NAME_PkMn_RUNERIGUS,Runerigus,デスバーン,Tutétékri,Oghnatoll,Runerigus,Ru
 NAME_PkMn_MILCERY,Milcery,マホミル,Crèmy,Hokumil,Milcery,Milcery,마빌크,小仙奶,小仙奶
 NAME_PkMn_ALCREMIE,Alcremie,マホイップ,Charmilly,Pokusan,Alcremie,Alcremie,마휘핑,霜奶仙,霜奶仙
 NAME_PkMn_FALINKS,Falinks,タイレーツ,Hexadron,Legios,Falinks,Falinks,대여르,列陣兵,列阵兵
-NAME_PkMn_PINCHURCHIN,Pinchurchin,バチンウニ,Wattapik,Britzigel,Pinchurchin,Pinchurchin,찌르성게,啪嚓海膽,啪嚓海胆
+NAME_PkMn_PINCURCHIN,Pincurchin,バチンウニ,Wattapik,Britzigel,Pincurchin,Pincurchin,찌르성게,啪嚓海膽,啪嚓海胆
 NAME_PkMn_SNOM,Snom,ユキハミ,Frissonille,Snomnom,Snom,Snom,누니머기,雪吞蟲,雪吞虫
 NAME_PkMn_FROSMOTH,Frosmoth,モスノウ,Beldeneige,Mottineva,Frosmoth,Frosmoth,모스노우,雪絨蛾,雪绒蛾
 NAME_PkMn_STONJOURNER,Stonjourner,イシヘンジン,Dolman,Humanolith,Stonjourner,Stonjourner,돌헨진,巨石丁,巨石丁
@@ -887,7 +887,7 @@ NAME_PkMn_DREEPY,Dreepy,ドラメシヤ,Fantyrm,Grolldra,Dreepy,Dreepy,드라꼰
 NAME_PkMn_DRAKLOAK,Drakloak,ドロンチ,Dispareptil,Phandra,Drakloak,Drakloak,드래런치,多龍奇,多龙奇
 NAME_PkMn_DRAGAPULT,Dragapult,ドラパルト,Lanssorien,Katapuldra,Dragapult,Dragapult,드래펄트,多龍巴魯托,多龙巴鲁托
 NAME_PkMn_ZACIAN,Zacian,ザシアン,Zacian,Zacian,Zacian,Zacian,자시안,蒼響,苍响
-NAME_PkMn_ZAMAZANTA,Zamazanta,ザマゼンタ,Zamazanta,Zamazanta,Zamazanta,Zamazanta,자마젠타,藏瑪然特,藏玛然特
+NAME_PkMn_ZAMAZENTA,Zamazenta,ザマゼンタ,Zamazenta,Zamazenta,Zamazenta,Zamazenta,자마젠타,藏瑪然特,藏玛然特
 NAME_PkMn_ETERNATUS,Eternatus,ムゲンダイナ,Éthernatos,Endynalos,Eternatus,Eternatus,무한다이노,無極汰那,无极汰那
 NAME_PkMn_KUBFU,Kubfu,ダクマ,Wushours,Dakuma,Kubfu,Kubfu,치고마,熊徒弟,熊徒弟
 NAME_PkMn_URSHIFU,Urshifu,ウーラオス,Shifours,Wulaosu,Urshifu,Urshifu,우라오스,武道熊師,武道熊师
@@ -906,13 +906,13 @@ NAME_PkMn_OVERQWIL,Overqwil,ハリーマン,Qwilpik,Myriador,Overqwil,Overqwil,�
 NAME_PkMn_ENAMORUS,Enamorus,ラブトロス,Amovénus,Cupidos,Enamorus,Enamorus,러브로스,眷戀雲,眷恋云
 NAME_PkMn_SPRIGATITO,Sprigatito,ニャオハ,Poussacha,Felori,Sprigatito,Sprigatito,나오하,新葉喵,新叶喵
 NAME_PkMn_FLORAGATO,Floragato,ニャローテ,Matourgeon,Feliospa,Floragato,Floragato,나로테,蒂蕾喵,蒂蕾喵
-NAME_PkMn_MEOWSCARDA,Meowscarda,マスカーニャ,Miascarade,Maskagato,Meowscarda,Meowscarda,마스카나,魔幻假面喵,魔幻假面喵
+NAME_PkMn_MEOWSCARADA,Meowscarada,マスカーニャ,Miascarade,Maskagato,Meowscarada,Meowscarada,마스카나,魔幻假面喵,魔幻假面喵
 NAME_PkMn_FUECOCO,Fuecoco,ホゲータ,Chochodile,Krokel,Fuecoco,Fuecoco,뜨아거,呆火鱷,呆火鳄
 NAME_PkMn_CROCALOR,Crocalor,アチゲータ,Crocogril,Lokroko,Crocalor,Crocalor,악뜨거,炙燙鱷,炙烫鳄
 NAME_PkMn_SKELEDIRGE,Skeledirge,ラウドボーン,Flâmigator,Skelokrok,Skeledirge,Skeledirge,라우드본,骨紋巨聲鱷,骨纹巨声鳄
 NAME_PkMn_QUAXLY,Quaxly,クワッス,Coiffeton,Kwaks,Quaxly,Quaxly,꾸왁스,潤水鴨,润水鸭
 NAME_PkMn_QUAXWELL,Quaxwell,ウェルカモ,Canarbello,Fuentente,Quaxwell,Quaxwell,아꾸왁,湧躍鴨,涌跃鸭
-NAME_PkMn_QUAQUAVEL,Quaquavel,ウェーニバル,Palmaval,Bailonda,Quaquavel,Quaquavel,웨이니발,狂歡浪舞鴨,狂欢浪舞鸭
+NAME_PkMn_QUAQUAVAL,Quaquaval,ウェーニバル,Palmaval,Bailonda,Quaquaval,Quaquaval,웨이니발,狂歡浪舞鴨,狂欢浪舞鸭
 NAME_PkMn_LECHONK,Lechonk,グルトン,Gourmelet,Ferkuli,Lechonk,Lechonk,맛보돈,愛吃豚,爱吃豚
 NAME_PkMn_OINKOLOGNE,Oinkologne,パフュートン,Fragroin,Fragrunz,Oinkologne,Oinkologne,퍼퓨돈,飄香豚,飘香豚
 NAME_PkMn_TAROUNTULA,Tarountula,タマンチュラ,Tissenboule,Tarundel,Tarountula,Tarountula,타랜툴라,團珠蛛,团珠蛛
@@ -947,7 +947,7 @@ NAME_PkMn_GRAFAIAI,Grafaiai,タギングル,Tag-Tag,Affiti,Grafaiai,Grafaiai,태
 NAME_PkMn_BRAMBLIN,Bramblin,アノクサ,Virovent,Weherba,Bramblin,Bramblin,그푸리,納噬草,纳噬草
 NAME_PkMn_BRAMBLEGHAST,Brambleghast,アノホラグサ,Virevorreur,Horrerba,Brambleghast,Brambleghast,공푸리,怖納噬草,怖纳噬草
 NAME_PkMn_TOEDSCOOL,Toedscool,ノノクラゲ,Terracool,Tentagra,Toedscool,Toedscool,들눈해,原野水母,原野水母
-NAME_PkMn_TOADSCRUEL,Toadscruel,リククラゲ,Terracruel,Tenterra,Toadscruel,Toadscruel,육파리,陸地水母,陆地水母
+NAME_PkMn_TOEDSCRUEL,Toedscruel,リククラゲ,Terracruel,Tenterra,Toedscruel,Toedscruel,육파리,陸地水母,陆地水母
 NAME_PkMn_KLAWF,Klawf,ガケガニ,Craparoi,Klibbe,Klawf,Klawf,절벼게,毛崖蟹,毛崖蟹
 NAME_PkMn_CAPSAKID,Capsakid,カプサイジ,Pimito,Chilingel,Capsakid,Capsakid,캡싸이,熱辣娃,热辣娃
 NAME_PkMn_SCOVILLAIN,Scovillain,スコヴィラン,Scovilain,Halupenjo,Scovillain,Scovillain,스코빌런,狠辣椒,狠辣椒

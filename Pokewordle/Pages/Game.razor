@@ -6,7 +6,7 @@
 @using Microsoft.Fast.Components.FluentUI;
 @using Microsoft.Fast.Components.FluentUI.DesignTokens
 @using Pokewordle.Shared.Util;
-@inject PokeApiClient PokeClient
+@inject PokeApiClient PokeClient;
 @inject HttpClient HttpClient;
 
 <div class="page-content">
@@ -27,19 +27,28 @@
 
 
             <PokemonGuessForm @ref="_pokemonGuessForm" ValueChanged="AttemptGuess" PokemonNames="_pokemonTypes"></PokemonGuessForm>
-
+            <FluentButton onclick="@(() => RevealButtonClick())">¯\_(ツ)_/¯</FluentButton>
             <table id="game-table">
                 <thead>
-                @((MarkupString)HeaderGenerator.ToHeaderString(SharedSettings.GameColumnTypes))
+                    @(
+                        (MarkupString)HeaderGenerator.ToHeaderString(SharedSettings.GameColumnTypes)
+                        )
                 </thead>
 
                 <tbody>
-                @foreach (IGuessDisplayData guess in _displayData)
-                {
-                    //Console.WriteLine(guess.ToRowString(displayedColumns));
-                    //@((MarkupString)guess.ToRowString(displayedColumns));
-                    <TemplateRow TableCellsTask=@guess.GetRowCells(SharedSettings.GameColumnTypes)></TemplateRow>
-                }
+                    @for (int i = 0; i < _displayData.Count; i++)
+                    {
+                        IGuessDisplayData guess = _displayData[i];
+                        bool visible = true;
+                        if (SharedSettings.GuessHistoryLimit > 0)
+                        {
+                            visible = _displayData.Count - i <= SharedSettings.GuessHistoryLimit;
+                        }
+                        Console.WriteLine(guess.GetPokemonName());
+                        //Console.WriteLine(guess.ToRowString(displayedColumns));
+                        //@((MarkupString)guess.ToRowString(displayedColumns));
+                        <TemplateRow TableCellsTask=@guess.GetRowCells(SharedSettings.GameColumnTypes) ObfuscationList="@guess.GetObfuscationOrder(SharedSettings.GameColumnTypes)" IsSolution=guess.GetIsCorrect() Visible=visible></TemplateRow>
+                    }
                 </tbody>
             </table>
 
@@ -56,38 +65,93 @@
 
     private PokemonGuessForm? _pokemonGuessForm;
 
-    private IPokeData? _pokemonToGuess;
-    private List<IPokeData> _pokemonsGuessed = new();
-    private readonly List<IGuessDisplayData> _displayData = new();
-
     private List<string> _pokemonTypes = new();
 
-    //private readonly List<ColumnType> _displayedColumns = new() { ColumnType.SPRITE, ColumnType.NAME, ColumnType.GENERATION, ColumnType.TYPES, ColumnType.ABILITIES, ColumnType.TYPE1, ColumnType.TYPE2, ColumnType.HEIGHT, ColumnType.WEIGHT };
+    private bool _guessing = false;
+    private IPokeData? _pokemonToGuess;
+    private Dictionary<string, IPokeData> _pokemonsGuessed = new();
+    private readonly List<IGuessDisplayData> _displayData = new();
+
+
+    /// <summary>
+    /// Pokemons which have forms cannot be requested simply by their species name unfortunately
+    /// TODO: This is a temporary workaround, find a better way to pull pokemon names to suggest for guessing.
+    /// </summary>
+    private static readonly List<string> _UnFixedNames = new() { "deoxys", "wormadam", "giratina", "shaymin", "basculin", "darmanitan", "tornadus", "thundurus", "landorus", "keldeo", "meloetta", "meowstic", "aegislash", "pumpkaboo", "gourgeist", "zygarde", "oricorio", "lycanroc", "wishiwashi", "minior", " mimikyu", " toxtricity", "eiscue", "indeedee", "morpeko", "urshifu", "basculegion", "enamorus" };
+    private static readonly List<string> _FixedNames = new() { "deoxys-attack", "wormadam-trash", "giratina-origin", "shaymin-sky", "basculin-blue-striped", "darmanitan-standard", "tornadus-therian", "tornadus-therian", "tornadus-therian", "keledo-resolute", "meloetta-aria", "meowstic-female", "aegislash-shield", "pumpkaboo-average", "gourgeist-average", "zygarde-complete", "oricorio-baile", "lycanroc-midnight", "wishiwashi-school", "", "mimikyu-busted", "toxtricity-low-key", "eiscue-ice", "indeedee-male", "morpeko-full-belly", "urshifu-rapid-strike", "basculegion-male", "enamorus-incarnate" };
 
     protected override async Task OnInitializedAsync()
     {
-    // Load pokedex data
+        // Load pokedex data
+        List<string> tempPokemonNames = new List<string>();
         Pokedex pokedex = await PokeClient.GetResourceAsync<Pokedex>(1);
-        _pokemonTypes = pokedex.PokemonEntries.Select(p => p.PokemonSpecies.Name).ToList();
+        foreach(PokemonEntry pokemon in pokedex.PokemonEntries)
+        {
+            tempPokemonNames.Add(pokemon.PokemonSpecies.Name);
+        }
 
-        System.Random random = new();
-        _pokemonToGuess = await LoadPokemon(_pokemonTypes[random.Next(_pokemonTypes.Count)]);
-        Console.WriteLine(_pokemonTypes.Count);
-    // await AttemptGuess("Venusaur");
-    // await AttemptGuess("Charizard");
-    // await AttemptGuess("Blastoise");
-    // await AttemptGuess("Machoke");
-    // await AttemptGuess("Scizor");
+        Dictionary<string, string> baseNameToLookupName = new();
+
+        List<string> tempNamesToRemove = new();
+        foreach (string pokemonName in tempPokemonNames)
+        {
+            int index = _UnFixedNames.IndexOf(pokemonName);
+            if (index >= 0)
+            {
+                string? fixedPokemonName = _FixedNames[index];
+                //Only add the fixed name if a solution has been found!
+                if (fixedPokemonName is not null && !fixedPokemonName.Equals(string.Empty))
+                {
+                    baseNameToLookupName.Add(pokemonName, fixedPokemonName);
+                }
+            }
+            else
+            {
+                baseNameToLookupName.Add(pokemonName, pokemonName);
+            }
+        }
+        tempPokemonNames.RemoveAll(name => tempNamesToRemove.Contains(name));
+
+        await Translations.Initialize(HttpClient, baseNameToLookupName);
+        _pokemonTypes.Clear();
+        _pokemonTypes.AddRange(Translations.GetTranslatedNames());
+        //foreach(string name in Translations.GetTranslatedNames())
+        //{
+        //    Console.WriteLine(name);
+        //}
+        //if (this._pokemonGuessForm is not null)
+        //{
+        //    this._pokemonGuessForm.PokemonNames = _pokemonTypes;
+        //}
+        await Reset();
+        // await AttemptGuess("Venusaur");
+        // await AttemptGuess("Charizard");
+        // await AttemptGuess("Blastoise");
+        // await AttemptGuess("Machoke");
+        // await AttemptGuess("Scizor");
 
         if (HttpClient is null)
         {
             Console.WriteLine("Client is null");
         }
 
-        Translations.LoadLanguage(HttpClient, 4);
     }
 
-    private void AddGuessedPokemon(IPokeData guessPokeData)
+    private async Task Reset()
+    {
+        _pokemonsGuessed.Clear();
+        _displayData.Clear();
+
+        System.Random random = new();
+        _pokemonToGuess = await LoadPokemon(Translations.GetRandomLookupName());
+        _guessing = true;
+        _pokemonGuessForm?.Enable();
+        StateHasChanged();
+
+    }
+
+
+    private void AddGuessedPokemon(string guessedName, IPokeData guessPokeData)
     {
         if (_pokemonToGuess is null)
         {
@@ -96,24 +160,24 @@
 
         IGuessDisplayData guessDisplayData = new LazyGuessDisplayData(_pokemonToGuess, guessPokeData);
         _displayData.Add(guessDisplayData);
-        _pokemonsGuessed.Add(guessPokeData);
+        _pokemonsGuessed[guessedName] = guessPokeData;
 
-        if (guessPokeData.Name == _pokemonToGuess.Name)
+        if (guessDisplayData.GetIsCorrect())
         {
             WinGame();
         }
     }
 
-    private async Task AttemptGuess(int id)
-    {
-        IPokeData guessPokeData = await LoadPokemon(id);
-        AddGuessedPokemon(guessPokeData);
-    }
-
     private async Task AttemptGuess(string name)
     {
-        IPokeData guessPokeData = await LoadPokemon(name);
-        AddGuessedPokemon(guessPokeData);
+        string englishName = Translations.TranslateToEnglish(name);
+        string lookupName = Translations.GetLookupName(englishName);
+        if (_pokemonsGuessed.ContainsKey(lookupName) && !SharedSettings.AllowDuplicateGuesses)
+        {
+            return;
+        }
+        IPokeData guessPokeData = await LoadPokemon(lookupName);
+        AddGuessedPokemon(lookupName, guessPokeData);
     }
 
     private async Task<IPokeData> LoadPokemon(int id)
@@ -132,6 +196,7 @@
     private void WinGame()
     {
         _pokemonGuessForm?.Disable();
+        _guessing = false;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -141,5 +206,15 @@
             await AccentBaseColor.SetValueFor(_FluentProgressRing!.Element, "#064c3a".ToSwatch());
             StateHasChanged();
         }
+    }
+
+    private async void RevealButtonClick()
+    {
+        if (!_guessing)
+        {
+            await Reset();
+            return;
+        }
+        AddGuessedPokemon(_pokemonToGuess.Name, _pokemonToGuess);
     }
 }

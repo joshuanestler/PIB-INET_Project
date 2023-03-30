@@ -9,7 +9,6 @@
     @foreach (string typeName in Cell.TypeNames)
     {
         <div class="pokemon-type" style="background: @PokeTypeCellData.TypeNameToColorHexString(typeName)">@typeName.FirstCharToUpper()</div>
-        Console.WriteLine(typeName);
     }
     </div>
 </td>

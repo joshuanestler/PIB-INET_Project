@@ -1,11 +1,15 @@
 ﻿@page "/settings"
+@using Pokewordle.Shared.Components
 @using Pokewordle.Shared.Util;
 
 <PageTitle>Settings</PageTitle>
+
 <div class="content">
     <div class="language-wrapper">
         <p class="setting-title">Language</p>
-        <div class="language-container"></div>
+        <div class="language-container">
+            <LanguageSelector></LanguageSelector>
+        </div>
     </div>
 
     <div class="column-selection-wrapper">
@@ -64,23 +68,34 @@
             </div>
         </div>
     </div>
+
+    <div>
+        <InputNumber TValue="int" @bind-Value="@this._obfuscationValueProperty">Randomly Obfuscated Fields</InputNumber>
+    </div>
+    <div>
+        <InputNumber TValue="int" @bind-Value="@this._guessHistoryLimitProperty">Limit Visible Guess History</InputNumber>
+    </div>
+    <div>
+        <InputCheckbox @bind-Value="@this._allowDuplicateGuessesProperty">Allow Duplicate Guesses</InputCheckbox>
+    </div>
 </div>
 
 
 @code
 {
+    private int _obfuscationValueProperty { get => SharedSettings.Obfuscation; set => UpdateObfuscationValue(value); }
+    private int _guessHistoryLimitProperty { get => SharedSettings.GuessHistoryLimit; set => UpdateGuessHistoryLimit(value); }
+    private bool _allowDuplicateGuessesProperty { get => SharedSettings.AllowDuplicateGuesses; set => UpdateAllowDuplicateGuesses(value); }
     private readonly List<ColumnType> _selectedColumnTypes = SharedSettings.GameColumnTypes.ToList();
     private ColumnType? _selectedType = null;
 
     protected override async Task OnInitializedAsync()
     {
-        SharedSettings.GameColumnTypes.Clear();
-        SharedSettings.GameColumnTypes.AddRange(new ColumnType[] { ColumnType.SPRITE, ColumnType.NAME, ColumnType.GENERATION, ColumnType.TYPES, ColumnType.ABILITIES, ColumnType.SPRITE });
+
     }
 
     private void DisableColumnHeader(ColumnType columnType)
     {
-    //Console.WriteLine($"Click: {columnType}");
         _selectedColumnTypes.Remove(columnType);
         UpdateColumnSettings();
         StateHasChanged();
@@ -88,7 +103,6 @@
 
     private void EnableColumnHeader(ColumnType columnType, int index)
     {
-    //Console.WriteLine($"Click: {columnType}");
         _selectedColumnTypes.Insert(index, columnType);
         UpdateColumnSettings();
         StateHasChanged();
@@ -99,7 +113,6 @@
         if (_selectedType is ColumnType columnType)
         {
             int index = _selectedColumnTypes.IndexOf(before);
-            Console.WriteLine($"Inserting {columnType}");
             EnableColumnHeader(columnType, index);
             _selectedType = null;
         }
@@ -132,6 +145,29 @@
     {
         SharedSettings.GameColumnTypes.Clear();
         SharedSettings.GameColumnTypes.AddRange(_selectedColumnTypes);
+    }
+
+    private void UpdateObfuscationValue(int value)
+    {
+        if (value < 0 && Enum.GetValues<ColumnType>().Count() > value)
+        {
+            return;
+        }
+        SharedSettings.Obfuscation = value;
+    }
+
+    private void UpdateGuessHistoryLimit(int value)
+    {
+        if (value < 0)
+        {
+            return;
+        }
+        SharedSettings.GuessHistoryLimit = value;
+    }
+
+    private void UpdateAllowDuplicateGuesses(bool value)
+    {
+        SharedSettings.AllowDuplicateGuesses = value;
     }
 
 }

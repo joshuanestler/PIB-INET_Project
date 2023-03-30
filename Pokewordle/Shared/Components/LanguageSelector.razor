@@ -1,0 +1,95 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Microsoft.Fast.Components.FluentUI
+@using Microsoft.Fast.Components.FluentUI.DesignTokens
+@using Pokewordle.Shared.Extensions
+@using Color = System.Drawing.Color
+@using Pokewordle.Shared.Util;
+@inject HttpClient httpClient;
+
+
+<link href="/css/pokecss/SearchBox.css" rel="stylesheet" />
+<div id="game-input">
+    <FluentCombobox @ref="LanguageComboBox" TOption="string" Items="Languages"
+                    Autocomplete="ComboboxAutocomplete.Both" OptionText="s => s.FirstCharToUpper()"
+                    SelectedOptionChanged="ValueChangedHandler"
+                    Appearance="Appearance.Filled"
+                    Id="language-input" Style="width: 15rem; height: 2rem;">
+    </FluentCombobox>
+</div>
+
+
+
+@code {
+    private FluentCombobox<string> LanguageComboBox;
+
+    [Parameter]
+    [Required]
+    public List<string> Languages { get; set; } = new() { "english", "japanese", "french", "german", "espanol", "italian", "korean", "chinese" };
+
+    [Parameter]
+    [Required]
+    public EventCallback<string> ValueChanged { get; set; }
+
+
+
+    // fluentui design tokens
+    [Inject]
+    private BaseLayerLuminance BaseLayerLuminance { get; set; } = default!;
+
+    [Inject]
+    private AccentBaseColor AccentBaseColor { get; set; } = default!;
+
+    [Inject]
+    private BodyFont BodyFont { get; set; } = default!;
+
+    [Inject]
+    private StrokeWidth StrokeWidth { get; set; } = default!;
+
+    [Inject]
+    private ControlCornerRadius ControlCornerRadius { get; set; } = default!;
+
+    [Inject]
+    private FillColor FillColor { get; set; } = default!;
+    // private Microsoft.Fast.Components.FluentUI.DesignTokens.FillColor fill
+    // Microsoft.Fast.Components.FluentUI.DesignTokens.Neutral
+    [Inject]
+    private StrokeWidth Strokewidth { get; set; } = default!;
+    // Microsoft.Fast.Components.FluentUI.DesignTokens.Swatch
+    [Inject]
+    NeutralFillActive NeutralFillActive { get; set; } = default!;
+
+    [Inject]
+    NeutralBaseColor NeutralBaseColor { get; set; } = default!;
+
+    [Inject]
+    NeutralFillRest NeutralFillRest { get; set; } = default!;
+
+
+    private async Task ValueChangedHandler(string? value)
+    {
+        if (value == null) return;
+
+        int index = Languages.IndexOf(value);
+
+        await Translations.LoadLanguage(httpClient, index + 1);
+
+        // Invoke the ValueChanged event callback
+        await ValueChanged.InvokeAsync(value);
+    }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            //Set to dark mode
+            // await BaseLayerLuminance.SetValueFor(ref1!.Element, (float)0.15);
+
+            await AccentBaseColor.SetValueFor(LanguageComboBox!.Element, "#0c4337".ToSwatch());
+            await BaseLayerLuminance.SetValueFor(LanguageComboBox!.Element, (float)0.15);
+            await NeutralBaseColor.SetValueFor(LanguageComboBox!.Element, "#2b3539".ToSwatch());
+
+            StateHasChanged();
+        }
+    }
+}

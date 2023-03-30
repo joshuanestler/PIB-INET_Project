@@ -7,8 +7,10 @@ public class PokemonList {
     
     public List<string> PokemonNames { get; }
     
-    public PokemonList() {
-        client = new PokeApiClient();
+    public PokemonList() : this(new PokeApiClient()) { }
+
+    public PokemonList(PokeApiClient pokeApiClient) {
+        client = pokeApiClient;
         PokemonNames = new List<string>();
         client.GetResourceAsync<Pokedex>(0).Result.PokemonEntries.ForEach(pokemon => PokemonNames.Add(pokemon.PokemonSpecies.Name));
     }

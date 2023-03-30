@@ -9,8 +9,13 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-builder.Services.AddScoped(sp => new PokeApiClient());
+HttpClient httpClient = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
+//BRUH NOT ALLOWED CLIENT SIDE httpClient.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "*");
+PokeApiClient pokeApiClient = new PokeApiClient();
+
+builder.Services.AddScoped(sp => httpClient);
+builder.Services.AddScoped(sp => pokeApiClient);
 builder.Services.AddScoped(sp => new PokemonList());
 builder.Services.AddFluentUIComponents();
+
 await builder.Build().RunAsync();
