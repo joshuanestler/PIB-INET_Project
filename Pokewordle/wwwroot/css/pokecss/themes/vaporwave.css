@@ -6,10 +6,10 @@
     background: linear-gradient(315deg, rgba(33, 4, 41, 1) 9%, rgba(5, 28, 71, 1) 66%);
 }
 
-#game-input ::part(control) {
+#game-input ::part(control), .searchbox ::part(control) {
     background: linear-gradient(315deg, #445575 10%, #49516f 100%);
 }
 
-#game-input ::part(listbox) {
+#game-input ::part(listbox), .searchbox ::part(listbox) {
     background: linear-gradient(315deg, #445575 10%, #49516f 100%);
 }

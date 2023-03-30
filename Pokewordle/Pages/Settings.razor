@@ -19,7 +19,7 @@
 
     <div class="theme-wrapper setting-wrapper">
         <p class="setting-title">Theme</p>
-        <div class="theme-container ">
+        <div class="theme-container">
             <div class="searchbox">
                 @* <form > *@
                 @* <select onchange="@SetTheme"> *@
@@ -41,7 +41,7 @@
 
     <div class="column-selection-wrapper setting-wrapper">
         <p class="setting-title">Choose Game Columns</p>
-        <div class="column-selection-container">
+        <div class="column-selection-container setting-grid-container">
             <div class="grid-content-wrapper darken-25 round-border-10">
                 <div class="shown-columns column-container lighten-25">
                     <p class="column-container-title">Shown Columns</p>
@@ -96,16 +96,70 @@
         </div>
     </div>
 
-    <div>
-        <InputNumber TValue="int" @bind-Value="@this._obfuscationValueProperty">Randomly Obfuscated Fields</InputNumber>
-    </div>
-    <div>
-        <InputNumber TValue="int" @bind-Value="@this._guessHistoryLimitProperty">Limit Visible Guess History</InputNumber>
-    </div>
-    <div>
-        <InputCheckbox @bind-Value="@this._allowDuplicateGuessesProperty">Allow Duplicate Guesses</InputCheckbox>
-    </div>
+
+    <div class="setting-wrapper">
+        <div class="darken-15 round-border-10">
+            <div class="miscellaneous-settings-container">
+            <div>
+                <p>Randomly obfuscate a number of fields per guess</p>
+                <InputNumber TValue="int" @bind-Value="@this._obfuscationValueProperty">Randomly Obfuscated Fields</InputNumber>
+            </div>
+
+            <div>
+                <p>Limit Visible Guess History</p>
+                <InputNumber TValue="int" @bind-Value="@this._guessHistoryLimitProperty">Limit Visible Guess History</InputNumber>
+            </div>
+
+            <div>
+                <p>Allow Duplicate Guesses</p>
+                <InputCheckbox @bind-Value="@this._allowDuplicateGuessesProperty">Allow Duplicate Guesses</InputCheckbox>
+            </div>
 </div>
+        </div>
+    </div>
+
+</div>
+
+@* *@
+@* <div> *@
+@*     <div class="setting-wrapper"> *@
+@*         <div class="setting-container"> *@
+@*             <p class="setting-title">Obfuscation</p> *@
+@*             <div class="setting-grid-container"> *@
+@*                 <div class="flex-column darken-25 round-border-10"> *@
+@*                     <p>Randomly obfuscate a number of fields per guess</p> *@
+@*                     <InputNumber TValue="int" @bind-Value="@this._obfuscationValueProperty">Randomly Obfuscated Fields</InputNumber> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
+@* <div> *@
+@*     <div class="setting-wrapper"> *@
+@*         <div class="setting-container"> *@
+@*             <p class="setting-title">History</p> *@
+@*             <div class="setting-grid-container"> *@
+@*                 <div class="flex-column darken-25 round-border-10"> *@
+@*                     <p>Limit Visible Guess History</p> *@
+@*                     <InputNumber TValue="int" @bind-Value="@this._guessHistoryLimitProperty">Limit Visible Guess History</InputNumber> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
+@* <div class="setting-wrapper"> *@
+@*     <div class="setting-container"> *@
+@*         <p class="setting-title">Duplicate Guesses</p> *@
+@*         <div class="setting-grid-container"> *@
+@*             <div class="flex-column darken-25 round-border-10"> *@
+@*                 <p>Allow Duplicate Guesses</p> *@
+@*                 <InputCheckbox @bind-Value="@this._allowDuplicateGuessesProperty">Allow Duplicate Guesses</InputCheckbox> *@
+@*             </div> *@
+@*         </div> *@
+@*         <div class="setting-wrapper"> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
 
 
 @code
