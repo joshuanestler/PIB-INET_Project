@@ -11,55 +11,57 @@
     <div class="column-selection-wrapper">
         <p class="setting-title">Choose Game Columns</p>
         <div class="column-selection-container">
-            <div class="shown-columns column-container">
-                <p class="column-container-title">Shown Columns</p>
-                <div class="column-list">
-                    @for (int i = 0; i < _selectedColumnTypes.Count; i++)
-                    {
-                        ColumnType columnType = _selectedColumnTypes[i];
-                        if (_selectedType is not null)
+            <div class="grid-content-wrapper">
+                <div class="shown-columns column-container">
+                    <p class="column-container-title">Shown Columns</p>
+                    <div class="column-list">
+                        @for (int i = 0; i < _selectedColumnTypes.Count; i++)
                         {
-                            <div class="insertIcon" onclick="@(() => InsertSelectedHeader(columnType))">
+                            ColumnType columnType = _selectedColumnTypes[i];
+                            if (_selectedType is not null)
+                            {
+                                <div class="insertIcon" onclick="@(() => InsertSelectedHeader(columnType))">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" fill="currentColor" class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0v-2z"/>
+                                        <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
+                                    </svg>
+                                </div>
+                            }
+                            <div class="displayedColumn" onclick="@(() => DisableColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</div>
+                        }
+                        @if (_selectedType is not null)
+                        {
+                            <div class="insertIcon" onclick="@(() => AppendSelectedHeader())">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" fill="currentColor" class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
-                                  <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0v-2z"/>
-                                  <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
+                                    <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0v-2z"/>
+                                    <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
                                 </svg>
                             </div>
                         }
-                        <div class="displayedColumn" onclick="@(() => DisableColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</div>
-                    }
-                    @if (_selectedType is not null)
-                    {
-                        <div class="insertIcon" onclick="@(() => AppendSelectedHeader())">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" fill="currentColor" class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0v-2z"/>
-                                <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
-                            </svg>
-                        </div>
-                    }
+                    </div>
                 </div>
-            </div>
-            @* <div style="float: left; width: 100px"></div> *@
-            <div class="hidden-columns column-container">
-                <p class="column-container-title">Other Columns</p>
-                <div class="column-list">
-                    @foreach (ColumnType columnType in Enum.GetValues<ColumnType>())
-                    {
-                        if (!_selectedColumnTypes.Contains(columnType))
+                @* <div style="float: left; width: 100px"></div> *@
+                <div class="hidden-columns column-container">
+                    <p class="column-container-title">Other Columns</p>
+                    <div class="column-list">
+                        @foreach (ColumnType columnType in Enum.GetValues<ColumnType>())
                         {
-                            if (_selectedType == columnType)
+                            if (!_selectedColumnTypes.Contains(columnType))
                             {
-                                <div class="selectedColumnToInsert" onclick="@(() => SelectColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</div>
-                            }
-                            else
-                            {
-                                <div class="hiddenColumn" onclick="@(() => SelectColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</div>
+                                if (_selectedType == columnType)
+                                {
+                                    <div class="selectedColumnToInsert" onclick="@(() => SelectColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</div>
+                                }
+                                else
+                                {
+                                    <div class="hiddenColumn" onclick="@(() => SelectColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</div>
+                                }
                             }
                         }
-                    }
+                    </div>
                 </div>
-            </div>
 
+            </div>
         </div>
     </div>
 </div>
