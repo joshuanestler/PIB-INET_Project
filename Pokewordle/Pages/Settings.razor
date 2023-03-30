@@ -66,17 +66,30 @@
 
         </div>
     </div>
+
+    <div>
+        <InputNumber TValue="int" @bind-Value="@this._obfuscationValueProperty"></InputNumber>
+    </div>
+    <div>
+        <InputNumber TValue="int" @bind-Value="@this._guessHistoryLimitProperty"></InputNumber>
+    </div>
+    <div>
+        <InputCheckbox @bind-Value="@this._allowDuplicateGuessesProperty"></InputCheckbox>
+    </div>
 </div>
 
 
 @code
 {
+    private int _obfuscationValueProperty { get => SharedSettings.Obfuscation; set => UpdateObfuscationValue(value); }
+    private int _guessHistoryLimitProperty { get => SharedSettings.GuessHistoryLimit; set => UpdateGuessHistoryLimit(value); }
+    private bool _allowDuplicateGuessesProperty { get => SharedSettings.AllowDuplicateGuesses; set => UpdateAllowDuplicateGuesses(value); }
     private readonly List<ColumnType> _selectedColumnTypes = SharedSettings.GameColumnTypes.ToList();
     private ColumnType? _selectedType = null;
 
     protected override async Task OnInitializedAsync()
     {
-        
+
     }
 
     private void DisableColumnHeader(ColumnType columnType)
@@ -132,4 +145,26 @@
         SharedSettings.GameColumnTypes.AddRange(_selectedColumnTypes);
     }
 
+    private void UpdateObfuscationValue(int value)
+    {
+        if (value < 0 && Enum.GetValues<ColumnType>().Count() > value)
+        {
+            return;
+        }
+        SharedSettings.Obfuscation = value;
+    }
+
+    private void UpdateGuessHistoryLimit(int value)
+    {
+        if (value < 0)
+        {
+            return;
+        }
+        SharedSettings.GuessHistoryLimit = value;
+    }
+
+    private void UpdateAllowDuplicateGuesses(bool value)
+    {
+        SharedSettings.AllowDuplicateGuesses = value;
+    }
 }
