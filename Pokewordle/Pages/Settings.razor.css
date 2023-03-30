@@ -1,5 +1,6 @@
 ﻿.content {
     text-align: center;
+    padding: 2rem;
 }
 
 .setting-title {
@@ -7,6 +8,17 @@
     font-weight: bold;
     margin-bottom: 1rem;
 }
+
+.setting-wrapper {
+    margin: 2rem;
+}
+
+.page-title {
+    font-size: 3rem;
+    font-weight: bolder;
+    margin-bottom: 1rem;
+}
+
 
 .column-selection-container {
     /*display: grid;*/

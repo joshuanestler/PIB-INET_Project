@@ -6,11 +6,11 @@
     background: linear-gradient(315deg, hsl(207, 12%, 15%) 10%, hsl(164, 100%, 18%) 100%);
 }
 
-#game-input ::part(control) {
+#game-input ::part(control), .searchbox ::part(control) {
     background: linear-gradient(300deg, #516261 0%, hsl(175, 34%, 30%) 100%);
     /*background: rgba(255,255,255,0.25);*/
 }
 
-#game-input ::part(listbox) {
+#game-input ::part(listbox), .searchbox ::part(listbox) {
     background: linear-gradient(300deg, #516261 0%, hsl(175, 34%, 30%) 100%);
 }

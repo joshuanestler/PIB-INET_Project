@@ -5,22 +5,22 @@
 @using Color = System.Drawing.Color
 @using Pokewordle.Shared.Util;
 @inject HttpClient httpClient;
+@inject NavigationManager NavigationManager;
 
 
-<link href="/css/pokecss/SearchBox.css" rel="stylesheet" />
+<link href="/css/pokecss/SearchBox.css" rel="stylesheet"/>
 <div id="language-input fluent-combo-box">
-    <FluentCombobox @ref="LanguageComboBox" TOption="string" Items="Languages"
-                    Autocomplete="ComboboxAutocomplete.Both" OptionText="s => s.FirstCharToUpper()"
+    <FluentCombobox @ref="ThemeComboBox" TOption="string" Items="@themeNames"
+                    Autocomplete="ComboboxAutocomplete.Both" OptionText="s => s.ToString()"
                     SelectedOptionChanged="ValueChangedHandler"
                     Appearance="Appearance.Filled"
-                    Id="language-input" Style="width:13rem; height: 2rem">
+                    Id="theme-input" Style="width:13rem; height: 2rem">
     </FluentCombobox>
 </div>
 
 
-
 @code {
-    private FluentCombobox<string> LanguageComboBox;
+    private FluentCombobox<string> ThemeComboBox;
 
     [Parameter]
     [Required]
@@ -30,7 +30,7 @@
     [Required]
     public EventCallback<string> ValueChanged { get; set; }
 
-
+    public List<string> themeNames { get; set; }
 
     // fluentui design tokens
     [Inject]
@@ -50,10 +50,12 @@
 
     [Inject]
     private FillColor FillColor { get; set; } = default!;
+
     // private Microsoft.Fast.Components.FluentUI.DesignTokens.FillColor fill
     // Microsoft.Fast.Components.FluentUI.DesignTokens.Neutral
     [Inject]
     private StrokeWidth Strokewidth { get; set; } = default!;
+
     // Microsoft.Fast.Components.FluentUI.DesignTokens.Swatch
     [Inject]
     NeutralFillActive NeutralFillActive { get; set; } = default!;
@@ -64,17 +66,33 @@
     [Inject]
     NeutralFillRest NeutralFillRest { get; set; } = default!;
 
+    protected override void OnInitialized()
+    {
+        themeNames = Enum.GetNames<Theme>().ToList();
+    }
 
     private async Task ValueChangedHandler(string? value)
     {
-        if (value == null) return;
+        if (value == null)
+        {
+            return;
+        }
+        
+        if (!Enum.TryParse<Theme>(value.AsSpan(), true, out Theme theme))
+        {
+            if (value is null)
+            {
+                Console.WriteLine("could not parse args.Value because it was null");
+            }
+            else
+            {
+                Console.WriteLine($"could not parse {value}");
+            }
+            return;
+        }
 
-        int index = Languages.IndexOf(value);
-
-        await Translations.LoadLanguage(httpClient, index + 1);
-
-        // Invoke the ValueChanged event callback
-        await ValueChanged.InvokeAsync(value);
+        SharedThemeSetting.theme = theme;
+        NavigationManager.NavigateTo("/settings");
     }
 
 
@@ -82,14 +100,15 @@
     {
         if (firstRender)
         {
-            //Set to dark mode
-            // await BaseLayerLuminance.SetValueFor(ref1!.Element, (float)0.15);
+    //Set to dark mode
+    // await BaseLayerLuminance.SetValueFor(ref1!.Element, (float)0.15);
 
-            await AccentBaseColor.SetValueFor(LanguageComboBox!.Element, "#0c4337".ToSwatch());
-            await BaseLayerLuminance.SetValueFor(LanguageComboBox!.Element, (float)0.15);
-            await NeutralBaseColor.SetValueFor(LanguageComboBox!.Element, "#2b3539".ToSwatch());
+            await AccentBaseColor.SetValueFor(ThemeComboBox!.Element, "#0c4337".ToSwatch());
+            await BaseLayerLuminance.SetValueFor(ThemeComboBox!.Element, (float)0.15);
+            await NeutralBaseColor.SetValueFor(ThemeComboBox!.Element, "#2b3539".ToSwatch());
 
             StateHasChanged();
         }
     }
+
 }
