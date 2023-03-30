@@ -2,5 +2,5 @@ namespace Pokewordle.Shared.Util;
 
 public enum Theme
 {
-    Forest, Vaporwave
+    Forest, Vaporwave, Beach, Melon
 }

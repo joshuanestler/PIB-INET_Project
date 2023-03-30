@@ -176,14 +176,14 @@
         _guessing = false;
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await AccentBaseColor.SetValueFor(_FluentProgressRing!.Element, "#064c3a".ToSwatch());
-            StateHasChanged();
-        }
-    }
+    // protected override async Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //     if (firstRender)
+    //     {
+    //         await AccentBaseColor.SetValueFor(_FluentProgressRing!.Element, "#064c3a".ToSwatch());
+    //         StateHasChanged();
+    //     }
+    // }
 
     
     
