@@ -6,8 +6,8 @@ namespace Pokewordle.Shared
     {
         public static Color COLOR_CORRECT { get; private set; } = Color.FromArgb(0, 128, 36);
         public static Color COLOR_MISTAKE { get; private set; } = Color.FromArgb(128, 0, 19);
-        public static Color COLOR_SEMI_CORRECT_MISTAKE { get; private set; } = Color.FromArgb(173, 179, 2);
-
+ 
+        public static Color COLOR_SEMI_CORRECT_MISTAKE { get; private set; } = Color.FromArgb(191, 153, 3);
 
         public static Color COLOR_TYPE_NOT_FOUND { get; private set; } = Color.FromArgb(170, 170, 170);
 

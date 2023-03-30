@@ -1,4 +1,4 @@
-#game-input ::part(control) {
+.searchbox ::part(control) {
     border: 1px solid black;
     box-shadow: 0.75rem 0.75rem rgba(0, 0, 0, 0.45);
     /*background-color: rgba(255, 255, 255, 0.25);*/
@@ -7,8 +7,8 @@
     /*background: linear-gradient(300deg, #516261 0%, hsl(175, 34%, 30%) 100%);*/
 }
 
-#game-input ::part(selected-value) {
-    font-size: 1.5rem;
+.searchbox ::part(selected-value) {
+    font-size: 1rem;
     font-weight: bolder;
     color: #d7d7d7;
     /*color: black;*/
@@ -17,7 +17,7 @@
     /*padding: 2rem;*/
 }
 
-#game-input ::part(listbox) {
+.searchbox ::part(listbox) {
     /*background-color: rgba(72, 125, 108);*/
     /*background-color: #0e8567;*/
     /*background-color: rgba(0, 0, 0, 0.47);*/
@@ -30,20 +30,22 @@
     /*background: linear-gradient(300deg, #516261 0%, hsl(175, 34%, 30%) 100%);*/
     
     /*background-color: #59726f;*/
-    top: 3rem;
+    /*top: 3rem;*/
+    /*top: 2rem;*/
     height: 17.2rem;
     width: 100%;
-    font-size: 1.2rem;
+    font-size: 1rem;
     /*align-self: center;*/
     text-align: center;
     /*padding: 50px;*/
     box-shadow: 0.75rem 0.75rem rgba(0, 0, 0, 0.45);
     overflow: scroll;
     /*overflow: clip;*/
-    border-radius: 0 0 10px 10px;
+    border-radius: 10px 10px 10px 10px;
     border: 1px solid black;
+    /*border-top: none;*/
     /*padding: 0rem 1rem;*/
-    
+    margin: 0;
     overflow-x: auto;
     scrollbar-width: none;
 }
@@ -54,17 +56,17 @@
 /*    background-color: black;*/
 /*}*/
 
-#game-input fluent-option {
+.searchbox fluent-option {
     color: white;
     /*background-color: rgba(255, 255, 255, 0.75);*/
-    font-size: 1.1em;
+    font-size: 1rem;
     align-self: center;
     /*justify-self: center;*/
     /*text-align: center;*/
     justify-content: center;
     /*align-content: center;*/
-    margin: 0.35rem 0.3rem;
-    padding: 1.7rem 0rem;
+    margin: 0.3rem 0.15rem;
+    padding: 1.1rem 0rem;
     border-radius: 5px;
     /*width: 10rem;*/
     width: 95%;
@@ -75,15 +77,15 @@
     /*background-color: rgba(0, 0, 0, 0.35);*/
 }
 
-#game-input fluent-option:hover {
+.searchbox fluent-option:hover {
     /*background-color: rgba(0, 0, 0, 0.55);*/
     background-color: rgba(255, 255, 255, 0.32);
 }
 
-#game-input fluent-option:nth-of-type(2n-1) {
+.searchbox fluent-option:nth-of-type(2n-1) {
     /*background-color: rgba(49, 48, 48, 0.35);*/
 }
 
-#game-input fluent-option:nth-of-type(2n) {
+.searchbox fluent-option:nth-of-type(2n) {
     /*background-color: rgba(255, 255, 255, 0.35);*/
 }

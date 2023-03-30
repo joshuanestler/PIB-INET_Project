@@ -3,14 +3,13 @@
     border: 3px solid black;
     border-collapse: separate;
     /*padding: 5px;*/
-    margin-top: 1.8rem;
+    margin-top: 2.5rem;
     border-spacing: 0.8em;
-    background-color: rgba(255,255,255,0.1);
+    /*background-color: rgba(255,255,255,0.1);*/
     box-shadow: 0.7em 0.7em rgba(0,0,0,0.3);
     font-size: 1.2em;
     width: fit-content;
-    border-radius: 10px;
-    
+    /*border-radius: 10px;*/
 }
 #game-table tr {
     /*height: 100%;*/
@@ -49,6 +48,7 @@
 }
 
 #game-table td {
+    color: white;
     background: rgba(255,255,255,0.15);
     box-shadow: 0.15em 0.15em rgba(0,0,0,0.3);
     border-width: 2px;

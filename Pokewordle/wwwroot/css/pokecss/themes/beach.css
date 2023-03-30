@@ -1,0 +1,17 @@
+.sidebar {
+    background: linear-gradient(125deg, hsl(51, 64%, 35%) 20%, hsl(190, 92%, 35%) 100%);
+}
+
+.content {
+
+    background: linear-gradient(330deg, hsl(51, 64%, 22%) 0%, hsl(190, 92%, 22%) 100%);
+    /*background: linear-gradient(330deg, #d9bc31 0%, #00d4ff  100%);*/
+}
+
+#game-input ::part(control), .searchbox ::part(control) {
+    background: linear-gradient(120deg, #326966 0%, #506649 100%);
+}
+
+#game-input ::part(listbox), .searchbox ::part(listbox) {
+    background: linear-gradient(120deg, #326966 0%, #506649 100%);
+}

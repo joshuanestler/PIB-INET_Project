@@ -1,0 +1,89 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Microsoft.Fast.Components.FluentUI
+@using Microsoft.Fast.Components.FluentUI.DesignTokens
+@using Pokewordle.Shared.Extensions
+@using Pokewordle.Shared.Services
+@using Color = System.Drawing.Color
+@using Pokewordle.Shared.Util;
+@inject HttpClient httpClient;
+@inject NavigationManager NavigationManager;
+@inject SettingsService SettingsService;
+
+
+<link href="/css/pokecss/SearchBox.css" rel="stylesheet"/>
+<div id="language-input fluent-combo-box">
+    <FluentCombobox @ref="ThemeComboBox" TOption="@Theme" Items="@Themes" 
+                    bind-Value="@SharedSettings.SelectedTheme"
+                    Autocomplete="ComboboxAutocomplete.Both" OptionText="s => s.ToString()"
+                    SelectedOptionChanged="@ValueChangedHandler"
+                    Appearance="Appearance.Filled"
+                    Id="theme-input" Style="width:13rem; height: 2rem">
+    </FluentCombobox>
+</div>
+
+
+@code {
+    private FluentCombobox<Theme> ThemeComboBox;
+
+    private Theme[] Themes = Enum.GetValues<Theme>();   
+
+    // fluentui design tokens
+    [Inject]
+    private BaseLayerLuminance BaseLayerLuminance { get; set; } = default!;
+
+    [Inject]
+    private AccentBaseColor AccentBaseColor { get; set; } = default!;
+
+    [Inject]
+    private BodyFont BodyFont { get; set; } = default!;
+
+    [Inject]
+    private StrokeWidth StrokeWidth { get; set; } = default!;
+
+    [Inject]
+    private ControlCornerRadius ControlCornerRadius { get; set; } = default!;
+
+    [Inject]
+    private FillColor FillColor { get; set; } = default!;
+
+    // private Microsoft.Fast.Components.FluentUI.DesignTokens.FillColor fill
+    // Microsoft.Fast.Components.FluentUI.DesignTokens.Neutral
+    [Inject]
+    private StrokeWidth Strokewidth { get; set; } = default!;
+
+    // Microsoft.Fast.Components.FluentUI.DesignTokens.Swatch
+    [Inject]
+    NeutralFillActive NeutralFillActive { get; set; } = default!;
+
+    [Inject]
+    NeutralBaseColor NeutralBaseColor { get; set; } = default!;
+
+    [Inject]
+    NeutralFillRest NeutralFillRest { get; set; } = default!;
+
+    private async Task ValueChangedHandler(Theme value)
+    {
+        Console.WriteLine("Selected theme changed: " + value.ToString());
+        SharedSettings.SelectedTheme = value;
+        SettingsService.SetSettingAsync("theme", value.ToString());
+        
+        NavigationManager.NavigateTo("/settings");
+    }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+    //Set to dark mode
+    // await BaseLayerLuminance.SetValueFor(ref1!.Element, (float)0.15);
+
+            await AccentBaseColor.SetValueFor(ThemeComboBox!.Element, "#0c4337".ToSwatch());
+            await BaseLayerLuminance.SetValueFor(ThemeComboBox!.Element, (float)0.15);
+            await NeutralBaseColor.SetValueFor(ThemeComboBox!.Element, "#2b3539".ToSwatch());
+
+            StateHasChanged();
+        }
+    }
+
+}

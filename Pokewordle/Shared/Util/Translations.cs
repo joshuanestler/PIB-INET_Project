@@ -4,12 +4,13 @@ using System.IO;
 using System.Net.Http.Json;
 using static System.Net.Mime.MediaTypeNames;
 using System.Text;
+using PokeApiNet;
 
 namespace Pokewordle.Shared.Util
 {
     public static class Translations
     {
-        private const string POKEMON_NAMES_FILE = @"Resources/LangugagePokemonNames.csv";
+        private const string POKEMON_NAMES_FILE = @"Resources/LanguagePokemonNames.csv";
         private const string CSV_DELIMITERS = ",";
         private static readonly Dictionary<string, string> s_BaseNameToTranslatedName = new();
         private static readonly Dictionary<string, string> s_TranslatedNameToBaseName = new();
@@ -17,8 +18,48 @@ namespace Pokewordle.Shared.Util
         private static readonly Dictionary<string, string> s_LookupNamesToBaseName = new();
         private static int loadedColumn = 0;
 
-        public static async Task Initialize(HttpClient httpClient, IDictionary<string, string> baseNameToValidName)
+        
+        /// <summary>
+        /// Pokemons which have forms cannot be requested simply by their species name unfortunately
+        /// TODO: This is a temporary workaround, find a better way to pull pokemon names to suggest for guessing.
+        /// </summary>
+        private static readonly List<string> _UnFixedNames = new() { "deoxys", "wormadam", "giratina", "shaymin", "basculin", "darmanitan", "tornadus", "thundurus", "landorus", "keldeo", "meloetta", "meowstic", "aegislash", "pumpkaboo", "gourgeist", "zygarde", "oricorio", "lycanroc", "wishiwashi", "minior", " mimikyu", " toxtricity", "eiscue", "indeedee", "morpeko", "urshifu", "basculegion", "enamorus" };
+        private static readonly List<string> _FixedNames = new() { "deoxys-attack", "wormadam-trash", "giratina-origin", "shaymin-sky", "basculin-blue-striped", "darmanitan-standard", "tornadus-therian", "tornadus-therian", "tornadus-therian", "keledo-resolute", "meloetta-aria", "meowstic-female", "aegislash-shield", "pumpkaboo-average", "gourgeist-average", "zygarde-complete", "oricorio-baile", "lycanroc-midnight", "wishiwashi-school", "", "mimikyu-busted", "toxtricity-low-key", "eiscue-ice", "indeedee-male", "morpeko-full-belly", "urshifu-rapid-strike", "basculegion-male", "enamorus-incarnate" };
+
+        
+        public static async Task Initialize(HttpClient httpClient, PokeApiClient PokeClient, int initialLanguageColumn = 0)
         {
+            // Load pokedex data
+            List<string> tempPokemonNames = new List<string>();
+            Pokedex pokedex = await PokeClient.GetResourceAsync<Pokedex>(1);
+            foreach(PokemonEntry pokemon in pokedex.PokemonEntries)
+            {
+                tempPokemonNames.Add(pokemon.PokemonSpecies.Name);
+            }
+
+            Dictionary<string, string> baseNameToLookupName = new();
+
+            List<string> tempNamesToRemove = new();
+            foreach (string pokemonName in tempPokemonNames)
+            {
+                int index = _UnFixedNames.IndexOf(pokemonName);
+                if (index >= 0)
+                {
+                    string? fixedPokemonName = _FixedNames[index];
+                    //Only add the fixed name if a solution has been found!
+                    if (fixedPokemonName is not null && !fixedPokemonName.Equals(string.Empty))
+                    {
+                        baseNameToLookupName.Add(pokemonName, fixedPokemonName);
+                    }
+                }
+                else
+                {
+                    baseNameToLookupName.Add(pokemonName, pokemonName);
+                }
+            }
+            tempPokemonNames.RemoveAll(name => tempNamesToRemove.Contains(name));
+            
+
             Console.WriteLine($"Attempting to fetch file '{POKEMON_NAMES_FILE}'");
             string str = await httpClient.GetStringAsync(POKEMON_NAMES_FILE);
 
@@ -48,7 +89,7 @@ namespace Pokewordle.Shared.Util
                         .Replace(":", "")
                         .Replace('é', 'e')
                         .Replace(' ', '-');
-                    if (baseNameToValidName.TryGetValue(baseName, out string validName))
+                    if (baseNameToLookupName.TryGetValue(baseName, out string? validName) && validName is not null)
                     {
                         s_BaseNamesToLookupName[baseName] = validName;
                         s_LookupNamesToBaseName[validName] = baseName;
@@ -61,7 +102,7 @@ namespace Pokewordle.Shared.Util
 
             if (loadedColumn == 0)
             {
-                await LoadLanguage(httpClient, 1);
+                await LoadLanguage(httpClient, initialLanguageColumn);
             }
         }
 

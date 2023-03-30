@@ -4,6 +4,13 @@
     {
         public static readonly List<ColumnType> GameColumnTypes = new() { ColumnType.SPRITE, ColumnType.NAME_LOCAL, ColumnType.GENERATION, ColumnType.TYPES, ColumnType.ABILITIES, ColumnType.MAXSTATS, ColumnType.HEIGHT };
 
+        public static readonly List<string> Languages = new()
+            { "english", "japanese", "french", "german", "spanish", "italian", "korean", "chinese" };
+        
+        public static string SelectedLanguage = "english";
+        
+        public static Theme SelectedTheme = Theme.Forest;
+
         /// <summary>
         /// Allow the Player to set an amount of fields that will randomly be selected to be hidden per guess.
         /// </summary>
