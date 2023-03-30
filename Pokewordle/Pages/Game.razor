@@ -113,7 +113,6 @@
         tempPokemonNames.RemoveAll(name => tempNamesToRemove.Contains(name));
 
         await Translations.Initialize(HttpClient, baseNameToLookupName);
-        await Translations.LoadLanguage(HttpClient, 4);
         _pokemonTypes.Clear();
         _pokemonTypes.AddRange(Translations.GetTranslatedNames());
         //foreach(string name in Translations.GetTranslatedNames())

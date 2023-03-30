@@ -14,6 +14,7 @@ namespace Pokewordle.Shared.Util
         private static readonly Dictionary<string, string> s_BaseNameToTranslatedName = new();
         private static readonly Dictionary<string, string> s_TranslatedNameToBaseName = new();
         private static readonly Dictionary<string, string> s_BaseNamesToLookupName = new();
+        private static int loadedColumn = 0;
 
         public static async Task Initialize(HttpClient httpClient, IDictionary<string, string> baseNameToValidName)
         {
@@ -54,13 +55,18 @@ namespace Pokewordle.Shared.Util
                     }
                 }
             }
+
+            if (loadedColumn == 0)
+            {
+                await LoadLanguage(httpClient, 1);
+            }
         }
 
 
 
         public static async Task LoadLanguage(HttpClient httpClient, int languageColumn)
         {
-            Console.WriteLine($"Attempting to fetch file '{POKEMON_NAMES_FILE}'");
+            Console.WriteLine($"Attempting to fetch language file '{POKEMON_NAMES_FILE}' with lang column {languageColumn}");
             string str = await httpClient.GetStringAsync(POKEMON_NAMES_FILE);
 
             if (str is null)
@@ -68,6 +74,8 @@ namespace Pokewordle.Shared.Util
                 Console.WriteLine("Failed to fetch language file");
                 return;
             }
+
+            loadedColumn = languageColumn;
 
             byte[] byteArray = Encoding.UTF8.GetBytes(str);
             using MemoryStream stream = new(byteArray);

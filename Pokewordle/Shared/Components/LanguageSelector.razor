@@ -65,16 +65,16 @@
     NeutralFillRest NeutralFillRest { get; set; } = default!;
 
 
-    private void ValueChangedHandler(string? value)
+    private async Task ValueChangedHandler(string? value)
     {
         if (value == null) return;
 
         int index = Languages.IndexOf(value);
 
-        Translations.LoadLanguage(httpClient, index + 1);
+        await Translations.LoadLanguage(httpClient, index + 1);
 
         // Invoke the ValueChanged event callback
-        ValueChanged.InvokeAsync(value);
+        await ValueChanged.InvokeAsync(value);
     }
 
 
