@@ -16,10 +16,9 @@
     <link href="/css/pokecss/table.css" rel="stylesheet"/>
     @if (_pokemonToGuess == null)
     {
-        
         <div style="display: grid; height: 100vh; justify-items: center; align-content: center;">
-                <FluentProgressRing @ref="_FluentProgressRing" style="width: 10em; height: 10em;"></FluentProgressRing>
-        </div> 
+            <FluentProgressRing @ref="_FluentProgressRing" style="width: 10em; height: 10em;"></FluentProgressRing>
+        </div>
     }
     else
     {
@@ -50,6 +49,10 @@
 
 @code
 {
+    [Inject]
+    private AccentBaseColor AccentBaseColor { get; set; } = default!;
+
+    private FluentProgressRing _FluentProgressRing;
 
     private PokemonGuessForm? _pokemonGuessForm;
 
@@ -63,18 +66,18 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // Load pokedex data
+    // Load pokedex data
         Pokedex pokedex = await PokeClient.GetResourceAsync<Pokedex>(1);
         _pokemonTypes = pokedex.PokemonEntries.Select(p => p.PokemonSpecies.Name).ToList();
 
         System.Random random = new();
         _pokemonToGuess = await LoadPokemon(_pokemonTypes[random.Next(_pokemonTypes.Count)]);
         Console.WriteLine(_pokemonTypes.Count);
-        // await AttemptGuess("Venusaur");
-        // await AttemptGuess("Charizard");
-        // await AttemptGuess("Blastoise");
-        // await AttemptGuess("Machoke");
-        // await AttemptGuess("Scizor");
+    // await AttemptGuess("Venusaur");
+    // await AttemptGuess("Charizard");
+    // await AttemptGuess("Blastoise");
+    // await AttemptGuess("Machoke");
+    // await AttemptGuess("Scizor");
 
         if (HttpClient is null)
         {
@@ -82,7 +85,6 @@
         }
 
         Translations.LoadLanguage(HttpClient, 4);
-
     }
 
     private void AddGuessedPokemon(IPokeData guessPokeData)
@@ -131,7 +133,7 @@
     {
         _pokemonGuessForm?.Disable();
     }
-    
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
