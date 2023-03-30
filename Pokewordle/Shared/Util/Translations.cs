@@ -9,7 +9,7 @@ namespace Pokewordle.Shared.Util
 {
     public static class Translations
     {
-        private const string POKEMON_NAMES_FILE = @"Resources/LangugagePokemonNames.csv";
+        private const string POKEMON_NAMES_FILE = @"Resources/LanguagePokemonNames.csv";
         private const string CSV_DELIMITERS = ",";
         private static readonly Dictionary<string, string> s_BaseNameToTranslatedName = new();
         private static readonly Dictionary<string, string> s_TranslatedNameToBaseName = new();

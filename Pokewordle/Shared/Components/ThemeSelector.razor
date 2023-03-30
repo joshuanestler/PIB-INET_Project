@@ -2,16 +2,20 @@
 @using Microsoft.Fast.Components.FluentUI
 @using Microsoft.Fast.Components.FluentUI.DesignTokens
 @using Pokewordle.Shared.Extensions
+@using Pokewordle.Shared.Services
 @using Color = System.Drawing.Color
 @using Pokewordle.Shared.Util;
 @inject HttpClient httpClient;
 @inject NavigationManager NavigationManager;
+@inject SettingsService SettingsService;
 
 
 <link href="/css/pokecss/SearchBox.css" rel="stylesheet"/>
 <div id="language-input fluent-combo-box">
-    <FluentCombobox @ref="ThemeComboBox" TOption="string" Items="@themeNames"
+    <FluentCombobox @ref="ThemeComboBox" TOption="Theme" Items="@themes" 
+                    bind-Value="@selectedTheme"
                     Autocomplete="ComboboxAutocomplete.Both" OptionText="s => s.ToString()"
+                    @* Below is not necessarily a bug. It works *@
                     SelectedOptionChanged="ValueChangedHandler"
                     Appearance="Appearance.Filled"
                     Id="theme-input" Style="width:13rem; height: 2rem">
@@ -20,15 +24,11 @@
 
 
 @code {
-    private FluentCombobox<string> ThemeComboBox;
-
-    [Parameter]
-    [Required]
-    public List<string> Languages { get; set; } = new() { "english", "japanese", "french", "german", "espanol", "italian", "korean", "chinese" };
-
-    [Parameter]
-    [Required]
-    public EventCallback<string> ValueChanged { get; set; }
+    private FluentCombobox<Theme> ThemeComboBox;
+    
+    private Theme selectedTheme = Theme.Forest;
+    
+    private List<Theme> themes = Enum.GetValues<Theme>().ToList();
 
     public List<string> themeNames { get; set; }
 
@@ -66,32 +66,19 @@
     [Inject]
     NeutralFillRest NeutralFillRest { get; set; } = default!;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         themeNames = Enum.GetNames<Theme>().ToList();
+        
+        Enum.TryParse<Theme>(await SettingsService.GetSettingAsync("theme"), out selectedTheme);
     }
 
-    private async Task ValueChangedHandler(string? value)
+    private async void ValueChangedHandler(Theme value)
     {
-        if (value == null)
-        {
-            return;
-        }
-        
-        if (!Enum.TryParse<Theme>(value.AsSpan(), true, out Theme theme))
-        {
-            if (value is null)
-            {
-                Console.WriteLine("could not parse args.Value because it was null");
-            }
-            else
-            {
-                Console.WriteLine($"could not parse {value}");
-            }
-            return;
-        }
 
-        SharedThemeSetting.theme = theme;
+        SettingsService.SetSettingAsync("theme", value.ToString());
+
+        SharedThemeSetting.theme = value;
         NavigationManager.NavigateTo("/settings");
     }
 

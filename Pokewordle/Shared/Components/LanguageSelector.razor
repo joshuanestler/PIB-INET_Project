@@ -2,14 +2,16 @@
 @using Microsoft.Fast.Components.FluentUI
 @using Microsoft.Fast.Components.FluentUI.DesignTokens
 @using Pokewordle.Shared.Extensions
+@using Pokewordle.Shared.Services
 @using Color = System.Drawing.Color
 @using Pokewordle.Shared.Util;
 @inject HttpClient httpClient;
+@inject SettingsService SettingsService;
 
 
 <link href="/css/pokecss/SearchBox.css" rel="stylesheet" />
 <div id="language-input fluent-combo-box">
-    <FluentCombobox @ref="LanguageComboBox" TOption="string" Items="Languages"
+    <FluentCombobox @ref="_languageComboBox" TOption="string" Items="SharedSettings.Languages"
                     Autocomplete="ComboboxAutocomplete.Both" OptionText="s => s.FirstCharToUpper()"
                     SelectedOptionChanged="ValueChangedHandler"
                     Appearance="Appearance.Filled"
@@ -20,16 +22,7 @@
 
 
 @code {
-    private FluentCombobox<string> LanguageComboBox;
-
-    [Parameter]
-    [Required]
-    public List<string> Languages { get; set; } = new() { "english", "japanese", "french", "german", "espanol", "italian", "korean", "chinese" };
-
-    [Parameter]
-    [Required]
-    public EventCallback<string> ValueChanged { get; set; }
-
+    private FluentCombobox<string> _languageComboBox;
 
 
     // fluentui design tokens
@@ -64,17 +57,15 @@
     [Inject]
     NeutralFillRest NeutralFillRest { get; set; } = default!;
 
-
     private async Task ValueChangedHandler(string? value)
     {
         if (value == null) return;
 
-        int index = Languages.IndexOf(value);
+        int index = SharedSettings.Languages.IndexOf(value);
+        
+        SettingsService.SetSettingAsync("language", value);
 
         await Translations.LoadLanguage(httpClient, index + 1);
-
-        // Invoke the ValueChanged event callback
-        await ValueChanged.InvokeAsync(value);
     }
 
 
@@ -85,9 +76,9 @@
             //Set to dark mode
             // await BaseLayerLuminance.SetValueFor(ref1!.Element, (float)0.15);
 
-            await AccentBaseColor.SetValueFor(LanguageComboBox!.Element, "#0c4337".ToSwatch());
-            await BaseLayerLuminance.SetValueFor(LanguageComboBox!.Element, (float)0.15);
-            await NeutralBaseColor.SetValueFor(LanguageComboBox!.Element, "#2b3539".ToSwatch());
+            await AccentBaseColor.SetValueFor(_languageComboBox!.Element, "#0c4337".ToSwatch());
+            await BaseLayerLuminance.SetValueFor(_languageComboBox!.Element, (float)0.15);
+            await NeutralBaseColor.SetValueFor(_languageComboBox!.Element, "#2b3539".ToSwatch());
 
             StateHasChanged();
         }

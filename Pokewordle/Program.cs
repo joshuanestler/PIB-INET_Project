@@ -4,14 +4,17 @@ using Microsoft.Fast.Components.FluentUI;
 using PokeApiNet;
 using Pokewordle;
 using Pokewordle.Shared;
+using Pokewordle.Shared.Services;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
-var builder = WebAssemblyHostBuilder.CreateDefault(args);
+WebAssemblyHostBuilder builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 HttpClient httpClient = new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) };
-//BRUH NOT ALLOWED CLIENT SIDE httpClient.DefaultRequestHeaders.Add("Access-Control-Allow-Origin", "*");
 PokeApiClient pokeApiClient = new PokeApiClient();
+
+builder.Services.AddSingleton<SettingsService>();
 
 builder.Services.AddScoped(sp => httpClient);
 builder.Services.AddScoped(sp => pokeApiClient);

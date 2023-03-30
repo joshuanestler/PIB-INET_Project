@@ -1,4 +1,9 @@
-﻿<Router AppAssembly="@typeof(App).Assembly">
+﻿@using Pokewordle.Shared.Services
+@using Pokewordle.Shared.Util
+@inject SettingsService SettingsService
+@inject HttpClient httpClient
+
+<Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
@@ -10,3 +15,20 @@
         </LayoutView>
     </NotFound>
 </Router>
+
+@code {
+
+    protected async void OnInitializedAsync() {
+        Enum.TryParse(await SettingsService.GetSettingAsync("theme"), out Theme theme);
+        SharedThemeSetting.theme = theme;
+        
+        string language = await SettingsService.GetSettingAsync("language");
+        if (language.Length < 1) {
+            language = SharedSettings.Languages[0];
+        }
+        
+                int index = SharedSettings.Languages.IndexOf(language);
+                await Translations.LoadLanguage(httpClient, index + 1);
+    }
+
+}
