@@ -15,8 +15,8 @@
     <div class="column-selection-wrapper">
         <p class="setting-title">Choose Game Columns</p>
         <div class="column-selection-container">
-            <div class="grid-content-wrapper">
-                <div class="shown-columns column-container">
+            <div class="grid-content-wrapper darken-25 round-border-10">
+                <div class="shown-columns column-container lighten-25">
                     <p class="column-container-title">Shown Columns</p>
                     <div class="column-list">
                         @for (int i = 0; i < _selectedColumnTypes.Count; i++)
@@ -45,7 +45,7 @@
                     </div>
                 </div>
                 @* <div style="float: left; width: 100px"></div> *@
-                <div class="hidden-columns column-container">
+                <div class="hidden-columns column-container lighten-25">
                     <p class="column-container-title">Other Columns</p>
                     <div class="column-list">
                         @foreach (ColumnType columnType in Enum.GetValues<ColumnType>())
@@ -54,7 +54,7 @@
                             {
                                 if (_selectedType == columnType)
                                 {
-                                    <div class="selectedColumnToInsert" onclick="@(() => SelectColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</div>
+                                    <div class="selectedColumnToInsert lighten-25" onclick="@(() => SelectColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</div>
                                 }
                                 else
                                 {

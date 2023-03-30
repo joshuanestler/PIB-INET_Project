@@ -1,0 +1,75 @@
+.no-padding {
+    padding: 0px;
+}
+
+.round-border-10 {
+    border-radius: 10px;
+}
+
+.round-border-5 {
+    border-radius: 5px;
+}
+
+.darken-45 {
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.darken-40 {
+    background: rgba(0, 0, 0, 0.40);
+}
+
+.darken-35 {
+    background: rgba(0, 0, 0, 0.35);
+}
+
+.darken-30 {
+    background: rgba(0, 0, 0, 0.30);
+}
+
+.darken-25 {
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.darken-20 {
+    background: rgba(0, 0, 0, 0.20);
+}
+
+.darken-15 {
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.darken-10 {
+    background: rgba(0, 0, 0, 0.10);
+}
+
+.lighten-45 {
+    background: rgba(255, 255, 255, 0.45);
+}
+
+.lighten-40 {
+    background: rgba(255, 255, 255, 0.40);
+}
+
+.lighten-35 {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+.lighten-30 {
+    background: rgba(255, 255, 255, 0.30);
+}
+
+.lighten-25 {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.lighten-20 {
+    background: rgba(255, 255, 255, 0.20);
+}
+
+.lighten-15 {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.lighten-10 {
+    background: rgba(255, 255, 255, 0.10);
+}

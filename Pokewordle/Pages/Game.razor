@@ -22,13 +22,13 @@
     }
     else
     {
-        <div id="game-container">
+        <div id="game-container" class="round-border-10">
             <h1 class="game-title">Guess a Pokemon</h1>
 
 
             <PokemonGuessForm @ref="_pokemonGuessForm" ValueChanged="AttemptGuess" PokemonNames="_pokemonTypes"></PokemonGuessForm>
             <FluentButton onclick="@(() => RevealButtonClick())">¯\_(ツ)_/¯</FluentButton>
-            <table id="game-table">
+            <table id="game-table" class="lighten-10 round-border-10">
                 <thead>
                     @(
                         (MarkupString)HeaderGenerator.ToHeaderString(SharedSettings.GameColumnTypes)
