@@ -2,7 +2,7 @@
 @using Pokewordle.Shared.Util;
 
 @* <div class="cell-wrapper"> *@
-@if (ObfuscationIndex < SharedSettings.Obfuscation)
+@if (ObfuscationIndex < SharedSettings.Obfuscation && !IsSolution)
 {
     <td style="background-color: #001020;filter: blur(3px); font-size: xx-large;">?</td>
 } else
@@ -36,4 +36,8 @@
     [Parameter]
     [EditorRequired]
     public int ObfuscationIndex { get; set; } = int.MaxValue;
+
+    [Parameter]
+    [EditorRequired]
+    public bool IsSolution { get; set; }
 }

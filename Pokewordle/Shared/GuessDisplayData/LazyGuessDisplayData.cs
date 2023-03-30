@@ -16,10 +16,14 @@ namespace Pokewordle.Shared.GuessDisplayData
         private readonly IPokeData pokeDataGuessed;
         private readonly IPokeData pokeDataToGuess;
 
+        public bool IsCorrect { get; }
+
         public LazyGuessDisplayData(IPokeData pokeDataToGuess, IPokeData pokeDataGuessed)
         {
             this.pokeDataToGuess = pokeDataToGuess ?? throw new ArgumentNullException("Pokemon to guess was null!");
             this.pokeDataGuessed = pokeDataGuessed ?? throw new ArgumentNullException("Pokemon guessed was null!");
+
+            IsCorrect = pokeDataToGuess.Name.Equals(pokeDataGuessed.Name);
 
             List<ColumnType> columnTypes = Enum.GetValues<ColumnType>().ToList();
             columnTypes.Remove(ColumnType.NAME);
@@ -220,6 +224,11 @@ namespace Pokewordle.Shared.GuessDisplayData
         public string GetPokemonName()
         {
             return pokeDataGuessed.Name;
+        }
+
+        public bool GetIsCorrect()
+        {
+            return IsCorrect;
         }
     }
 }

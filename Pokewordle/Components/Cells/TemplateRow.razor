@@ -16,7 +16,7 @@
             {
                 ICellData tableCell = TableCells[i];
                 int obfuscationIndex = ObfuscationList is not null ? ObfuscationList.IndexOf(tableCell.ColumnType) : int.MaxValue;
-                <TemplateCell TableCell=tableCell ObfuscationIndex="obfuscationIndex"></TemplateCell>
+                <TemplateCell TableCell=tableCell ObfuscationIndex="obfuscationIndex" IsSolution=IsSolution></TemplateCell>
             }
         }
     </tr>
@@ -32,6 +32,10 @@
     [Parameter]
     [EditorRequired]
     public bool Visible { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public bool IsSolution { get; set; }
 
     [Parameter]
     [EditorRequired]

@@ -22,13 +22,12 @@
     }
     else
     {
-        Console.WriteLine("============================");
         <div id="game-container">
             <h1 class="game-title">Guess a Pokemon</h1>
 
 
             <PokemonGuessForm @ref="_pokemonGuessForm" ValueChanged="AttemptGuess" PokemonNames="_pokemonTypes"></PokemonGuessForm>
-
+            <FluentButton onclick="@(() => RevealButtonClick())">¯\_(ツ)_/¯</FluentButton>
             <table id="game-table">
                 <thead>
                     @(
@@ -48,7 +47,7 @@
                         Console.WriteLine(guess.GetPokemonName());
                         //Console.WriteLine(guess.ToRowString(displayedColumns));
                         //@((MarkupString)guess.ToRowString(displayedColumns));
-                        <TemplateRow TableCellsTask=@guess.GetRowCells(SharedSettings.GameColumnTypes) ObfuscationList="@guess.GetObfuscationOrder(SharedSettings.GameColumnTypes)" Visible=visible></TemplateRow>
+                        <TemplateRow TableCellsTask=@guess.GetRowCells(SharedSettings.GameColumnTypes) ObfuscationList="@guess.GetObfuscationOrder(SharedSettings.GameColumnTypes)" IsSolution=guess.GetIsCorrect() Visible=visible></TemplateRow>
                     }
                 </tbody>
             </table>
@@ -66,11 +65,13 @@
 
     private PokemonGuessForm? _pokemonGuessForm;
 
+    private List<string> _pokemonTypes = new();
+
+    private bool _guessing = false;
     private IPokeData? _pokemonToGuess;
     private Dictionary<string, IPokeData> _pokemonsGuessed = new();
     private readonly List<IGuessDisplayData> _displayData = new();
 
-    private List<string> _pokemonTypes = new();
 
     /// <summary>
     /// Pokemons which have forms cannot be requested simply by their species name unfortunately
@@ -82,18 +83,16 @@
     protected override async Task OnInitializedAsync()
     {
         // Load pokedex data
-        Console.WriteLine("A");
-        _pokemonTypes = new();
-        Console.WriteLine("B");
         List<string> tempPokemonNames = new List<string>();
-        Console.WriteLine("C");
         Pokedex pokedex = await PokeClient.GetResourceAsync<Pokedex>(1);
-        Console.WriteLine("D");
         foreach(PokemonEntry pokemon in pokedex.PokemonEntries)
         {
             tempPokemonNames.Add(pokemon.PokemonSpecies.Name);
         }
-        Console.WriteLine("E");
+
+        Dictionary<string, string> baseNameToLookupName = new();
+
+        List<string> tempNamesToRemove = new();
         foreach (string pokemonName in tempPokemonNames)
         {
             int index = _UnFixedNames.IndexOf(pokemonName);
@@ -103,18 +102,29 @@
                 //Only add the fixed name if a solution has been found!
                 if (fixedPokemonName is not null && !fixedPokemonName.Equals(string.Empty))
                 {
-                    _pokemonTypes.Add(fixedPokemonName);
+                    baseNameToLookupName.Add(pokemonName, fixedPokemonName);
                 }
             }
             else
             {
-                _pokemonTypes.Add(pokemonName);
+                baseNameToLookupName.Add(pokemonName, pokemonName);
             }
         }
-        Console.WriteLine("F");
+        tempPokemonNames.RemoveAll(name => tempNamesToRemove.Contains(name));
 
-        System.Random random = new();
-        _pokemonToGuess = await LoadPokemon(_pokemonTypes[random.Next(_pokemonTypes.Count)]);
+        await Translations.Initialize(HttpClient, baseNameToLookupName);
+        await Translations.LoadLanguage(HttpClient, 4);
+        _pokemonTypes.Clear();
+        _pokemonTypes.AddRange(Translations.GetTranslatedNames());
+        //foreach(string name in Translations.GetTranslatedNames())
+        //{
+        //    Console.WriteLine(name);
+        //}
+        //if (this._pokemonGuessForm is not null)
+        //{
+        //    this._pokemonGuessForm.PokemonNames = _pokemonTypes;
+        //}
+        await Reset();
         // await AttemptGuess("Venusaur");
         // await AttemptGuess("Charizard");
         // await AttemptGuess("Blastoise");
@@ -126,8 +136,21 @@
             Console.WriteLine("Client is null");
         }
 
-        Translations.LoadLanguage(HttpClient, 4);
     }
+
+    private async Task Reset()
+    {
+        _pokemonsGuessed.Clear();
+        _displayData.Clear();
+
+        System.Random random = new();
+        _pokemonToGuess = await LoadPokemon(Translations.GetRandomLookupName());
+        _guessing = true;
+        _pokemonGuessForm?.Enable();
+        StateHasChanged();
+
+    }
+
 
     private void AddGuessedPokemon(string guessedName, IPokeData guessPokeData)
     {
@@ -138,9 +161,9 @@
 
         IGuessDisplayData guessDisplayData = new LazyGuessDisplayData(_pokemonToGuess, guessPokeData);
         _displayData.Add(guessDisplayData);
-        _pokemonsGuessed.Add(guessedName, guessPokeData);
+        _pokemonsGuessed[guessedName] = guessPokeData;
 
-        if (guessPokeData.Name == _pokemonToGuess.Name)
+        if (guessDisplayData.GetIsCorrect())
         {
             WinGame();
         }
@@ -148,12 +171,14 @@
 
     private async Task AttemptGuess(string name)
     {
-        if (_pokemonsGuessed.ContainsKey(name) && !SharedSettings.AllowDuplicateGuesses)
+        string englishName = Translations.TranslateToEnglish(name);
+        string lookupName = Translations.GetLookupName(englishName);
+        if (_pokemonsGuessed.ContainsKey(lookupName) && !SharedSettings.AllowDuplicateGuesses)
         {
             return;
         }
-        IPokeData guessPokeData = await LoadPokemon(name);
-        AddGuessedPokemon(name, guessPokeData);
+        IPokeData guessPokeData = await LoadPokemon(lookupName);
+        AddGuessedPokemon(lookupName, guessPokeData);
     }
 
     private async Task<IPokeData> LoadPokemon(int id)
@@ -172,6 +197,7 @@
     private void WinGame()
     {
         _pokemonGuessForm?.Disable();
+        _guessing = false;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -181,5 +207,15 @@
             await AccentBaseColor.SetValueFor(_FluentProgressRing!.Element, "#064c3a".ToSwatch());
             StateHasChanged();
         }
+    }
+
+    private async void RevealButtonClick()
+    {
+        if (!_guessing)
+        {
+            await Reset();
+            return;
+        }
+        AddGuessedPokemon(_pokemonToGuess.Name, _pokemonToGuess);
     }
 }

@@ -90,7 +90,13 @@
     public void Disable() {
         PokemonNameGuessBox.Disabled = true;
     }
-    
+
+
+    public void Enable()
+    {
+        PokemonNameGuessBox.Disabled = false;
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)

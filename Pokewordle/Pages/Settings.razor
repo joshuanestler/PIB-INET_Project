@@ -1,4 +1,5 @@
 ﻿@page "/settings"
+@using Pokewordle.Shared.Components
 @using Pokewordle.Shared.Util;
 
 <PageTitle>Settings</PageTitle>
@@ -6,7 +7,9 @@
 <div class="content">
     <div class="language-wrapper">
         <p class="setting-title">Language</p>
-        <div class="language-container"></div>
+        <div class="language-container">
+            <LanguageSelector></LanguageSelector>
+        </div>
     </div>
 
     <div class="column-selection-wrapper">
@@ -73,8 +76,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        SharedSettings.GameColumnTypes.Clear();
-        SharedSettings.GameColumnTypes.AddRange(new ColumnType[] { ColumnType.SPRITE, ColumnType.NAME, ColumnType.GENERATION, ColumnType.TYPES, ColumnType.ABILITIES, ColumnType.SPRITE });
+        
     }
 
     private void DisableColumnHeader(ColumnType columnType)
