@@ -8,14 +8,52 @@
 
 <p>Choose Game Columns</p>
 
-<ul>
-    <li>One</li>
-    <li>Two</li>
-    <li>Three</li>
-</ul>
+<div style="display: flex">
+    <div>
+        <p>Shown Columns</p>
+        <ul>
+            @for(int i = 0; i < _selectedColumnTypes.Count; i++)
+            {
+                ColumnType columnType = _selectedColumnTypes[i];
+                if (_selectedType is not null)
+                {
+                    <li class="insertAppend" onclick="@(() => InsertSelectedHeader(columnType))">Insert</li>
+                }
+                <li class="displayedColumn" onclick="@(() => DisableColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</li>
+            }
+            @if (_selectedType is not null)
+            {
+                <li class="insertAppend" onclick="@(() => AppendSelectedHeader())">Append</li>
+            }
+        </ul>
+    </div>
+    <div style="float: left; width: 100px"></div>
+    <div style="float: left">
+        <p>Other Columns</p>
+        <ul>
+            @foreach(ColumnType columnType in Enum.GetValues<ColumnType>())
+            {
+                if (!_selectedColumnTypes.Contains(columnType))
+                {
+                    if (_selectedType == columnType)
+                    {
+                        <li class="selectedColumnToInsert" style="background-color: #FFFFFF" onclick="@(() => SelectColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</li>
+                    } else
+                    {
+                        <li class="hiddenColumns" onclick="@(() => SelectColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</li>
+                    }
+                }
+            }
+        </ul>
+    </div>
+
+</div>
+
 
 @code
 {
+    private readonly List<ColumnType> _selectedColumnTypes = SharedSettings.GameColumnTypes.ToList();
+    private ColumnType? _selectedType = null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -23,6 +61,63 @@
         SharedSettings.GameColumnTypes.Clear();
         SharedSettings.GameColumnTypes.AddRange(new ColumnType[] { ColumnType.SPRITE, ColumnType.NAME, ColumnType.GENERATION, ColumnType.TYPES, ColumnType.ABILITIES, ColumnType.SPRITE });
 
+    }
+
+    private void DisableColumnHeader(ColumnType columnType)
+    {
+        //Console.WriteLine($"Click: {columnType}");
+        _selectedColumnTypes.Remove(columnType);
+        UpdateColumnSettings();
+        StateHasChanged();
+    }
+
+    private void EnableColumnHeader(ColumnType columnType, int index)
+    {
+        //Console.WriteLine($"Click: {columnType}");
+        _selectedColumnTypes.Insert(index, columnType);
+        UpdateColumnSettings();
+        StateHasChanged();
+    }
+
+    private void InsertSelectedHeader(ColumnType before)
+    {
+        if (_selectedType is ColumnType columnType)
+        {
+            int index = _selectedColumnTypes.IndexOf(before);
+            Console.WriteLine($"Inserting {columnType}");
+            EnableColumnHeader(columnType, index);
+            _selectedType = null;
+        }
+        StateHasChanged();
+    }
+
+    private void SelectColumnHeader(ColumnType columnType)
+    {
+        if (_selectedType != columnType)
+        {
+            _selectedType = columnType;
+            StateHasChanged();
+            return;
+        }
+        AppendSelectedHeader();
+
+    }
+
+    private void AppendSelectedHeader()
+    {
+        if (_selectedType is ColumnType columnType)
+        {
+            _selectedColumnTypes.Add(columnType);
+            _selectedType = null;
+            UpdateColumnSettings();
+            StateHasChanged();
+        }
+    }
+
+    private void UpdateColumnSettings()
+    {
+        SharedSettings.GameColumnTypes.Clear();
+        SharedSettings.GameColumnTypes.AddRange(_selectedColumnTypes);
     }
 
 }

@@ -41,6 +41,18 @@ namespace Pokewordle.Shared
             {ColumnType.ABILITIES, "Abilities"},
         };
 
+        public static string GetHeader(ColumnType columnType)
+        {
+            if (s_Headers.TryGetValue(columnType, out string? header) && header is not null)
+            {
+                return header;
+            }
+            else
+            {
+                return "ERROR";
+            }
+        }
+
         public static string ToHeaderString(IEnumerable<ColumnType> columnTypes)
         {
             StringBuilder sb = new();
@@ -49,13 +61,7 @@ namespace Pokewordle.Shared
             {
                 // sb.Append($"<th style=\"min-width: {GetColumnWidth(columnType)}em; max-width: {GetColumnWidth(columnType)}em;\">");
                 sb.Append($"<th style=\"width: {GetColumnWidth(columnType)}em \">");
-                if (s_Headers.TryGetValue(columnType, out string? header) && header is not null)
-                {
-                    sb.Append(header);
-                } else
-                {
-                    sb.Append("ERROR");
-                }
+                sb.Append(GetHeader(columnType));
                 sb.AppendLine("</th>");
                 //sb.AppendLine("<th/>");
             }

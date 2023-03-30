@@ -6,6 +6,7 @@
 @using Microsoft.Fast.Components.FluentUI;
 @using Pokewordle.Shared.Util;
 @inject PokeApiClient PokeClient
+@inject HttpClient HttpClient;
 
 <div class="page-content">
     <PageTitle>Guess a Pokemon</PageTitle>
@@ -73,6 +74,14 @@
         // await AttemptGuess("Blastoise");
         // await AttemptGuess("Machoke");
         // await AttemptGuess("Scizor");
+
+        if (HttpClient is null)
+        {
+            Console.WriteLine("Client is null");
+        }
+
+        Translations.LoadLanguage(HttpClient, 4);
+
     }
 
     private void AddGuessedPokemon(IPokeData guessPokeData)
