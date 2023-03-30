@@ -1,8 +1,21 @@
-﻿@inherits LayoutComponentBase
+﻿@using Pokewordle.Shared.Util
+@inherits LayoutComponentBase
 
+@switch (SharedThemeSetting.theme)
+{
+    case Theme.Forest:
+        <link href="css/pokecss/themes/forest.css" rel="stylesheet"/>
+        break;
+
+    case Theme.Vaporwave:
+        <link href="css/pokecss/themes/vaporwave.css" rel="stylesheet"/>
+        break;
+}
+
+@* <link href="css/pokecss/forest.css" rel="stylesheet"/> *@
 <div class="page">
     <div class="sidebar">
-        <NavMenu />
+        <NavMenu/>
     </div>
 
     <main>

@@ -1,5 +1,6 @@
 ﻿.content {
     text-align: center;
+    padding: 2rem;
 }
 
 .setting-title {
@@ -8,7 +9,18 @@
     margin-bottom: 1rem;
 }
 
-.column-selection-container {
+.setting-wrapper {
+    margin: 2rem;
+}
+
+.page-title {
+    font-size: 3rem;
+    font-weight: bolder;
+    margin-bottom: 1rem;
+}
+
+
+.setting-grid-container {
     /*display: grid;*/
     /*gap: 2rem;*/
     /*grid-gap: 2rem;*/
@@ -69,8 +81,23 @@
 
 .grid-content-wrapper {
     display: flex;
+    /*flex-direction: column;*/
     /*background: rgba(255,255,255,0.25);*/
     /*background: rgba(0,0,0,0.25);*/
     padding: 1rem;
     /*border-radius: 10px;*/
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    /*background: rgba(255,255,255,0.25);*/
+    /*background: rgba(0,0,0,0.25);*/
+    padding: 1rem;
+    /*border-radius: 10px;*/
+}
+
+.miscellaneous-settings-container {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
 }

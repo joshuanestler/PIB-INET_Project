@@ -1,20 +1,47 @@
 ﻿@page "/settings"
 @using Pokewordle.Shared.Components
 @using Pokewordle.Shared.Util;
+@inject NavigationManager NavigationManager;
 
 <PageTitle>Settings</PageTitle>
 
+<link href="/css/pokecss/settingsSearchbox.css" rel="stylesheet"/>
 <div class="content">
-    <div class="language-wrapper">
+    <h1 class="page-title">Settings</h1>
+    <div class="language-wrapper setting-wrapper">
         <p class="setting-title">Language</p>
         <div class="language-container">
-            <LanguageSelector></LanguageSelector>
+            <div class="searchbox">
+                <LanguageSelector></LanguageSelector>
+            </div>
         </div>
     </div>
 
-    <div class="column-selection-wrapper">
+    <div class="theme-wrapper setting-wrapper">
+        <p class="setting-title">Theme</p>
+        <div class="theme-container">
+            <div class="searchbox">
+                @* <form > *@
+                @* <select onchange="@SetTheme"> *@
+                @*     @foreach (Theme theme in Enum.GetValues<Theme>()) *@
+                @*     { *@
+                @*         <option value="@theme">@theme.ToString()</option> *@
+                @*          *@
+                @*     } *@
+                @* </select> *@
+                <ThemeSelector></ThemeSelector>
+                @* </form> *@
+
+                @* <button onclick="@(() => SetTheme(Theme.VAPORWAVE))"> *@
+                @*     SUPERTEXT *@
+                @* </button> *@
+            </div>
+        </div>
+    </div>
+
+    <div class="column-selection-wrapper setting-wrapper">
         <p class="setting-title">Choose Game Columns</p>
-        <div class="column-selection-container">
+        <div class="column-selection-container setting-grid-container">
             <div class="grid-content-wrapper darken-25 round-border-10">
                 <div class="shown-columns column-container lighten-25">
                     <p class="column-container-title">Shown Columns</p>
@@ -69,29 +96,97 @@
         </div>
     </div>
 
-    <div>
-        <InputNumber TValue="int" @bind-Value="@this._obfuscationValueProperty">Randomly Obfuscated Fields</InputNumber>
-    </div>
-    <div>
-        <InputNumber TValue="int" @bind-Value="@this._guessHistoryLimitProperty">Limit Visible Guess History</InputNumber>
-    </div>
-    <div>
-        <InputCheckbox @bind-Value="@this._allowDuplicateGuessesProperty">Allow Duplicate Guesses</InputCheckbox>
-    </div>
+
+    <div class="setting-wrapper">
+        <div class="darken-15 round-border-10">
+            <div class="miscellaneous-settings-container">
+            <div>
+                <p>Randomly obfuscate a number of fields per guess</p>
+                <InputNumber TValue="int" @bind-Value="@this._obfuscationValueProperty">Randomly Obfuscated Fields</InputNumber>
+            </div>
+
+            <div>
+                <p>Limit Visible Guess History</p>
+                <InputNumber TValue="int" @bind-Value="@this._guessHistoryLimitProperty">Limit Visible Guess History</InputNumber>
+            </div>
+
+            <div>
+                <p>Allow Duplicate Guesses</p>
+                <InputCheckbox @bind-Value="@this._allowDuplicateGuessesProperty">Allow Duplicate Guesses</InputCheckbox>
+            </div>
 </div>
+        </div>
+    </div>
+
+</div>
+
+@* *@
+@* <div> *@
+@*     <div class="setting-wrapper"> *@
+@*         <div class="setting-container"> *@
+@*             <p class="setting-title">Obfuscation</p> *@
+@*             <div class="setting-grid-container"> *@
+@*                 <div class="flex-column darken-25 round-border-10"> *@
+@*                     <p>Randomly obfuscate a number of fields per guess</p> *@
+@*                     <InputNumber TValue="int" @bind-Value="@this._obfuscationValueProperty">Randomly Obfuscated Fields</InputNumber> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
+@* <div> *@
+@*     <div class="setting-wrapper"> *@
+@*         <div class="setting-container"> *@
+@*             <p class="setting-title">History</p> *@
+@*             <div class="setting-grid-container"> *@
+@*                 <div class="flex-column darken-25 round-border-10"> *@
+@*                     <p>Limit Visible Guess History</p> *@
+@*                     <InputNumber TValue="int" @bind-Value="@this._guessHistoryLimitProperty">Limit Visible Guess History</InputNumber> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
+@* <div class="setting-wrapper"> *@
+@*     <div class="setting-container"> *@
+@*         <p class="setting-title">Duplicate Guesses</p> *@
+@*         <div class="setting-grid-container"> *@
+@*             <div class="flex-column darken-25 round-border-10"> *@
+@*                 <p>Allow Duplicate Guesses</p> *@
+@*                 <InputCheckbox @bind-Value="@this._allowDuplicateGuessesProperty">Allow Duplicate Guesses</InputCheckbox> *@
+@*             </div> *@
+@*         </div> *@
+@*         <div class="setting-wrapper"> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
 
 
 @code
 {
-    private int _obfuscationValueProperty { get => SharedSettings.Obfuscation; set => UpdateObfuscationValue(value); }
-    private int _guessHistoryLimitProperty { get => SharedSettings.GuessHistoryLimit; set => UpdateGuessHistoryLimit(value); }
-    private bool _allowDuplicateGuessesProperty { get => SharedSettings.AllowDuplicateGuesses; set => UpdateAllowDuplicateGuesses(value); }
+    private int _obfuscationValueProperty
+    {
+        get => SharedSettings.Obfuscation;
+        set => UpdateObfuscationValue(value);
+    }
+
+    private int _guessHistoryLimitProperty
+    {
+        get => SharedSettings.GuessHistoryLimit;
+        set => UpdateGuessHistoryLimit(value);
+    }
+
+    private bool _allowDuplicateGuessesProperty
+    {
+        get => SharedSettings.AllowDuplicateGuesses;
+        set => UpdateAllowDuplicateGuesses(value);
+    }
+
     private readonly List<ColumnType> _selectedColumnTypes = SharedSettings.GameColumnTypes.ToList();
     private ColumnType? _selectedType = null;
 
     protected override async Task OnInitializedAsync()
     {
-
     }
 
     private void DisableColumnHeader(ColumnType columnType)
@@ -168,6 +263,26 @@
     private void UpdateAllowDuplicateGuesses(bool value)
     {
         SharedSettings.AllowDuplicateGuesses = value;
+    }
+
+    private void SetTheme(ChangeEventArgs args)
+    {
+        Console.WriteLine(args.Value);
+        if (!Enum.TryParse<Theme>(((string)args.Value).AsSpan(), true, out Theme theme))
+        {
+            if (args.Value is null)
+            {
+                Console.WriteLine("could not parse args.Value because it was null");
+            }
+            else
+            {
+                Console.WriteLine($"could not parse {args.Value}");
+            }
+            return;
+        }
+
+        SharedThemeSetting.theme = theme;
+        NavigationManager.NavigateTo("/settings");
     }
 
 }
