@@ -1,0 +1,21 @@
+.sidebar {
+    /*background: linear-gradient(125deg, hsl(51, 64%, 35%) 20%, hsl(190, 92%, 35%) 100%);*/
+    /*background: linear-gradient(0deg, hsl(243, 100%, 7%) 0%, hsl(242, 97%, 15%) 100%);*/
+    background: linear-gradient(0deg, rgba(2,0,36,1) 0%, #015b82 100%);
+}
+
+.content {
+    /*background: linear-gradient(330deg, hsl(51, 64%, 22%) 0%, hsl(190, 92%, 22%) 100%);*/
+    /*background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(0,212,255,1) 100%);*/
+    /*background: linear-gradient(135deg, rgba(2,0,36,1) 0%, hsl(190, 100%, 40%) 140%);*/
+    background: linear-gradient(225deg, rgba(2,0,36,1) 0%, #015b82 140%);
+    /*background: linear-gradient(330deg, #d9bc31 0%, #00d4ff  100%);*/
+}
+
+#game-input ::part(control), .searchbox ::part(control) {
+    background: linear-gradient(120deg, #1c3d5e 0%, #1c2a4b 100%);
+}
+
+#game-input ::part(listbox), .searchbox ::part(listbox) {
+    background: linear-gradient(120deg, #1c3d5e 0%, #1c2a4b 100%);
+}
