@@ -68,13 +68,13 @@
     </div>
 
     <div>
-        <InputNumber TValue="int" @bind-Value="@this._obfuscationValueProperty"></InputNumber>
+        <InputNumber TValue="int" @bind-Value="@this._obfuscationValueProperty">Randomly Obfuscated Fields</InputNumber>
     </div>
     <div>
-        <InputNumber TValue="int" @bind-Value="@this._guessHistoryLimitProperty"></InputNumber>
+        <InputNumber TValue="int" @bind-Value="@this._guessHistoryLimitProperty">Limit Visible Guess History</InputNumber>
     </div>
     <div>
-        <InputCheckbox @bind-Value="@this._allowDuplicateGuessesProperty"></InputCheckbox>
+        <InputCheckbox @bind-Value="@this._allowDuplicateGuessesProperty">Allow Duplicate Guesses</InputCheckbox>
     </div>
 </div>
 
@@ -167,4 +167,5 @@
     {
         SharedSettings.AllowDuplicateGuesses = value;
     }
+
 }

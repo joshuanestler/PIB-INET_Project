@@ -43,7 +43,7 @@ namespace Pokewordle.Shared.PokemonData
         {
             this.pokeApiClient = pokeApiClient;
             this.apiPokemon = pokemon;
-
+            
             Name = apiPokemon.Name;
             Types = apiPokemon.Types.ConvertAll(type => type.Type.Name).ToImmutableList();
             FilledTypes =PokemonDataHelper.BuildTypeList(Types, 2);
