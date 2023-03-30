@@ -32,7 +32,8 @@
     /*background-color: #59726f;*/
     top: 3rem;
     height: 17.2rem;
-    width: 15rem;
+    width: 100%;
+    font-size: 1.2rem;
     /*align-self: center;*/
     text-align: center;
     /*padding: 50px;*/
@@ -42,7 +43,11 @@
     border-radius: 0 0 10px 10px;
     border: 1px solid black;
     /*padding: 0rem 1rem;*/
+    
+    overflow-x: auto;
+    scrollbar-width: none;
 }
+
 
 /*fluent-combobox {*/
 /*    color: lime;*/
@@ -61,7 +66,8 @@
     margin: 0.35rem 0.3rem;
     padding: 1.7rem 0rem;
     border-radius: 5px;
-    width: 10rem;
+    /*width: 10rem;*/
+    width: 95%;
     /*background-color: #0d5242;*/
     /*box-shadow: 0.3rem 0.3rem rgba(0, 0, 0, 0.35);*/
     background-color: rgba(255, 255, 255, 0.23);
