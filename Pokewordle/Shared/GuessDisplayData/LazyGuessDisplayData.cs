@@ -27,6 +27,7 @@ namespace Pokewordle.Shared.GuessDisplayData
 
             List<ColumnType> columnTypes = Enum.GetValues<ColumnType>().ToList();
             columnTypes.Remove(ColumnType.NAME);
+            columnTypes.Remove(ColumnType.NAME_LOCAL);
             columnTypes.Remove(ColumnType.SPRITE);
             Random random = new Random();
             ImmutableList<ColumnType>.Builder listBuilder = ImmutableList.CreateBuilder<ColumnType>();
@@ -37,6 +38,7 @@ namespace Pokewordle.Shared.GuessDisplayData
                 columnTypes.RemoveAt(index);
             }
             listBuilder.Add(ColumnType.SPRITE);
+            listBuilder.Add(ColumnType.NAME_LOCAL);
             listBuilder.Add(ColumnType.NAME);
             ObfuscationOrder = listBuilder.ToImmutable();
 
@@ -45,6 +47,7 @@ namespace Pokewordle.Shared.GuessDisplayData
             dictionaryBuilder.Add(ColumnType.SPRITE, new(CreateSpriteCell));
 
             dictionaryBuilder.Add(ColumnType.NAME, new(CreateNameCell));
+            dictionaryBuilder.Add(ColumnType.NAME_LOCAL, new(CreateLocalizedNameCell));
 
             dictionaryBuilder.Add(ColumnType.TYPE1, new(CreateType1Cell));
             dictionaryBuilder.Add(ColumnType.TYPE2, new(CreateType2Cell));
@@ -80,6 +83,14 @@ namespace Pokewordle.Shared.GuessDisplayData
         private async Task<ICellData> CreateNameCell()
         {
             return new SimpleCellData(ColumnType.NAME, pokeDataGuessed.Name.FirstCharToUpper(),
+                pokeDataToGuess.Name.Equals(pokeDataGuessed.Name) ? ColorScheme.COLOR_CORRECT : ColorScheme.COLOR_MISTAKE,
+                htmlId: "name");
+        }
+
+        private async Task<ICellData> CreateLocalizedNameCell()
+        {
+            Console.WriteLine(pokeDataGuessed.NameLocalized);
+            return new SimpleCellData(ColumnType.NAME_LOCAL, pokeDataGuessed.NameLocalized.FirstCharToUpper(),
                 pokeDataToGuess.Name.Equals(pokeDataGuessed.Name) ? ColorScheme.COLOR_CORRECT : ColorScheme.COLOR_MISTAKE,
                 htmlId: "name");
         }

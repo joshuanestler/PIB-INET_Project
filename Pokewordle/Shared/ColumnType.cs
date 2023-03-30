@@ -4,6 +4,7 @@
     {
         SPRITE,
         NAME,
+        NAME_LOCAL,
         TYPE1,
         TYPE2,
         TYPES,

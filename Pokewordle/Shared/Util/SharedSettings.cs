@@ -2,7 +2,7 @@
 {
     public static class SharedSettings
     {
-        public static readonly List<ColumnType> GameColumnTypes = new() { ColumnType.SPRITE, ColumnType.NAME, ColumnType.GENERATION, ColumnType.TYPES, ColumnType.ABILITIES, ColumnType.MAXSTATS, ColumnType.HEIGHT };
+        public static readonly List<ColumnType> GameColumnTypes = new() { ColumnType.SPRITE, ColumnType.NAME_LOCAL, ColumnType.GENERATION, ColumnType.TYPES, ColumnType.ABILITIES, ColumnType.MAXSTATS, ColumnType.HEIGHT };
 
         /// <summary>
         /// Allow the Player to set an amount of fields that will randomly be selected to be hidden per guess.
