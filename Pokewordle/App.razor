@@ -19,16 +19,7 @@
 @code {
 
     protected async void OnInitializedAsync() {
-        Enum.TryParse(await SettingsService.GetSettingAsync("theme"), out Theme theme);
-        SharedThemeSetting.theme = theme;
         
-        string language = await SettingsService.GetSettingAsync("language");
-        if (language.Length < 1) {
-            language = SharedSettings.Languages[0];
-        }
-        
-                int index = SharedSettings.Languages.IndexOf(language);
-                await Translations.LoadLanguage(httpClient, index + 1);
     }
 
 }

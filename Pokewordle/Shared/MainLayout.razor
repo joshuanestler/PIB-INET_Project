@@ -1,14 +1,15 @@
 ﻿@using Pokewordle.Shared.Util
 @inherits LayoutComponentBase
 
-@switch (SharedThemeSetting.theme)
+@switch (SharedSettings.SelectedTheme)
 {
-    case Theme.Forest:
-        <link href="css/pokecss/themes/forest.css" rel="stylesheet"/>
-        break;
-
     case Theme.Vaporwave:
         <link href="css/pokecss/themes/vaporwave.css" rel="stylesheet"/>
+        break;
+        
+    case Theme.Forest:
+    default:
+        <link href="css/pokecss/themes/forest.css" rel="stylesheet"/>
         break;
 }
 

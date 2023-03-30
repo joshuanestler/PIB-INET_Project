@@ -11,7 +11,7 @@
 
 <link href="/css/pokecss/SearchBox.css" rel="stylesheet" />
 <div id="language-input fluent-combo-box">
-    <FluentCombobox @ref="_languageComboBox" TOption="string" Items="SharedSettings.Languages"
+    <FluentCombobox @ref="_languageComboBox" TOption="string" Items="SharedSettings.Languages" bind-Value="@_selectedLanguage"
                     Autocomplete="ComboboxAutocomplete.Both" OptionText="s => s.FirstCharToUpper()"
                     SelectedOptionChanged="ValueChangedHandler"
                     Appearance="Appearance.Filled"
@@ -23,6 +23,8 @@
 
 @code {
     private FluentCombobox<string> _languageComboBox;
+    
+    private string _selectedLanguage = SharedSettings.Languages[0];
 
 
     // fluentui design tokens
@@ -56,6 +58,20 @@
 
     [Inject]
     NeutralFillRest NeutralFillRest { get; set; } = default!;
+    
+    
+    protected override async Task OnInitializedAsync() {
+
+        string language = await SettingsService.GetSettingAsync("language");
+        Console.WriteLine("Language: " + language);
+        if (language.Length < 1) {
+            language = SharedSettings.Languages[0];
+        }
+        
+        _selectedLanguage = language;
+        int index = SharedSettings.Languages.IndexOf(language);
+        await Translations.LoadLanguage(httpClient, index + 1);
+    }
 
     private async Task ValueChangedHandler(string? value)
     {
@@ -73,6 +89,7 @@
     {
         if (firstRender)
         {
+            _languageComboBox.SelectedOption = _selectedLanguage;
             //Set to dark mode
             // await BaseLayerLuminance.SetValueFor(ref1!.Element, (float)0.15);
 

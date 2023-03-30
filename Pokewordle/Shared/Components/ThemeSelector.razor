@@ -12,11 +12,10 @@
 
 <link href="/css/pokecss/SearchBox.css" rel="stylesheet"/>
 <div id="language-input fluent-combo-box">
-    <FluentCombobox @ref="ThemeComboBox" TOption="Theme" Items="@themes" 
-                    bind-Value="@selectedTheme"
+    <FluentCombobox @ref="ThemeComboBox" TOption="@Theme" Items="@Themes" 
+                    bind-Value="@SharedSettings.SelectedTheme"
                     Autocomplete="ComboboxAutocomplete.Both" OptionText="s => s.ToString()"
-                    @* Below is not necessarily a bug. It works *@
-                    SelectedOptionChanged="ValueChangedHandler"
+                    SelectedOptionChanged="@ValueChangedHandler"
                     Appearance="Appearance.Filled"
                     Id="theme-input" Style="width:13rem; height: 2rem">
     </FluentCombobox>
@@ -25,12 +24,8 @@
 
 @code {
     private FluentCombobox<Theme> ThemeComboBox;
-    
-    private Theme selectedTheme = Theme.Forest;
-    
-    private List<Theme> themes = Enum.GetValues<Theme>().ToList();
 
-    public List<string> themeNames { get; set; }
+    private Theme[] Themes = Enum.GetValues<Theme>();   
 
     // fluentui design tokens
     [Inject]
@@ -66,19 +61,12 @@
     [Inject]
     NeutralFillRest NeutralFillRest { get; set; } = default!;
 
-    protected override async Task OnInitializedAsync()
+    private async Task ValueChangedHandler(Theme value)
     {
-        themeNames = Enum.GetNames<Theme>().ToList();
-        
-        Enum.TryParse<Theme>(await SettingsService.GetSettingAsync("theme"), out selectedTheme);
-    }
-
-    private async void ValueChangedHandler(Theme value)
-    {
-
+        Console.WriteLine("Selected theme changed: " + value.ToString());
+        SharedSettings.SelectedTheme = value;
         SettingsService.SetSettingAsync("theme", value.ToString());
-
-        SharedThemeSetting.theme = value;
+        
         NavigationManager.NavigateTo("/settings");
     }
 

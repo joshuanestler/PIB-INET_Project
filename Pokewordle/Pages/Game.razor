@@ -87,46 +87,9 @@
     private readonly List<IGuessDisplayData> _displayData = new();
 
 
-    /// <summary>
-    /// Pokemons which have forms cannot be requested simply by their species name unfortunately
-    /// TODO: This is a temporary workaround, find a better way to pull pokemon names to suggest for guessing.
-    /// </summary>
-    private static readonly List<string> _UnFixedNames = new() { "deoxys", "wormadam", "giratina", "shaymin", "basculin", "darmanitan", "tornadus", "thundurus", "landorus", "keldeo", "meloetta", "meowstic", "aegislash", "pumpkaboo", "gourgeist", "zygarde", "oricorio", "lycanroc", "wishiwashi", "minior", " mimikyu", " toxtricity", "eiscue", "indeedee", "morpeko", "urshifu", "basculegion", "enamorus" };
-    private static readonly List<string> _FixedNames = new() { "deoxys-attack", "wormadam-trash", "giratina-origin", "shaymin-sky", "basculin-blue-striped", "darmanitan-standard", "tornadus-therian", "tornadus-therian", "tornadus-therian", "keledo-resolute", "meloetta-aria", "meowstic-female", "aegislash-shield", "pumpkaboo-average", "gourgeist-average", "zygarde-complete", "oricorio-baile", "lycanroc-midnight", "wishiwashi-school", "", "mimikyu-busted", "toxtricity-low-key", "eiscue-ice", "indeedee-male", "morpeko-full-belly", "urshifu-rapid-strike", "basculegion-male", "enamorus-incarnate" };
-
+    
     protected override async Task OnInitializedAsync()
     {
-        // Load pokedex data
-        List<string> tempPokemonNames = new List<string>();
-        Pokedex pokedex = await PokeClient.GetResourceAsync<Pokedex>(1);
-        foreach(PokemonEntry pokemon in pokedex.PokemonEntries)
-        {
-            tempPokemonNames.Add(pokemon.PokemonSpecies.Name);
-        }
-
-        Dictionary<string, string> baseNameToLookupName = new();
-
-        List<string> tempNamesToRemove = new();
-        foreach (string pokemonName in tempPokemonNames)
-        {
-            int index = _UnFixedNames.IndexOf(pokemonName);
-            if (index >= 0)
-            {
-                string? fixedPokemonName = _FixedNames[index];
-                //Only add the fixed name if a solution has been found!
-                if (fixedPokemonName is not null && !fixedPokemonName.Equals(string.Empty))
-                {
-                    baseNameToLookupName.Add(pokemonName, fixedPokemonName);
-                }
-            }
-            else
-            {
-                baseNameToLookupName.Add(pokemonName, pokemonName);
-            }
-        }
-        tempPokemonNames.RemoveAll(name => tempNamesToRemove.Contains(name));
-
-        await Translations.Initialize(HttpClient, baseNameToLookupName);
         _pokemonTypes.Clear();
         _pokemonTypes.AddRange(Translations.GetTranslatedNames());
         //foreach(string name in Translations.GetTranslatedNames())
