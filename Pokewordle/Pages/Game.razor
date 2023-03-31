@@ -41,15 +41,12 @@
         <div id="game-container" class="round-border-10">
             <h1 class="game-title">Guess a Pokemon</h1>
             <div class="table-and-searchbox-container">
-                <PokemonGuessForm @ref="_pokemonGuessForm" ValueChanged="AttemptGuess" PokemonNames="_pokemonTypes"></PokemonGuessForm>
-                 <LessAnnoyingComboBox @ref="_newBetterPokemonGuessForm" ItemList="_pokemonTypes" ValueChanged="AttemptGuess"></LessAnnoyingComboBox> 
-
+                <PokemonGuessForm @ref="_pokemonGuessForm" PokemonNames="_pokemonTypes" ValueChanged="AttemptGuess"></PokemonGuessForm>
+                
                 <div class="table-container lighten-10 round-border-10">
                     <table id="game-table">
                         <thead>
-                        @(
-            (MarkupString)HeaderGenerator.ToHeaderString(settings.SelectedColumnTypes)
-                            )
+                        @((MarkupString)HeaderGenerator.ToHeaderString(settings.SelectedColumnTypes))
                         </thead>
 
                         <tbody>
@@ -83,7 +80,7 @@
 
     private FluentProgressRing _FluentProgressRing;
 
-    private LessAnnoyingComboBox _newBetterPokemonGuessForm;
+    //private LessAnnoyingComboBox _newBetterPokemonGuessForm;
 
     private PokemonGuessForm? _pokemonGuessForm;
 
