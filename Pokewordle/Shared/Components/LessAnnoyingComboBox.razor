@@ -4,44 +4,40 @@
 <link href="/css/pokecss/SearchBox.css" rel="stylesheet" />
 <div id="game-input">
     <div class="dropdown-wrapper">
-    <input class="pokemon-input" @bind-value="ValueProperty" @onkeyup="InputKeyUp" @onkeydown="InputKeyDown" @oninput="InputChange"
-           @onfocusin="(() => isDropdownVisible = true)"
-           @onfocusout="DelayedHideDropdown"
-           />
-    @if (isDropdownVisible) {
-        <div class="dropdown-inner-wrapper">
-            <div class="pokemon-dropdown-container">
-                @for (int i = 0; i < DisplayItemsList.Count; i++)
-                {
-                    string item = DisplayItemsList[i];
-                    if (i >= _dropdownIndex - 2)
+        <input class="pokemon-input" @bind-value="ValueProperty" @onkeyup="InputKeyUp" @onkeydown="InputKeyDown" @oninput="InputChange"
+               @onfocusin="(() => isDropdownVisible = true)"
+               @onfocusout="DelayedHideDropdown"
+               />
+        @if (isDropdownVisible) {
+            <div class="dropdown-inner-wrapper">
+                <div class="pokemon-dropdown-container">
+                    @for (int i = 0; i < DisplayItemsList.Count; i++)
                     {
                         string item = DisplayItemsList[i];
                         if (i >= _dropdownIndex - 1)
                         {
-                            var test = i;
+                            var iCopyForRazor = i;
                             if (i == _dropdownIndex)
                             {
-                                <div class="pokemonItem" id="selectedPokemon" @onclick="(() => ClickValue(test))">@item.FirstCharToUpper()</div>
+                                <div class="pokemonItem" id="selectedPokemon" @onclick="(() => ClickValue(iCopyForRazor))">@item.FirstCharToUpper()</div>
                             }
                             else
                             {
-                                <div class="pokemonItem" @onclick="(() => ClickValue(test))">@item.FirstCharToUpper()</div>
+                                <div class="pokemonItem" @onclick="(() => ClickValue(iCopyForRazor))">@item.FirstCharToUpper()</div>
                             }
                         }
                     }
                 </div>
             </div>
-        </div>
-    }
+        }
+    </div>
 </div>
 
 
 @code {
-
     [Parameter]
     [EditorRequired]
-    public List<string> ItemList { get; set; }
+    public List<string> ItemList { get; set; } = new();
 
     private readonly List<string> DisplayItemsList = new();
 
@@ -54,9 +50,15 @@
     private string _value = "";
     public string ValueProperty { get => _value; set => SetValue(value); }
 
+
+    protected override void OnInitialized()
+    {
+        DisplayItemsList.AddRange(ItemList);
+    }
+
     private async void DelayedHideDropdown()
     {
-        await Task.Delay(100);
+        await Task.Delay(400);
         isDropdownVisible = false;
         StateHasChanged();
     }

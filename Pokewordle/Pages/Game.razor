@@ -122,9 +122,9 @@
             return;
         }
 
+        _pokemonsGuessed[guessedName] = guessPokeData;
         IGuessDisplayData guessDisplayData = new LazyGuessDisplayData(_pokemonToGuess, guessPokeData);
         _displayData.Add(guessDisplayData);
-        _pokemonsGuessed[guessedName] = guessPokeData;
 
         if (guessDisplayData.GetIsCorrect())
         {
