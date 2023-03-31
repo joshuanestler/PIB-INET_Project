@@ -141,6 +141,7 @@
         {
             _value = "";
             UpdateDisplayedItems("");
+            StateHasChanged();
             ValueChanged.InvokeAsync(value);
         }
     }
