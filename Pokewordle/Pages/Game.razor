@@ -96,12 +96,6 @@
         _pokemonTypes.AddRange(Translations.GetTranslatedNames());
         
         await Reset();
-        
-        // await AttemptGuess("Venusaur");
-        // await AttemptGuess("Charizard");
-        // await AttemptGuess("Blastoise");
-        // await AttemptGuess("Machoke");
-        // await AttemptGuess("Scizor");
 
         if (HttpClient is null)
         {
@@ -169,32 +163,20 @@
     private void WinGame()
     {
         _pokemonGuessForm?.Disable();
+        
         _guessing = false;
     }
 
-    // protected override async Task OnAfterRenderAsync(bool firstRender)
-    // {
-    //     if (firstRender)
-    //     {
-    //         await AccentBaseColor.SetValueFor(_FluentProgressRing!.Element, "#064c3a".ToSwatch());
-    //         StateHasChanged();
-    //     }
-    // }
-
-    
-    
-    private async void RevealButtonClick()
-    {
-        if (!_guessing)
-        {
-            await Reset();
-            return;
-        }
+    private void RevealButtonClick() {
+        if (!_guessing) return;
+        
+        _guessing = false;
         AddGuessedPokemon(_pokemonToGuess.Name, _pokemonToGuess);
     }
     
     private async void RestartButtonClick()
     {
+        _pokemonGuessForm.Enable();
         await Reset();
     }
 }
