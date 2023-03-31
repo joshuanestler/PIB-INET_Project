@@ -42,6 +42,7 @@
             <h1 class="game-title">Guess a Pokemon</h1>
             <div class="table-and-searchbox-container">
                 <PokemonGuessForm @ref="_pokemonGuessForm" ValueChanged="AttemptGuess" PokemonNames="_pokemonTypes"></PokemonGuessForm>
+                @* <LessAnnoyingComboBox @ref="_newBetterPokemonGuessForm" ItemList="_pokemonTypes" ValueChanged="AttemptGuess"></LessAnnoyingComboBox> *@
 
                 <div class="table-container lighten-10 round-border-10">
                     <table id="game-table">

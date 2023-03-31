@@ -9,9 +9,11 @@
     <datalist id="itemList">
         @foreach(string item in ItemList)
         {
+            <div class="option-wrapper" part="dingi" style="color:red; background: blue; background-color: lime;">
             <option value="@item">
                 @item.FirstCharToUpper()
             </option>
+                </div>
         }
     </datalist>
 </div>
