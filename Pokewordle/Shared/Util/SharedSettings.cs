@@ -14,7 +14,7 @@
         /// <summary>
         /// Allow the Player to set an amount of fields that will randomly be selected to be hidden per guess.
         /// </summary>
-        public static int Obfuscation = 1;
+        public static int Obfuscation = 0;
 
         /// <summary>
         /// If greater than 0, the earlier guesses will be hidden.
