@@ -1,8 +1,10 @@
 .table-container {
     overflow: scroll;
     /*height: 90%;*/
-    max-height: 90%;
-    max-width: 90%;
+    /*max-height: 90%;*/
+    
+    max-height: calc(100% - 3rem);
+    max-width: 100%;
     /*padding: 1rem;*/
     box-shadow: 0.7em 0.7em rgba(0,0,0,0.3);
     border: 3px solid black;
