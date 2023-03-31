@@ -5,17 +5,25 @@
 
 <link href="/css/pokecss/SearchBox.css" rel="stylesheet"/>
 <div id="game-input">
-    <input type="text" list="itemList" @bind-value="@Value" @onkeydown="Test2" @oninput="Test" />
-    <datalist id="itemList">
-        @foreach(string item in ItemList)
+    <input type="text" list="itemList" @bind-value="@Value" @onkeyup="Test2" @oninput="Test" />
+    <div style="z-index: 2; max-height: 10rem; position: absolute; overflow-y: scroll; overflow-x: hidden;">
+        @for(int i = 0; i < DisplayItemsList.Count; i++)
         {
-            <div class="option-wrapper" part="dingi" style="color:red; background: blue; background-color: lime;">
-            <option value="@item">
-                @item.FirstCharToUpper()
-            </option>
-                </div>
+            string item = DisplayItemsList[i];
+            if (i >= _dropdownIndex - 2)
+            {
+                var test = i;
+                if (i == _dropdownIndex)
+                {
+                    <div class="pokemonDropdown" id="selectedPokemon" style="background: blue;" @onclick="(() => ClickValue(test))">@item.FirstCharToUpper()</div>
+                }
+                else
+                {
+                    <div class="pokemonDropdown" @onclick="(() => ClickValue(test))">@item.FirstCharToUpper()</div>
+                }
+            }
         }
-    </datalist>
+    </div>
 </div>
 
 
@@ -24,6 +32,7 @@
     [Parameter]
     [EditorRequired]
     public List<string> ItemList { get; set; }
+    private readonly List<string> DisplayItemsList = new();
 
     [Parameter]
     [EditorRequired]
@@ -31,10 +40,44 @@
 
     private EditContext editContext = new(new object());
 
-    private string _value;
-    public string Value { get => _value; set => SetValue(value); }
+    public int elementLimit { get; set; } = 10;
 
-    private volatile bool ignoreNextInput = false;
+    public string Value { get; set; } = "";
+
+    private void ClickValue(string element)
+    {
+        Console.WriteLine(element);
+    }
+
+    private void ClickValue(int i)
+    {
+        Console.WriteLine($"Click: {i}");
+        if (0 <= i && i < DisplayItemsList.Count)
+        {
+            SetValue(DisplayItemsList[i]);
+        } else
+        {
+            if (DisplayItemsList.Contains(Value))
+            {
+                SetValue(Value);
+            }
+        }
+    }
+
+    private int _dropdownIndex = -1;
+
+    private void UpdateDisplayedItems(string inputValue)
+    {
+        DisplayItemsList.Clear();
+        foreach (string item in ItemList)
+        {
+            if (item.Contains(inputValue, StringComparison.OrdinalIgnoreCase))
+            {
+                DisplayItemsList.Add(item);
+            }
+        }
+    }
+
     private void Test(ChangeEventArgs value)
     {
         if (value.Value is not string inputValue)
@@ -43,32 +86,51 @@
             return;
         }
 
-        if (ignoreNextInput)
-        {
-            ignoreNextInput = false;
-            Console.WriteLine($"Ignoring input \"{inputValue}\".");
-            return;
-        }
+        UpdateDisplayedItems(inputValue);
+        //if (ignoreNextInput)
+        //{
+        //    ignoreNextInput = false;
+        //    Console.WriteLine($"Ignoring input \"{inputValue}\".");
+        //    return;
+        //}
 
-        if (!ItemList.Contains(inputValue))
-        {
-            Console.WriteLine($"Input \"{inputValue}\" is not in List.");
-            return;
-        }
+        //if (!ItemList.Contains(inputValue))
+        //{
+        //    Console.WriteLine($"Input \"{inputValue}\" is not in List.");
+        //    return;
+        //}
 
-        SetValue(inputValue);
-        Console.WriteLine($"Input \"{inputValue}\" accepted.");
+        //SetValue(inputValue);
+        //Console.WriteLine($"Input \"{inputValue}\" accepted.");
     }
     private void Test2(KeyboardEventArgs value)
     {
-        if (value.Key.Length == 1)
+        Console.WriteLine(value.Code);
+        if (value.Code.Equals("ArrowDown"))
         {
-            char c = value.Key.ToLower()[0];
-            if ('a' <= c && c <= 'z')
-            {
-                ignoreNextInput = true;
-            }
+            _dropdownIndex = Math.Min(_dropdownIndex + 1, DisplayItemsList.Count - 1);
+            return;
         }
+        if (value.Code.Equals("ArrowUp"))
+        {
+            _dropdownIndex = Math.Max(_dropdownIndex - 1, -1);
+            return;
+        }
+
+
+        if (value.Code.Equals("Enter") || value.Code.Equals("NumpadEnter"))
+        {
+            ClickValue(_dropdownIndex);
+        }
+        _dropdownIndex = -1;
+        //if (value.Key.Length == 1)
+        //{
+        //    char c = value.Key.ToLower()[0];
+        //    if ('a' <= c && c <= 'z')
+        //    {
+        //        ignoreNextInput = true;
+        //    }
+        //}
     }
 
     private void SetValue(string value)
@@ -76,18 +138,19 @@
         if (ItemList.Contains(value))
         {
             Console.WriteLine($"Input matched for value {value}");
-            _value = "";
+            Value = "";
+            UpdateDisplayedItems("");
             ValueChanged.InvokeAsync(value);
         }
         else
         {
-            _value = value;
+            Value = value;
             Console.WriteLine($"Input not matched for value {value}");
         }
     }
 
     public void SetValueDontTriggerEvent(string value)
     {
-        _value = value;
+        Value = value;
     }
 }
