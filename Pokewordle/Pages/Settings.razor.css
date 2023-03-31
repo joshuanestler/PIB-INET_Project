@@ -1,7 +1,8 @@
 ﻿.settings-content {
     text-align: center;
     height: 100%;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: clip;
 }
 
 .setting-title {

@@ -9,6 +9,8 @@
     box-shadow: 0.7em 0.7em rgba(0,0,0,0.3);
     border: 3px solid black;
     margin: 1rem;
+    /*hide scrollbar to prevent scrollbar width from janking*/
+    scrollbar-width: none;
 }
 
 #game-table {
