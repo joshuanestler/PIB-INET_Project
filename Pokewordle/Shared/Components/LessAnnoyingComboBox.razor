@@ -15,7 +15,7 @@
                 var test = i;
                 if (i == _dropdownIndex)
                 {
-                    <div class="pokemonDropdown" id="selectedPokemon" style="background: blue;" @onclick="(() => ClickValue(test))">@item.FirstCharToUpper()</div>
+                    <div class="pokemonDropdown" id="selectedPokemon" @onclick="(() => ClickValue(test))">@item.FirstCharToUpper()</div>
                 }
                 else
                 {
