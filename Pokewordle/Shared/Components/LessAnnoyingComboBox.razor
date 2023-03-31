@@ -5,8 +5,8 @@
 
 <link href="/css/pokecss/SearchBox.css" rel="stylesheet"/>
 <div id="game-input">
-    <input class="pokemon-input" type="text" list="itemList" @bind-value="@Value" @onkeyup="Test2" @oninput="Test"/>
     <div class="dropdown-wrapper">
+    <input class="pokemon-input" type="text" list="itemList" @bind-value="@Value" @onkeyup="Test2" @oninput="Test"/>
         <div class="dropdown-inner-wrapper">
             <div class="pokemon-dropdown-container">
                 @for (int i = 0; i < DisplayItemsList.Count; i++)
