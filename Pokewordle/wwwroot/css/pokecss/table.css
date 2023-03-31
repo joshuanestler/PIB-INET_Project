@@ -3,7 +3,9 @@
     /*height: 90%;*/
     /*max-height: 90%;*/
     
-    max-height: calc(100% - 3rem);
+    /*FIXME and lower calc*/
+    /* 100% - height(spacer) - margin(self) */
+    max-height: calc(100% - 3rem - 2rem);
     max-width: 100%;
     /*padding: 1rem;*/
     box-shadow: 0.7em 0.7em rgba(0,0,0,0.3);
@@ -88,6 +90,7 @@
     1 rem title bottom margin
     1 rem table container margin
      */
-    max-height: calc(100% - 5rem);
+    /*max-height: calc(100% - 5rem);*/
+    max-height: calc(100% - 4rem);
 }
 
