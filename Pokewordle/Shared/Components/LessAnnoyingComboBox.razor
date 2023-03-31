@@ -5,33 +5,38 @@
 
 <link href="/css/pokecss/SearchBox.css" rel="stylesheet"/>
 <div id="game-input">
-    <input type="text" list="itemList" @bind-value="@Value" @onkeyup="Test2" @oninput="Test" />
-    <div style="z-index: 2; max-height: 10rem; position: absolute; overflow-y: scroll; overflow-x: hidden;">
-        @for(int i = 0; i < DisplayItemsList.Count; i++)
-        {
-            string item = DisplayItemsList[i];
-            if (i >= _dropdownIndex - 2)
-            {
-                var test = i;
-                if (i == _dropdownIndex)
+    <input class="pokemon-input" type="text" list="itemList" @bind-value="@Value" @onkeyup="Test2" @oninput="Test"/>
+    <div class="dropdown-wrapper">
+        <div class="dropdown-inner-wrapper">
+            <div class="pokemon-dropdown-container">
+                @for (int i = 0; i < DisplayItemsList.Count; i++)
                 {
-                    <div class="pokemonDropdown" id="selectedPokemon" @onclick="(() => ClickValue(test))">@item.FirstCharToUpper()</div>
+                    string item = DisplayItemsList[i];
+                    if (i >= _dropdownIndex - 2)
+                    {
+                        var test = i;
+                        if (i == _dropdownIndex)
+                        {
+                            <div class="pokemonItem" id="selectedPokemon" @onclick="(() => ClickValue(test))">@item.FirstCharToUpper()</div>
+                        }
+                        else
+                        {
+                            <div class="pokemonItem" @onclick="(() => ClickValue(test))">@item.FirstCharToUpper()</div>
+                        }
+                    }
                 }
-                else
-                {
-                    <div class="pokemonDropdown" @onclick="(() => ClickValue(test))">@item.FirstCharToUpper()</div>
-                }
-            }
-        }
+            </div>
+        </div>
     </div>
 </div>
 
 
-
 @code {
+
     [Parameter]
     [EditorRequired]
     public List<string> ItemList { get; set; }
+
     private readonly List<string> DisplayItemsList = new();
 
     [Parameter]
@@ -55,7 +60,8 @@
         if (0 <= i && i < DisplayItemsList.Count)
         {
             SetValue(DisplayItemsList[i]);
-        } else
+        }
+        else
         {
             if (DisplayItemsList.Contains(Value))
             {
@@ -87,22 +93,23 @@
         }
 
         UpdateDisplayedItems(inputValue);
-        //if (ignoreNextInput)
-        //{
-        //    ignoreNextInput = false;
-        //    Console.WriteLine($"Ignoring input \"{inputValue}\".");
-        //    return;
-        //}
+    //if (ignoreNextInput)
+    //{
+    //    ignoreNextInput = false;
+    //    Console.WriteLine($"Ignoring input \"{inputValue}\".");
+    //    return;
+    //}
 
-        //if (!ItemList.Contains(inputValue))
-        //{
-        //    Console.WriteLine($"Input \"{inputValue}\" is not in List.");
-        //    return;
-        //}
+    //if (!ItemList.Contains(inputValue))
+    //{
+    //    Console.WriteLine($"Input \"{inputValue}\" is not in List.");
+    //    return;
+    //}
 
-        //SetValue(inputValue);
-        //Console.WriteLine($"Input \"{inputValue}\" accepted.");
+    //SetValue(inputValue);
+    //Console.WriteLine($"Input \"{inputValue}\" accepted.");
     }
+
     private void Test2(KeyboardEventArgs value)
     {
         Console.WriteLine(value.Code);
@@ -123,14 +130,14 @@
             ClickValue(_dropdownIndex);
         }
         _dropdownIndex = -1;
-        //if (value.Key.Length == 1)
-        //{
-        //    char c = value.Key.ToLower()[0];
-        //    if ('a' <= c && c <= 'z')
-        //    {
-        //        ignoreNextInput = true;
-        //    }
-        //}
+    //if (value.Key.Length == 1)
+    //{
+    //    char c = value.Key.ToLower()[0];
+    //    if ('a' <= c && c <= 'z')
+    //    {
+    //        ignoreNextInput = true;
+    //    }
+    //}
     }
 
     private void SetValue(string value)
@@ -153,4 +160,5 @@
     {
         Value = value;
     }
+
 }

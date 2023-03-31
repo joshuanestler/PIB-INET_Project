@@ -9,6 +9,7 @@
 }
 
 #game-input ::part(control), .searchbox ::part(control) 
-, #game-input ::part(listbox), .searchbox ::part(listbox) {
+, #game-input ::part(listbox), .searchbox ::part(listbox),
+.pokemon-dropdown-container, .pokemon-input{
     background: linear-gradient(120deg, #326966 0%, #506649 100%);
 }
