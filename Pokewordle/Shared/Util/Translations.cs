@@ -23,10 +23,38 @@ namespace Pokewordle.Shared.Util
         /// Pokemons which have forms cannot be requested simply by their species name unfortunately
         /// TODO: This is a temporary workaround, find a better way to pull pokemon names to suggest for guessing.
         /// </summary>
-        private static readonly List<string> _UnFixedNames = new() { "deoxys", "wormadam", "giratina", "shaymin", "basculin", "darmanitan", "tornadus", "thundurus", "landorus", "keldeo", "meloetta", "meowstic", "aegislash", "pumpkaboo", "gourgeist", "zygarde", "oricorio", "lycanroc", "wishiwashi", "minior", " mimikyu", " toxtricity", "eiscue", "indeedee", "morpeko", "urshifu", "basculegion", "enamorus" };
-        private static readonly List<string> _FixedNames = new() { "deoxys-attack", "wormadam-trash", "giratina-origin", "shaymin-sky", "basculin-blue-striped", "darmanitan-standard", "tornadus-therian", "tornadus-therian", "tornadus-therian", "keledo-resolute", "meloetta-aria", "meowstic-female", "aegislash-shield", "pumpkaboo-average", "gourgeist-average", "zygarde-complete", "oricorio-baile", "lycanroc-midnight", "wishiwashi-school", "", "mimikyu-busted", "toxtricity-low-key", "eiscue-ice", "indeedee-male", "morpeko-full-belly", "urshifu-rapid-strike", "basculegion-male", "enamorus-incarnate" };
+        private static readonly Dictionary<string, string> _FormRequiredNames = new Dictionary<string, string>()
+        {
+            { "deoxys", "deoxys-attack" },
+            { "wormadam", "wormadam-trash" },
+            { "giratina", "giratina-origin" },
+            { "shaymin", "shaymin-sky" },
+            { "basculin", "basculin-blue-striped" },
+            { "darmanitan", "darmanitan-standard" },
+            { "tornadus", "tornadus-therian" },
+            { "thundurus", "thundurus-therian" },
+            { "landorus", "landorus-therian" },
+            { "keldeo", "keldeo-resolute" },
+            { "meloetta", "meloetta-aria" },
+            { "meowstic", "meowstic-female" },
+            { "aegislash", "aegislash-shield" },
+            { "pumpkaboo", "pumpkaboo-average" },
+            { "gourgeist", "gourgeist-average" },
+            { "zygarde", "zygarde-complete" },
+            { "oricorio", "oricorio-baile" },
+            { "lycanroc", "lycanroc-midnight" },
+            { "wishiwashi", "wishiwashi-school" },
+            { "minior", "" },
+            { "mimikyu", "mimikyu-busted" },
+            { "toxtricity", "toxtricity-low-key" },
+            { "eiscue", "eiscue-ice" },
+            { "indeedee", "indeedee-male" },
+            { "morpeko", "morpeko-full-belly" },
+            { "urshifu", "urshifu-rapid-strike" },
+            { "basculegion", "basculegion-male" },
+            { "enamorus", "enamorus-incarnate" }
+        };
 
-        
         public static async Task Initialize(HttpClient httpClient, PokeApiClient PokeClient, int initialLanguageColumn = 0)
         {
             // Load pokedex data
@@ -42,10 +70,11 @@ namespace Pokewordle.Shared.Util
             List<string> tempNamesToRemove = new();
             foreach (string pokemonName in tempPokemonNames)
             {
-                int index = _UnFixedNames.IndexOf(pokemonName);
-                if (index >= 0)
+                if (_FormRequiredNames.TryGetValue(pokemonName, out string? fixedPokemonName))
+                //int index = _UnFixedNames.IndexOf(pokemonName);
+                //if (index >= 0)
                 {
-                    string? fixedPokemonName = _FixedNames[index];
+                //    string? fixedPokemonName = _FixedNames[index];
                     //Only add the fixed name if a solution has been found!
                     if (fixedPokemonName is not null && !fixedPokemonName.Equals(string.Empty))
                     {
