@@ -1,95 +1,22 @@
-﻿@using Microsoft.Fast.Components.FluentUI
+﻿@using System.ComponentModel.DataAnnotations
+@using Microsoft.Fast.Components.FluentUI
 @using Microsoft.Fast.Components.FluentUI.DesignTokens
 @using Pokewordle.Shared.Extensions
+@using Color = System.Drawing.Color
 @using Pokewordle.Shared.Util;
+@inject HttpClient httpClient;
 @inject SharedSettings SharedSettings;
 
 
 <link href="/css/pokecss/SearchBox.css" rel="stylesheet" />
-<div id="language-input fluent-combo-box">
-    <FluentCombobox @ref="_languageComboBox" TOption="string" Items="SharedSettings.Languages" 
-                    bind-Value="@SharedSettings.SelectedLanguage"
-                    Autocomplete="ComboboxAutocomplete.Both" OptionText="s => s.FirstCharToUpper()"
-                    SelectedOptionChanged="@ValueChangedHandler"
-                    Appearance="Appearance.Filled"
-                    Id="language-input" Style="width:13rem; height: 2rem">
-    </FluentCombobox>
+<div id="language-input">
+    <InputSelect class="stringInput" TValue="string" @bind-Value="SharedSettings.SelectedLanguage">
+        @foreach (string language in SharedSettings.Languages)
+        {
+            <option value="@language">@language.FirstCharToUpper()</option>
+        }
+    </InputSelect>
 </div>
 
-
-
 @code {
-
-    private FluentCombobox<string> _languageComboBox;
-
-
-    // fluentui design tokens
-    [Inject]
-    private BaseLayerLuminance BaseLayerLuminance { get; set; } = default!;
-
-    [Inject]
-    private AccentBaseColor AccentBaseColor { get; set; } = default!;
-
-    [Inject]
-    private BodyFont BodyFont { get; set; } = default!;
-
-    [Inject]
-    private StrokeWidth StrokeWidth { get; set; } = default!;
-
-    [Inject]
-    private ControlCornerRadius ControlCornerRadius { get; set; } = default!;
-
-    [Inject]
-    private FillColor FillColor { get; set; } = default!;
-    // private Microsoft.Fast.Components.FluentUI.DesignTokens.FillColor fill
-    // Microsoft.Fast.Components.FluentUI.DesignTokens.Neutral
-    [Inject]
-    private StrokeWidth Strokewidth { get; set; } = default!;
-    // Microsoft.Fast.Components.FluentUI.DesignTokens.Swatch
-    [Inject]
-    NeutralFillActive NeutralFillActive { get; set; } = default!;
-
-    [Inject]
-    NeutralBaseColor NeutralBaseColor { get; set; } = default!;
-
-    [Inject]
-    NeutralFillRest NeutralFillRest { get; set; } = default!;
-    
-    
-    protected override async Task OnInitializedAsync() {
-
-        //string language = await SettingsService.GetSettingAsync("language");
-        //Console.WriteLine("Language: " + language);
-        //if (language.Length < 1) {
-        //    language = SharedSettings.Languages[0];
-        //}
-        
-        //_selectedLanguage = language;
-        //int index = SharedSettings.Languages.IndexOf(language);
-        //await Translations.LoadLanguage(httpClient, index + 1);
-    }
-
-    private void ValueChangedHandler(string? value)
-    {
-        if (value == null) return;
-
-        SharedSettings.SelectedLanguage = value;
-    }
-
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-        //    _languageComboBox.SelectedOption = _selectedLanguage;
-            //Set to dark mode
-            // await BaseLayerLuminance.SetValueFor(ref1!.Element, (float)0.15);
-
-            await AccentBaseColor.SetValueFor(_languageComboBox!.Element, "#0c4337".ToSwatch());
-            await BaseLayerLuminance.SetValueFor(_languageComboBox!.Element, (float)0.15);
-            await NeutralBaseColor.SetValueFor(_languageComboBox!.Element, "#2b3539".ToSwatch());
-
-            StateHasChanged();
-        }
-    }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.JSInterop;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using PokeApiNet;
 
 namespace Pokewordle.Shared.Util;
@@ -12,6 +13,7 @@ public class SharedSettings {
     
     private readonly IJSRuntime _jsRuntime;
     private readonly HttpClient _httpClient;
+    private readonly NavigationManager _navigationManager;
     
     private Theme _selectedTheme = Theme.Forest;
     private string _selectedLanguage = Languages[0];
@@ -20,15 +22,17 @@ public class SharedSettings {
     private bool _allowDuplicateGuesses = false;
     private List<ColumnType> _selectedColumnTypes = DefaultColumnTypes.ToList();
 
-    public SharedSettings(IJSRuntime jsRuntime, HttpClient httpClient)
+    public SharedSettings(IJSRuntime jsRuntime, HttpClient httpClient, NavigationManager navigationManager)
     {
         _jsRuntime = jsRuntime;
         _httpClient = httpClient;
+        _navigationManager = navigationManager;
     }
 
-    public static async Task<SharedSettings> InitializeSettings(IJSRuntime jsRuntime, PokeApiClient pokeApiClient, HttpClient httpClient) {
+    public static async Task<SharedSettings> InitializeSettings(IJSRuntime jsRuntime, PokeApiClient pokeApiClient, 
+        HttpClient httpClient, NavigationManager navigationManager) {
 
-        SharedSettings settings = new SharedSettings(jsRuntime, httpClient);
+        SharedSettings settings = new SharedSettings(jsRuntime, httpClient, navigationManager);
         
         settings._selectedTheme = ThemeUtils.FromString(await settings.GetSettingAsync("theme"));
         
@@ -55,7 +59,8 @@ public class SharedSettings {
         }
         
         // Initialize translations
-        int index = Languages.IndexOf(language);
+        
+        int index = Languages.IndexOf(settings._selectedLanguage);
         await Translations.Initialize(httpClient, pokeApiClient,index + 1);
 
         return settings;
@@ -66,6 +71,7 @@ public class SharedSettings {
         set {
             _selectedTheme = value;
             SetSettingAsync("theme", value.ToString()).ConfigureAwait(false);
+            _navigationManager.NavigateTo(_navigationManager.Uri, false);
         } 
     }
 

@@ -1,12 +1,19 @@
 ﻿.settings-content {
     text-align: center;
     height: 100%;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: clip;
 }
 
 .setting-title {
     font-size: 2rem;
     font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.setting-description {
+    font-style: italic;
+    font-size: 0.9rem;
     margin-bottom: 1rem;
 }
 
