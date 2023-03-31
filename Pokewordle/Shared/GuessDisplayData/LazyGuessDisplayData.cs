@@ -134,49 +134,50 @@ namespace Pokewordle.Shared.GuessDisplayData
 
         private async Task<ICellData> CreateHeightCell()
         {
-            return GradientCellData.FromValues(ColumnType.HEIGHT, pokeDataToGuess.Height_m, pokeDataGuessed.Height_m, pokeDataToGuess.Height_m / 5, htmlId: "height");
+            return new ArrowCellData(ColumnType.HEIGHT, pokeDataGuessed.Height_m, pokeDataToGuess.Height_m);
         }
 
         private async Task<ICellData> CreateWeightCell()
         {
-            return GradientCellData.FromValues(ColumnType.WEIGHT, pokeDataToGuess.Weight_kg, pokeDataGuessed.Weight_kg, pokeDataToGuess.Weight_kg / 5, htmlId: "weight");
+            return new ArrowCellData(ColumnType.WEIGHT, pokeDataGuessed.Weight_kg, pokeDataToGuess.Weight_kg);
         }
 
         #region StatCells
 
         private async Task<ICellData> CreateHpCell()
         {
-            return GradientCellData.FromValues(ColumnType.HP, pokeDataToGuess.HP, pokeDataGuessed.HP, 30, htmlId: "hp");
+
+            return new ArrowCellData(ColumnType.HP, pokeDataGuessed.HP, pokeDataToGuess.HP);
         }
         
         private async Task<ICellData> CreateAtkCell()
         {
-            return GradientCellData.FromValues(ColumnType.ATK, pokeDataToGuess.Atk, pokeDataGuessed.Atk, 30, htmlId: "atk");
+            return new ArrowCellData(ColumnType.ATK, pokeDataGuessed.Atk, pokeDataToGuess.Atk);
         }
 
         private async Task<ICellData> CreateDefCell()
         {
-            return GradientCellData.FromValues(ColumnType.DEF, pokeDataToGuess.Def, pokeDataGuessed.Def, 30, htmlId: "def");
+            return new ArrowCellData(ColumnType.DEF, pokeDataGuessed.Def, pokeDataToGuess.Def);
         }
 
         private async Task<ICellData> CreateSpACell()
         {
-            return GradientCellData.FromValues(ColumnType.SPA, pokeDataToGuess.SpA, pokeDataGuessed.SpA, 30, htmlId: "spa");
+            return new ArrowCellData(ColumnType.SPA, pokeDataGuessed.SpA, pokeDataToGuess.SpA);
         }
 
         private async Task<ICellData> CreateSpDCell()
         {
-            return GradientCellData.FromValues(ColumnType.SPD, pokeDataToGuess.SpD, pokeDataGuessed.SpD, 30, htmlId: "spd");
+            return new ArrowCellData(ColumnType.SPD, pokeDataGuessed.SpD, pokeDataToGuess.SpD);
         }
 
         private async Task<ICellData> CreateSpeCell()
         {
-            return GradientCellData.FromValues(ColumnType.SPE, pokeDataToGuess.Spe, pokeDataGuessed.Spe, 30, htmlId: "spe");
+            return new ArrowCellData(ColumnType.SPE, pokeDataGuessed.Spe, pokeDataToGuess.Spe);
         }
 
         private async Task<ICellData> CreateBstCell()
         {
-            return GradientCellData.FromValues(ColumnType.BST, pokeDataToGuess.BST, pokeDataGuessed.BST, 30, htmlId: "hp");
+            return new ArrowCellData(ColumnType.BST, pokeDataGuessed.BST, pokeDataToGuess.BST);
         }
 
 
