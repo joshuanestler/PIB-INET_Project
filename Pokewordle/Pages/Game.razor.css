@@ -14,7 +14,7 @@ tbody {
     /*padding: 2rem;*/
     /*display: grid;*/
     align-items: center;
-    justify-content: center;
+    /*justify-content: center;*/
     text-align: center;
     height:100%;
     width:100%;
@@ -70,6 +70,7 @@ tbody td {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    margin: 2rem 0rem;
 }
 
 #game-status-button-corner {

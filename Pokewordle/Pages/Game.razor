@@ -39,35 +39,36 @@
 
         <div id="game-container" class="round-border-10">
             <h1 class="game-title">Guess a Pokemon</h1>
+            <div class="table-and-searchbox-container">
+                <PokemonGuessForm @ref="_pokemonGuessForm" ValueChanged="AttemptGuess" PokemonNames="_pokemonTypes"></PokemonGuessForm>
 
-            <PokemonGuessForm @ref="_pokemonGuessForm" ValueChanged="AttemptGuess" PokemonNames="_pokemonTypes"></PokemonGuessForm>
-
-            <div class="table-container lighten-10 round-border-10">
-                <table id="game-table">
-                    <thead>
-                    @(
+                <div class="table-container lighten-10 round-border-10">
+                    <table id="game-table">
+                        <thead>
+                        @(
             (MarkupString)HeaderGenerator.ToHeaderString(SharedSettings.GameColumnTypes)
-                        )
-                    </thead>
+                            )
+                        </thead>
 
-                    <tbody>
-                    @for (int i = 0; i < _displayData.Count; i++)
-                    {
-                        IGuessDisplayData guess = _displayData[i];
-                        bool visible = true;
-                        if (SharedSettings.GuessHistoryLimit > 0)
+                        <tbody>
+                        @for (int i = 0; i < _displayData.Count; i++)
                         {
-                            visible = _displayData.Count - i <= SharedSettings.GuessHistoryLimit;
+                            IGuessDisplayData guess = _displayData[i];
+                            bool visible = true;
+                            if (SharedSettings.GuessHistoryLimit > 0)
+                            {
+                                visible = _displayData.Count - i <= SharedSettings.GuessHistoryLimit;
+                            }
+                            <TemplateRow
+                                TableCellsTask=@guess.GetRowCells(SharedSettings.GameColumnTypes)
+                                ObfuscationList="@guess.GetObfuscationOrder(SharedSettings.GameColumnTypes)"
+                                IsSolution=guess.GetIsCorrect()
+                                Visible=visible>
+                            </TemplateRow>
                         }
-                        <TemplateRow
-                            TableCellsTask=@guess.GetRowCells(SharedSettings.GameColumnTypes)
-                            ObfuscationList="@guess.GetObfuscationOrder(SharedSettings.GameColumnTypes)"
-                            IsSolution=guess.GetIsCorrect()
-                            Visible=visible>
-                        </TemplateRow>
-                    }
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     }
@@ -195,4 +196,3 @@
         await Reset();
     }
 }
-

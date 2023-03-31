@@ -1,8 +1,9 @@
 .table-container {
     overflow: scroll;
-    height: 90%;
-    /*width: 90%;*/
-    padding: 1rem;
+    /*height: 90%;*/
+    max-height: 90%;
+    max-width: 90%;
+    /*padding: 1rem;*/
     box-shadow: 0.7em 0.7em rgba(0,0,0,0.3);
     border: 3px solid black;
     margin: 1rem;
@@ -12,7 +13,7 @@
     table-layout: auto;
     border-collapse: separate;
     /*padding: 5px;*/
-    margin-top: 2.5rem;
+    /*margin-top: 2.5rem;*/
     border-spacing: 0.8em;
     /*background-color: rgba(255,255,255,0.1);*/
     font-size: 1.2em;
@@ -75,4 +76,14 @@
 /*    !*width: 100%;*!*/
 /*    box-sizing: border-box;*/
 /*}*/
+
+.table-and-searchbox-container {
+    max-width: 100%;
+    /*
+    3 rem title font size
+    1 rem title bottom margin
+    1 rem table container margin
+     */
+    max-height: calc(100% - 5rem);
+}
 
