@@ -2,7 +2,7 @@
 {
     public static class SharedSettings
     {
-        public static readonly List<ColumnType> GameColumnTypes = new() { ColumnType.SPRITE, ColumnType.NAME, ColumnType.GENERATION, ColumnType.TYPES, ColumnType.ABILITIES, ColumnType.MAXSTATS, ColumnType.HEIGHT };
+        public static readonly List<ColumnType> GameColumnTypes = new() { ColumnType.SPRITE, ColumnType.NAME_LOCAL, ColumnType.GENERATION, ColumnType.TYPES, ColumnType.ABILITIES, ColumnType.MAXSTATS, ColumnType.HEIGHT };
 
         public static readonly List<string> Languages = new()
             { "english", "japanese", "french", "german", "spanish", "italian", "korean", "chinese" };

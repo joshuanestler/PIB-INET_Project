@@ -1,5 +1,6 @@
 ﻿using PokeApiNet;
 using Pokewordle.Shared.Extensions;
+using Pokewordle.Shared.Util;
 using System.Collections.Immutable;
 
 namespace Pokewordle.Shared.PokemonData
@@ -8,6 +9,7 @@ namespace Pokewordle.Shared.PokemonData
     public class FetchablePokeData : IPokeData
     {
         public string Name { get; }
+        public string NameLocalized { get; }
 
         public IImmutableList<string> Types { get; }
 
@@ -45,6 +47,7 @@ namespace Pokewordle.Shared.PokemonData
             this.apiPokemon = pokemon;
             
             Name = apiPokemon.Name;
+            NameLocalized = Translations.TryGetLocalizedName(Name, Name);
             Types = apiPokemon.Types.ConvertAll(type => type.Type.Name).ToImmutableList();
             FilledTypes =PokemonDataHelper.BuildTypeList(Types, 2);
             Height_m = apiPokemon.Height / 10f;

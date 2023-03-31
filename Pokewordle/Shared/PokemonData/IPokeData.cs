@@ -7,6 +7,7 @@ namespace Pokewordle.Shared.PokemonData
     public interface IPokeData
     {
         string Name { get; }
+        string NameLocalized { get; }
 
         IImmutableList<string> Types { get; }
         //ALWAYS CONTAINS AT LEAST 2 VALUES

@@ -61,7 +61,12 @@
                         Console.WriteLine(guess.GetPokemonName());
                         //Console.WriteLine(guess.ToRowString(displayedColumns));
                         //@((MarkupString)guess.ToRowString(displayedColumns));
-                        <TemplateRow TableCellsTask=@guess.GetRowCells(SharedSettings.GameColumnTypes) ObfuscationList="@guess.GetObfuscationOrder(SharedSettings.GameColumnTypes)" IsSolution=guess.GetIsCorrect() Visible=visible></TemplateRow>
+                        <TemplateRow 
+                            TableCellsTask=@guess.GetRowCells(SharedSettings.GameColumnTypes)
+                            ObfuscationList="@guess.GetObfuscationOrder(SharedSettings.GameColumnTypes)"
+                            IsSolution=guess.GetIsCorrect()
+                            Visible=visible
+                        ></TemplateRow>
                     }
                 </tbody>
             </table>

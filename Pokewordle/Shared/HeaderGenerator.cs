@@ -8,6 +8,7 @@ namespace Pokewordle.Shared
         {
             {ColumnType.SPRITE, 2},
             {ColumnType.NAME, 8},
+            {ColumnType.NAME_LOCAL, 8},
             {ColumnType.TYPE1, 5},
             {ColumnType.TYPE2, 5},
             {ColumnType.TYPES, 5},
@@ -42,6 +43,7 @@ namespace Pokewordle.Shared
         {
             {ColumnType.SPRITE, "Sprite"},
             {ColumnType.NAME, "Pokémon"},
+            {ColumnType.NAME_LOCAL, "Pokémon (local)"},
             {ColumnType.TYPE1, "Type 1"},
             {ColumnType.TYPE2, "Type 2"},
             {ColumnType.TYPES, "Type"},

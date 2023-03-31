@@ -8,10 +8,7 @@
     /*background: linear-gradient(330deg, #d9bc31 0%, #00d4ff  100%);*/
 }
 
-#game-input ::part(control), .searchbox ::part(control) {
-    background: linear-gradient(120deg, #326966 0%, #506649 100%);
-}
-
-#game-input ::part(listbox), .searchbox ::part(listbox) {
+#game-input ::part(control), .searchbox ::part(control) 
+, #game-input ::part(listbox), .searchbox ::part(listbox) {
     background: linear-gradient(120deg, #326966 0%, #506649 100%);
 }

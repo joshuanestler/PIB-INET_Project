@@ -15,6 +15,7 @@ namespace Pokewordle.Shared.Util
         private static readonly Dictionary<string, string> s_BaseNameToTranslatedName = new();
         private static readonly Dictionary<string, string> s_TranslatedNameToBaseName = new();
         private static readonly Dictionary<string, string> s_BaseNamesToLookupName = new();
+        private static readonly Dictionary<string, string> s_LookupNamesToBaseName = new();
         private static int loadedColumn = 0;
 
         
@@ -72,6 +73,7 @@ namespace Pokewordle.Shared.Util
             using MemoryStream stream = new(byteArray);
 
             s_BaseNamesToLookupName.Clear();
+            s_LookupNamesToBaseName.Clear();
             //Add names based on column in csv file
             using TextFieldParser parser = new(stream);
             parser.TextFieldType = FieldType.Delimited;
@@ -90,6 +92,7 @@ namespace Pokewordle.Shared.Util
                     if (baseNameToLookupName.TryGetValue(baseName, out string? validName) && validName is not null)
                     {
                         s_BaseNamesToLookupName[baseName] = validName;
+                        s_LookupNamesToBaseName[validName] = baseName;
                     } else
                     {
                         //Console.WriteLine($"Failed to find valid name for english name {baseName}!");
@@ -185,6 +188,23 @@ namespace Pokewordle.Shared.Util
                 return lookupName;
             }
             throw new ArgumentException();
+        }
+
+        internal static string TryGetLocalizedName(string lookupName, string nameIfNotFound)
+        {
+            if (s_LookupNamesToBaseName.TryGetValue(lookupName, out string? baseName) && baseName is not null)
+            {
+                if (s_BaseNameToTranslatedName.TryGetValue(baseName, out string? localizedName) && localizedName is not null)
+                {
+                    return localizedName;
+                } else
+                {
+                    return nameIfNotFound;
+                }
+            } else
+            {
+                return nameIfNotFound;
+            }
         }
     }
 }

@@ -43,7 +43,7 @@
         <p class="setting-title">Choose Game Columns</p>
         <div class="column-selection-container setting-grid-container">
             <div class="grid-content-wrapper darken-25 round-border-10">
-                <div class="shown-columns column-container lighten-25">
+                <div class="shown-columns column-container lighten-20">
                     <p class="column-container-title">Shown Columns</p>
                     <div class="column-list">
                         @for (int i = 0; i < _selectedColumnTypes.Count; i++)
@@ -72,7 +72,7 @@
                     </div>
                 </div>
                 @* <div style="float: left; width: 100px"></div> *@
-                <div class="hidden-columns column-container lighten-25">
+                <div class="hidden-columns column-container lighten-20">
                     <p class="column-container-title">Other Columns</p>
                     <div class="column-list">
                         @foreach (ColumnType columnType in Enum.GetValues<ColumnType>())
@@ -81,7 +81,7 @@
                             {
                                 if (_selectedType == columnType)
                                 {
-                                    <div class="selectedColumnToInsert lighten-25" onclick="@(() => SelectColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</div>
+                                    <div class="selectedColumnToInsert lighten-20" onclick="@(() => SelectColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</div>
                                 }
                                 else
                                 {
@@ -132,7 +132,7 @@
             <div class="miscellaneous-settings-container darken-15 round-border-10">
 
                 <div class="setting-description-wrapper-wrapper">
-                    <div class="setting-description-wrapper lighten-25 round-border-10">
+                    <div class="setting-description-wrapper lighten-20 round-border-10">
                         <p class="left-column">Randomly obfuscate a number of fields per guess</p>
                     </div>
                 </div>
@@ -141,7 +141,7 @@
                 </div>
 
                 <div class="setting-description-wrapper-wrapper">
-                    <div class="setting-description-wrapper lighten-25 round-border-10">
+                    <div class="setting-description-wrapper lighten-20 round-border-10">
                         <p class="left-column">Limit Visible Guess History</p>
                     </div>
                 </div>
@@ -150,7 +150,7 @@
                 </div>
 
                 <div class="setting-description-wrapper-wrapper">
-                    <div class="setting-description-wrapper lighten-25 round-border-10">
+                    <div class="setting-description-wrapper lighten-20 round-border-10">
                         <p class="left-column">Allow Duplicate Guesses</p>
                     </div>
                 </div>
