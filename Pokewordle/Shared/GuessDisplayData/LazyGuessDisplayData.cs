@@ -58,6 +58,7 @@ namespace Pokewordle.Shared.GuessDisplayData
             dictionaryBuilder.Add(ColumnType.WEIGHT, new(CreateWeightCell));
 
             dictionaryBuilder.Add(ColumnType.GENERATION, new(CreateGenerationCell));
+            dictionaryBuilder.Add(ColumnType.EVOLUTION, new(CreateEvolutionCell));
 
             dictionaryBuilder.Add(ColumnType.HP, new(CreateHpCell));
             dictionaryBuilder.Add(ColumnType.ATK, new(CreateAtkCell));
@@ -194,6 +195,11 @@ namespace Pokewordle.Shared.GuessDisplayData
                 pokeDataGuessed.Match(pokeDataToGuess, pokeData => pokeData.MaxStatNames).ToTruePartialFalseColor(),
                 htmlId: "maxstats"
                 );
+        }
+
+        private async Task<ICellData> CreateEvolutionCell()
+        {
+            return new SimpleCellData(ColumnType.EVOLUTION, "Coming soon...");
         }
 
         #endregion StatCells
