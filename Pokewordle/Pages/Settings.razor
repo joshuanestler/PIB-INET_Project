@@ -6,163 +6,164 @@
 <PageTitle>Settings</PageTitle>
 
 <link href="/css/pokecss/settingsSearchbox.css" rel="stylesheet"/>
-<div class="content">
-    <h1 class="page-title">Settings</h1>
-    <div class="language-wrapper setting-wrapper">
-        <p class="setting-title">Language</p>
-        <div class="language-container">
-            <div class="searchbox">
-                <LanguageSelector></LanguageSelector>
+<div class="page-content">
+    <div class="settings-content">
+        <h1 class="page-title">Settings</h1>
+        <div class="language-wrapper setting-wrapper">
+            <p class="setting-title">Language</p>
+            <div class="language-container">
+                <div class="searchbox">
+                    <LanguageSelector></LanguageSelector>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="theme-wrapper setting-wrapper">
-        <p class="setting-title">Theme</p>
-        <div class="theme-container">
-            <div class="searchbox">
-                @* <form > *@
-                @* <select onchange="@SetTheme"> *@
-                @*     @foreach (Theme theme in Enum.GetValues<Theme>()) *@
-                @*     { *@
-                @*         <option value="@theme">@theme.ToString()</option> *@
-                @*          *@
-                @*     } *@
-                @* </select> *@
-                <ThemeSelector></ThemeSelector>
-                @* </form> *@
+        <div class="theme-wrapper setting-wrapper">
+            <p class="setting-title">Theme</p>
+            <div class="theme-container">
+                <div class="searchbox">
+                    @* <form > *@
+                    @* <select onchange="@SetTheme"> *@
+                    @*     @foreach (Theme theme in Enum.GetValues<Theme>()) *@
+                    @*     { *@
+                    @*         <option value="@theme">@theme.ToString()</option> *@
+                    @*          *@
+                    @*     } *@
+                    @* </select> *@
+                    <ThemeSelector></ThemeSelector>
+                    @* </form> *@
 
-                @* <button onclick="@(() => SetTheme(Theme.VAPORWAVE))"> *@
-                @*     SUPERTEXT *@
-                @* </button> *@
+                    @* <button onclick="@(() => SetTheme(Theme.VAPORWAVE))"> *@
+                    @*     SUPERTEXT *@
+                    @* </button> *@
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="column-selection-wrapper setting-wrapper">
-        <p class="setting-title">Choose Game Columns</p>
-        <div class="column-selection-container setting-grid-container">
-            <div class="grid-content-wrapper darken-25 round-border-10">
-                <div class="shown-columns column-container lighten-20">
-                    <p class="column-container-title">Shown Columns</p>
-                    <div class="column-list">
-                        @for (int i = 0; i < _selectedColumnTypes.Count; i++)
-                        {
-                            ColumnType columnType = _selectedColumnTypes[i];
-                            if (_selectedType is not null)
+        <div class="column-selection-wrapper setting-wrapper">
+            <p class="setting-title">Choose Game Columns</p>
+            <div class="column-selection-container setting-grid-container">
+                <div class="grid-content-wrapper darken-25 round-border-10">
+                    <div class="shown-columns column-container lighten-20">
+                        <p class="column-container-title">Shown Columns</p>
+                        <div class="column-list">
+                            @for (int i = 0; i < _selectedColumnTypes.Count; i++)
                             {
-                                <div class="insertIcon" onclick="@(() => InsertSelectedHeader(columnType))">
+                                ColumnType columnType = _selectedColumnTypes[i];
+                                if (_selectedType is not null)
+                                {
+                                    <div class="insertIcon" onclick="@(() => InsertSelectedHeader(columnType))">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" fill="currentColor" class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0v-2z"/>
+                                            <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
+                                        </svg>
+                                    </div>
+                                }
+                                <div class="displayedColumn" onclick="@(() => DisableColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</div>
+                            }
+                            @if (_selectedType is not null)
+                            {
+                                <div class="insertIcon" onclick="@AppendSelectedHeader">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" fill="currentColor" class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0v-2z"/>
                                         <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
                                     </svg>
                                 </div>
                             }
-                            <div class="displayedColumn" onclick="@(() => DisableColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</div>
-                        }
-                        @if (_selectedType is not null)
-                        {
-                            <div class="insertIcon" onclick="@AppendSelectedHeader">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" fill="currentColor" class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0v-2z"/>
-                                    <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
-                                </svg>
-                            </div>
-                        }
+                        </div>
                     </div>
-                </div>
-                @* <div style="float: left; width: 100px"></div> *@
-                <div class="hidden-columns column-container lighten-20">
-                    <p class="column-container-title">Other Columns</p>
-                    <div class="column-list">
-                        @foreach (ColumnType columnType in Enum.GetValues<ColumnType>())
-                        {
-                            if (!_selectedColumnTypes.Contains(columnType))
+                    @* <div style="float: left; width: 100px"></div> *@
+                    <div class="hidden-columns column-container lighten-20">
+                        <p class="column-container-title">Other Columns</p>
+                        <div class="column-list">
+                            @foreach (ColumnType columnType in Enum.GetValues<ColumnType>())
                             {
-                                if (_selectedType == columnType)
+                                if (!_selectedColumnTypes.Contains(columnType))
                                 {
-                                    <div class="selectedColumnToInsert lighten-20" onclick="@(() => SelectColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</div>
-                                }
-                                else
-                                {
-                                    <div class="hiddenColumn" onclick="@(() => SelectColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</div>
+                                    if (_selectedType == columnType)
+                                    {
+                                        <div class="selectedColumnToInsert lighten-20" onclick="@(() => SelectColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="hiddenColumn" onclick="@(() => SelectColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</div>
+                                    }
                                 }
                             }
-                        }
+                        </div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
-    </div>
 
 
-    @* <div class="setting-wrapper"> *@
-    @*     <div class="darken-15 round-border-10"> *@
-    @*         <div class="miscellaneous-settings-container"> *@
-    @*             <div class="miscellaneous-setting"> *@
-    @*                 <p class="left-column">Randomly obfuscate a number of fields per guess</p> *@
-    @*                 <div class="right-column"> *@
-    @*                     <InputNumber TValue="int" @bind-Value="@this._obfuscationValueProperty">Randomly Obfuscated Fields</InputNumber> *@
-    @*                 </div> *@
-    @*             </div> *@
-    @* *@
-    @*             <div class="miscellaneous-setting"> *@
-    @*                 <p class="left-column">Limit Visible Guess History</p> *@
-    @*                 <div class="right-column"> *@
-    @*                     <InputNumber TValue="int" @bind-Value="@this._guessHistoryLimitProperty">Limit Visible Guess History</InputNumber> *@
-    @*                 </div> *@
-    @*             </div> *@
-    @* *@
-    @*             <div class="miscellaneous-setting"> *@
-    @*                 <p class="left-column">Allow Duplicate Guesses</p> *@
-    @*                 <div class="right-column"> *@
-    @*                     <InputCheckbox @bind-Value="@this._allowDuplicateGuessesProperty">Allow Duplicate Guesses</InputCheckbox> *@
-    @*                 </div> *@
-    @*             </div> *@
-    @* *@
-    @*         </div> *@
-    @*     </div> *@
-    @* </div> *@
+        @* <div class="setting-wrapper"> *@
+        @*     <div class="darken-15 round-border-10"> *@
+        @*         <div class="miscellaneous-settings-container"> *@
+        @*             <div class="miscellaneous-setting"> *@
+        @*                 <p class="left-column">Randomly obfuscate a number of fields per guess</p> *@
+        @*                 <div class="right-column"> *@
+        @*                     <InputNumber TValue="int" @bind-Value="@this._obfuscationValueProperty">Randomly Obfuscated Fields</InputNumber> *@
+        @*                 </div> *@
+        @*             </div> *@
+        @* *@
+        @*             <div class="miscellaneous-setting"> *@
+        @*                 <p class="left-column">Limit Visible Guess History</p> *@
+        @*                 <div class="right-column"> *@
+        @*                     <InputNumber TValue="int" @bind-Value="@this._guessHistoryLimitProperty">Limit Visible Guess History</InputNumber> *@
+        @*                 </div> *@
+        @*             </div> *@
+        @* *@
+        @*             <div class="miscellaneous-setting"> *@
+        @*                 <p class="left-column">Allow Duplicate Guesses</p> *@
+        @*                 <div class="right-column"> *@
+        @*                     <InputCheckbox @bind-Value="@this._allowDuplicateGuessesProperty">Allow Duplicate Guesses</InputCheckbox> *@
+        @*                 </div> *@
+        @*             </div> *@
+        @* *@
+        @*         </div> *@
+        @*     </div> *@
+        @* </div> *@
 
 
-    <link href="/css/pokecss/settingsInput.css" rel="stylesheet"/>
-    <div class="setting-wrapper">
-        <div class="centering-container">
-            <div class="miscellaneous-settings-container darken-15 round-border-10">
+        <link href="/css/pokecss/settingsInput.css" rel="stylesheet"/>
+        <div class="setting-wrapper">
+            <div class="centering-container">
+                <div class="miscellaneous-settings-container darken-15 round-border-10">
 
-                <div class="setting-description-wrapper-wrapper">
-                    <div class="setting-description-wrapper lighten-20 round-border-10">
-                        <p class="left-column">Randomly obfuscate a number of fields per guess</p>
+                    <div class="setting-description-wrapper-wrapper">
+                        <div class="setting-description-wrapper lighten-20 round-border-10">
+                            <p class="left-column">Randomly obfuscate a number of fields per guess</p>
+                        </div>
                     </div>
-                </div>
-                <div class="right-column">
-                    <InputNumber TValue="int" @bind-Value="@this._obfuscationValueProperty">Randomly Obfuscated Fields</InputNumber>
-                </div>
-
-                <div class="setting-description-wrapper-wrapper">
-                    <div class="setting-description-wrapper lighten-20 round-border-10">
-                        <p class="left-column">Limit Visible Guess History</p>
+                    <div class="right-column">
+                        <InputNumber TValue="int" @bind-Value="@this._obfuscationValueProperty">Randomly Obfuscated Fields</InputNumber>
                     </div>
-                </div>
-                <div class="right-column">
-                    <InputNumber TValue="int" @bind-Value="@this._guessHistoryLimitProperty">Limit Visible Guess History</InputNumber>
-                </div>
 
-                <div class="setting-description-wrapper-wrapper">
-                    <div class="setting-description-wrapper lighten-20 round-border-10">
-                        <p class="left-column">Allow Duplicate Guesses</p>
+                    <div class="setting-description-wrapper-wrapper">
+                        <div class="setting-description-wrapper lighten-20 round-border-10">
+                            <p class="left-column">Limit Visible Guess History</p>
+                        </div>
                     </div>
-                </div>
-                <div class="right-column">
-                    <InputCheckbox @bind-Value="@this._allowDuplicateGuessesProperty">Allow Duplicate Guesses</InputCheckbox>
-                </div>
+                    <div class="right-column">
+                        <InputNumber TValue="int" @bind-Value="@this._guessHistoryLimitProperty">Limit Visible Guess History</InputNumber>
+                    </div>
 
+                    <div class="setting-description-wrapper-wrapper">
+                        <div class="setting-description-wrapper lighten-20 round-border-10">
+                            <p class="left-column">Allow Duplicate Guesses</p>
+                        </div>
+                    </div>
+                    <div class="right-column">
+                        <InputCheckbox @bind-Value="@this._allowDuplicateGuessesProperty">Allow Duplicate Guesses</InputCheckbox>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
 </div>
-
 
 @* *@
 @* <div> *@
@@ -258,8 +259,9 @@
         StateHasChanged();
     }
 
-    private const int DOUBLE_CLICK_INTERVAL_MS = 400;
+        private const int DOUBLE_CLICK_INTERVAL_MS = 400;
     private DateTime _lastClickTime = DateTime.Now;
+
     private void SelectColumnHeader(ColumnType columnType)
     {
         DateTime clickTime = DateTime.Now;
@@ -275,13 +277,14 @@
             if (clickTime.CompareTo(_lastClickTime.AddMilliseconds(DOUBLE_CLICK_INTERVAL_MS)) < 0)
             {
                 AppendSelectedHeader();
-            } else
+            }
+            else
             {
                 _selectedType = null;
                 StateHasChanged();
             }
-
-        } finally
+        }
+        finally
         {
             _lastClickTime = clickTime;
         }

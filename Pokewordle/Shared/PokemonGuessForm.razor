@@ -14,7 +14,7 @@
                     Autocomplete="ComboboxAutocomplete.Both" OptionText="s => s.FirstCharToUpper()"
                     Placeholder="Enter your guess..." SelectedOptionChanged="ValueChangedHandler"
                     Appearance="Appearance.Filled"
-                    Id="name-input" Style="width: 70%; height: 7rem">
+                    Id="name-input" Style="width: 70%; height:3rem">
     </FluentCombobox>
 </div>
 
@@ -30,9 +30,7 @@
     [Parameter]
     [Required]
     public EventCallback<string> ValueChanged { get; set; }
-    
-    
-    
+   
     // fluentui design tokens
     [Inject]
     private BaseLayerLuminance BaseLayerLuminance { get; set; } = default!;

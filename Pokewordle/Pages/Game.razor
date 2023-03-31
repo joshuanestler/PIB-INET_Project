@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using PokeApiNet
 @using Pokewordle.Components.Cells
+@using Pokewordle.Shared.Components
 @using Pokewordle.Shared.GuessDisplayData;
 @using Pokewordle.Shared.PokemonData;
 @using Microsoft.Fast.Components.FluentUI;
@@ -15,7 +16,7 @@
     <link href="/css/pokecss/table.css" rel="stylesheet"/>
     @if (_pokemonToGuess == null)
     {
-        <div style="display: grid; height: 100vh; justify-items: center; align-content: center;">
+        <div style="display: grid; height: 100%; justify-items: center; align-content: center;">
             <FluentProgressRing @ref="_FluentProgressRing" style="width: 10em; height: 10em;"></FluentProgressRing>
         </div>
     }
@@ -28,7 +29,7 @@
                 </span>
                 <span class="tooltip darken-30">Reveal Pokémon</span>
             </button>
-            
+
             <button class="game-status-button" onclick="@RestartButtonClick">
                 <span class="game-status-button-icon material-symbols-outlined">
                     refresh
@@ -36,38 +37,40 @@
                 <span class="tooltip darken-30">Restart Game</span>
             </button>
         </div>
-        
+
         <div id="game-container" class="round-border-10">
             <h1 class="game-title">Guess a Pokemon</h1>
-            
-            <PokemonGuessForm @ref="_pokemonGuessForm" ValueChanged="AttemptGuess" PokemonNames="_pokemonTypes"></PokemonGuessForm>
-            
-            <table id="game-table" class="lighten-10 round-border-10">
-                <thead>
-                    @(
-                        (MarkupString)HeaderGenerator.ToHeaderString(SharedSettings.GameColumnTypes)
-                        )
-                </thead>
+            <div class="table-and-searchbox-container">
+                <PokemonGuessForm @ref="_pokemonGuessForm" ValueChanged="AttemptGuess" PokemonNames="_pokemonTypes"></PokemonGuessForm>
 
-                <tbody>
-                    @for (int i = 0; i < _displayData.Count; i++)
-                    {
-                        IGuessDisplayData guess = _displayData[i];
-                        bool visible = true;
-                        if (SharedSettings.GuessHistoryLimit > 0)
+                <div class="table-container lighten-10 round-border-10">
+                    <table id="game-table">
+                        <thead>
+                        @(
+            (MarkupString)HeaderGenerator.ToHeaderString(SharedSettings.GameColumnTypes)
+                            )
+                        </thead>
+
+                        <tbody>
+                        @for (int i = 0; i < _displayData.Count; i++)
                         {
-                            visible = _displayData.Count - i <= SharedSettings.GuessHistoryLimit;
+                            IGuessDisplayData guess = _displayData[i];
+                            bool visible = true;
+                            if (SharedSettings.GuessHistoryLimit > 0)
+                            {
+                                visible = _displayData.Count - i <= SharedSettings.GuessHistoryLimit;
+                            }
+                            <TemplateRow
+                                TableCellsTask=@guess.GetRowCells(SharedSettings.GameColumnTypes)
+                                ObfuscationList="@guess.GetObfuscationOrder(SharedSettings.GameColumnTypes)"
+                                IsSolution=guess.GetIsCorrect()
+                                Visible=visible>
+                            </TemplateRow>
                         }
-                        <TemplateRow 
-                            TableCellsTask=@guess.GetRowCells(SharedSettings.GameColumnTypes)
-                            ObfuscationList="@guess.GetObfuscationOrder(SharedSettings.GameColumnTypes)"
-                            IsSolution=guess.GetIsCorrect()
-                            Visible=visible
-                        ></TemplateRow>
-                    }
-                </tbody>
-            </table>
-
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     }
 </div>
@@ -79,6 +82,8 @@
 
     private FluentProgressRing _FluentProgressRing;
 
+    private LessAnnoyingComboBox _newBetterPokemonGuessForm;
+
     private PokemonGuessForm? _pokemonGuessForm;
 
     private List<string> _pokemonTypes = new();
@@ -89,18 +94,13 @@
     private readonly List<IGuessDisplayData> _displayData = new();
 
 
-    
+
     protected override async Task OnInitializedAsync()
     {
         _pokemonTypes.Clear();
         _pokemonTypes.AddRange(Translations.GetTranslatedNames());
-        
-        await Reset();
 
-        if (HttpClient is null)
-        {
-            Console.WriteLine("Client is null");
-        }
+        await Reset();
 
     }
 

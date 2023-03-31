@@ -1,0 +1,91 @@
+﻿@using Pokewordle.Shared.Extensions;
+@using Microsoft.AspNetCore.Components.Forms;
+@inject IJSRuntime JSRuntime;
+
+
+<link href="/css/pokecss/SearchBox.css" rel="stylesheet"/>
+<div id="game-input">
+    <input type="text" list="itemList" @bind-value="@Value" @onkeydown="Test2" @oninput="Test" />
+    <datalist id="itemList">
+        @foreach(string item in ItemList)
+        {
+            <option value="@item">
+                @item.FirstCharToUpper()
+            </option>
+        }
+    </datalist>
+</div>
+
+
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public List<string> ItemList { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public EventCallback<string> ValueChanged { get; set; }
+
+    private EditContext editContext = new(new object());
+
+    private string _value;
+    public string Value { get => _value; set => SetValue(value); }
+
+    private volatile bool ignoreNextInput = false;
+    private void Test(ChangeEventArgs value)
+    {
+        if (value.Value is not string inputValue)
+        {
+            Console.WriteLine("Ignoring non string input.");
+            return;
+        }
+
+        if (ignoreNextInput)
+        {
+            ignoreNextInput = false;
+            Console.WriteLine($"Ignoring input \"{inputValue}\".");
+            return;
+        }
+
+        if (!ItemList.Contains(inputValue))
+        {
+            Console.WriteLine($"Input \"{inputValue}\" is not in List.");
+            return;
+        }
+
+        SetValue(inputValue);
+        Console.WriteLine($"Input \"{inputValue}\" accepted.");
+    }
+    private void Test2(KeyboardEventArgs value)
+    {
+        if (value.Key.Length == 1)
+        {
+            char c = value.Key.ToLower()[0];
+            if ('a' <= c && c <= 'z')
+            {
+                ignoreNextInput = true;
+            }
+        }
+    }
+
+    private void SetValue(string value)
+    {
+        if (ItemList.Contains(value))
+        {
+            Console.WriteLine($"Input matched for value {value}");
+            _value = "";
+            ValueChanged.InvokeAsync(value);
+        }
+        else
+        {
+            _value = value;
+            Console.WriteLine($"Input not matched for value {value}");
+        }
+    }
+
+    public void SetValueDontTriggerEvent(string value)
+    {
+        _value = value;
+    }
+}
