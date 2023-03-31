@@ -6,10 +6,10 @@
     background: linear-gradient(90deg, hsl(21, 85%, 37%) 0%, hsl(103, 89%, 28%) 120%);
 }
 
-#game-input ::part(control), .searchbox ::part(control) {
+#game-input ::part(control), .searchbox ::part(control), .pokemon-input {
     background: linear-gradient(120deg, hsl(27, 43%, 50%) 0%, hsl(79, 29%, 44%) 100%);
 }
 
-#game-input ::part(listbox), .searchbox ::part(listbox) {
+#game-input ::part(listbox), .searchbox ::part(listbox), .pokemon-dropdown-container {
     background: linear-gradient(120deg, hsl(27, 43%, 50%) 0%, hsl(79, 29%, 44%) 100%);
 }

@@ -5,39 +5,41 @@
 
 <link href="/css/pokecss/SearchBox.css" rel="stylesheet"/>
 <div id="game-input">
-    <input type="text" list="itemList" @bind-value="@ValueProperty" @onkeyup="InputKeyUp" @onkeydown="InputKeyDown" @oninput="InputChange"
+    <input class="pokemon-inputlist="itemList" @bind-value="@ValueProperty" @onkeyup="InputKeyUp" @onkeydown="InputKeyDown" @oninput="InputChange"
         @onfocusin="(() => isDropdownVisible = true)"
         @onfocusout="(() => isDropdownVisible = false)"
         />
-    @if (isDropdownVisible)
-    {
-        <div style="z-index: 2; max-height: 10rem; position: absolute; overflow-y: scroll; overflow-x: hidden;">
-            @for(int i = 0; i < DisplayItemsList.Count; i++)
-            {
-                string item = DisplayItemsList[i];
-                if (i >= _dropdownIndex - 2)
+    <div class="dropdown-wrapper">
+        <div class="dropdown-inner-wrapper">
+            <div class="pokemon-dropdown-container">
+                @for (int i = 0; i < DisplayItemsList.Count; i++)
                 {
-                    var test = i;
-                    if (i == _dropdownIndex)
+                    string item = DisplayItemsList[i];
+                    if (i >= _dropdownIndex - 2)
                     {
-                        <div class="pokemonDropdown" id="selectedPokemon" @onclick="(() => ClickValue(test))">@item.FirstCharToUpper()</div>
-                    }
-                    else
-                    {
-                        <div class="pokemonDropdown" @onclick="(() => ClickValue(test))">@item.FirstCharToUpper()</div>
+                        var test = i;
+                        if (i == _dropdownIndex)
+                        {
+                            <div class="pokemonItem" id="selectedPokemon" @onclick="(() => ClickValue(test))">@item.FirstCharToUpper()</div>
+                        }
+                        else
+                        {
+                            <div class="pokemonItem" @onclick="(() => ClickValue(test))">@item.FirstCharToUpper()</div>
+                        }
                     }
                 }
-            }
-        </div>   
-    }
+            </div>
+        </div>
+    </div>
 </div>
 
 
-
 @code {
+
     [Parameter]
     [EditorRequired]
     public List<string> ItemList { get; set; }
+
     private readonly List<string> DisplayItemsList = new();
 
     [Parameter]
@@ -152,4 +154,5 @@
     {
         _value = value;
     }
+
 }
