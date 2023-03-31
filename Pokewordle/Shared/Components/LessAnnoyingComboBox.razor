@@ -5,25 +5,31 @@
 
 <link href="/css/pokecss/SearchBox.css" rel="stylesheet"/>
 <div id="game-input">
-    <input type="text" list="itemList" @bind-value="@Value" @onkeyup="Test2" @oninput="Test" />
-    <div style="z-index: 2; max-height: 10rem; position: absolute; overflow-y: scroll; overflow-x: hidden;">
-        @for(int i = 0; i < DisplayItemsList.Count; i++)
-        {
-            string item = DisplayItemsList[i];
-            if (i >= _dropdownIndex - 2)
+    <input type="text" list="itemList" @bind-value="@ValueProperty" @onkeyup="InputKeyUp" @onkeydown="InputKeyDown" @oninput="InputChange"
+        @onfocusin="(() => isDropdownVisible = true)"
+        @onfocusout="(() => isDropdownVisible = false)"
+        />
+    @if (isDropdownVisible)
+    {
+        <div style="z-index: 2; max-height: 10rem; position: absolute; overflow-y: scroll; overflow-x: hidden;">
+            @for(int i = 0; i < DisplayItemsList.Count; i++)
             {
-                var test = i;
-                if (i == _dropdownIndex)
+                string item = DisplayItemsList[i];
+                if (i >= _dropdownIndex - 2)
                 {
-                    <div class="pokemonDropdown" id="selectedPokemon" @onclick="(() => ClickValue(test))">@item.FirstCharToUpper()</div>
-                }
-                else
-                {
-                    <div class="pokemonDropdown" @onclick="(() => ClickValue(test))">@item.FirstCharToUpper()</div>
+                    var test = i;
+                    if (i == _dropdownIndex)
+                    {
+                        <div class="pokemonDropdown" id="selectedPokemon" @onclick="(() => ClickValue(test))">@item.FirstCharToUpper()</div>
+                    }
+                    else
+                    {
+                        <div class="pokemonDropdown" @onclick="(() => ClickValue(test))">@item.FirstCharToUpper()</div>
+                    }
                 }
             }
-        }
-    </div>
+        </div>   
+    }
 </div>
 
 
@@ -40,26 +46,21 @@
 
     private EditContext editContext = new(new object());
 
-    public int elementLimit { get; set; } = 10;
+    private bool isDropdownVisible = false;
 
-    public string Value { get; set; } = "";
-
-    private void ClickValue(string element)
-    {
-        Console.WriteLine(element);
-    }
+    private string _value = "";
+    public string ValueProperty { get => _value; set => SetValue(value); }
 
     private void ClickValue(int i)
     {
-        Console.WriteLine($"Click: {i}");
         if (0 <= i && i < DisplayItemsList.Count)
         {
-            SetValue(DisplayItemsList[i]);
+            SubmitValue(DisplayItemsList[i]);
         } else
         {
-            if (DisplayItemsList.Contains(Value))
+            if (DisplayItemsList.Contains(_value))
             {
-                SetValue(Value);
+                SubmitValue(_value);
             }
         }
     }
@@ -78,7 +79,7 @@
         }
     }
 
-    private void Test(ChangeEventArgs value)
+    private void InputChange(ChangeEventArgs value)
     {
         if (value.Value is not string inputValue)
         {
@@ -87,25 +88,26 @@
         }
 
         UpdateDisplayedItems(inputValue);
-        //if (ignoreNextInput)
-        //{
-        //    ignoreNextInput = false;
-        //    Console.WriteLine($"Ignoring input \"{inputValue}\".");
-        //    return;
-        //}
-
-        //if (!ItemList.Contains(inputValue))
-        //{
-        //    Console.WriteLine($"Input \"{inputValue}\" is not in List.");
-        //    return;
-        //}
-
-        //SetValue(inputValue);
-        //Console.WriteLine($"Input \"{inputValue}\" accepted.");
     }
-    private void Test2(KeyboardEventArgs value)
+
+    private void InputKeyDown(KeyboardEventArgs value)
     {
-        Console.WriteLine(value.Code);
+        if (value.Code.Equals("Enter") || value.Code.Equals("NumpadEnter"))
+        {
+            Console.WriteLine("Enter");
+            if (DisplayItemsList.Count == 1)
+            {
+                Console.WriteLine("Click 0");
+                ClickValue(0);
+            } else
+            {
+                ClickValue(_dropdownIndex);
+            }
+        }
+    }
+
+    private void InputKeyUp(KeyboardEventArgs value)
+    {
         if (value.Code.Equals("ArrowDown"))
         {
             _dropdownIndex = Math.Min(_dropdownIndex + 1, DisplayItemsList.Count - 1);
@@ -116,41 +118,38 @@
             _dropdownIndex = Math.Max(_dropdownIndex - 1, -1);
             return;
         }
-
-
-        if (value.Code.Equals("Enter") || value.Code.Equals("NumpadEnter"))
-        {
-            ClickValue(_dropdownIndex);
-        }
         _dropdownIndex = -1;
-        //if (value.Key.Length == 1)
-        //{
-        //    char c = value.Key.ToLower()[0];
-        //    if ('a' <= c && c <= 'z')
-        //    {
-        //        ignoreNextInput = true;
-        //    }
-        //}
+    }
+
+    private void SubmitValue(string value)
+    {
+        if (ItemList.Contains(value))
+        {
+            _value = "";
+            UpdateDisplayedItems("");
+            ValueChanged.InvokeAsync(value);
+        }
     }
 
     private void SetValue(string value)
     {
+        _value = value;
+        UpdateDisplayedItems("");
         if (ItemList.Contains(value))
         {
             Console.WriteLine($"Input matched for value {value}");
-            Value = "";
-            UpdateDisplayedItems("");
-            ValueChanged.InvokeAsync(value);
+            SubmitValue(value);
         }
         else
         {
-            Value = value;
             Console.WriteLine($"Input not matched for value {value}");
         }
     }
 
+
+
     public void SetValueDontTriggerEvent(string value)
     {
-        Value = value;
+        _value = value;
     }
 }

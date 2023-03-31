@@ -11,7 +11,7 @@
         <h1 class="page-title">Settings</h1>
         <div class="language-wrapper setting-wrapper">
             <p class="setting-title">Language</p>
-            <p class="setting-description">Sets the language for the Pokémon Guess Box and the Pokémon lan</p>
+            <p class="setting-description">Sets the language for the Pokémon Names in the Guess-Box and the "Pokémon (local)" Column.</p>
             <div class="language-container">
                 <div class="searchbox">
                     <LanguageSelectorBak></LanguageSelectorBak>
@@ -21,6 +21,7 @@
 
     <div class="theme-wrapper setting-wrapper">
         <p class="setting-title">Theme</p>
+        <p class="setting-description">Set our stylish theme, if you manage to find it.</p>
         <div class="theme-container">
             <div class="searchbox">
                 <ThemeSelectorBak></ThemeSelectorBak>
@@ -30,10 +31,14 @@
 
         <div class="column-selection-wrapper setting-wrapper">
             <p class="setting-title">Choose Game Columns</p>
+            <p class="setting-description">Pick the columns that should be displayed while playing the game.</p>
+            <p class="setting-description">Click an active column to hide it.</p>
+            <p class="setting-description">Click an inactive column to enter insert mode.</p>
+            <p class="setting-description">Doubleclick an inactive column to append it to active columns.</p>
             <div class="column-selection-container setting-grid-container">
                 <div class="grid-content-wrapper darken-25 round-border-10">
                     <div class="shown-columns column-container lighten-20">
-                        <p class="column-container-title">Shown Columns</p>
+                        <p class="column-container-title">Active Columns</p>
                         <div class="column-list">
                             @foreach (ColumnType columnType in _selectedColumnTypes) {
                                 if (_selectedType is not null)
@@ -61,7 +66,7 @@
                     </div>
                     @* <div style="float: left; width: 100px"></div> *@
                     <div class="hidden-columns column-container lighten-20">
-                        <p class="column-container-title">Other Columns</p>
+                        <p class="column-container-title">Inactive Columns</p>
                         <div class="column-list">
                             @foreach (ColumnType columnType in Enum.GetValues<ColumnType>())
                             {
@@ -91,8 +96,9 @@
 
                     <div class="setting-description-wrapper-wrapper">
                         <div class="setting-description-wrapper lighten-20 round-border-10">
-                            <p class="left-column">Randomly obfuscate a number of fields per guess</p>
+                            <p class="left-column">Obfuscated field count</p>
                         </div>
+                        <p class="setting-description">This many fields are obfuscated per guess. Which fields is random.</p>
                     </div>
                     <div class="right-column">
                         <InputNumber TValue="int" @bind-Value="@settings.NumberOfObfuscatedFields">Randomly Obfuscated Fields</InputNumber>
@@ -102,6 +108,7 @@
                         <div class="setting-description-wrapper lighten-20 round-border-10">
                             <p class="left-column">Limit Visible Guess History</p>
                         </div>
+                        <p class="setting-description">Guesses that exceed the limit will be hidden.</p>
                     </div>
                     <div class="right-column">
                         <InputNumber TValue="int" @bind-Value="@settings.GuessHistoryLimit">Limit Visible Guess History</InputNumber>
@@ -111,6 +118,7 @@
                         <div class="setting-description-wrapper lighten-20 round-border-10">
                             <p class="left-column">Allow Duplicate Guesses</p>
                         </div>
+                        <p class="setting-description">Finally a cure for obfuscation hiding the types and abilities for all Pokemon of one species.</p>
                     </div>
                     <div class="right-column">
                         <InputCheckbox @bind-Value="@settings.AllowDuplicateGuesses">Allow Duplicate Guesses</InputCheckbox>

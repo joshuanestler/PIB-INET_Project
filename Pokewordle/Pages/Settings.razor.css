@@ -121,7 +121,7 @@
     gap: 5rem;
 }
 
-.left-column {
+.left-column, .setting-description {
     /*display: inline-grid;*/
     /*grid-column: 1;*/
     /*margin: 1rem 2rem;*/
