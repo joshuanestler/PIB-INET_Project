@@ -10,7 +10,7 @@
 
 <link href="/css/pokecss/SearchBox.css" rel="stylesheet" />
 <div id="language-input">
-    <InputSelect TValue="string" @bind-Value="SharedSettings.SelectedLanguage">
+    <InputSelect class="stringInput" TValue="string" @bind-Value="SharedSettings.SelectedLanguage">
         @foreach (string language in SharedSettings.Languages)
         {
             <option value="@language">@language.FirstCharToUpper()</option>

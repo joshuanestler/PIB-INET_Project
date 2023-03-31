@@ -20,6 +20,14 @@
      box-shadow: 0.4rem 0.4rem rgba(0,0,0,0.4);
      /*background-color: rgba(0, 0, 0, 0.3);*/
  }
+ 
+ .stringInput {
+     color: #d7d7d7;
+     padding: 0.5rem 1rem;
+     box-shadow: 0.4rem 0.4rem rgba(0,0,0,0.4);
+     border: 1px solid rgba(0, 0, 0, 0.25);
+     background: rgba(255, 255, 255, 0.25);
+ } 
 
  /*input[type=number]::-webkit-inner-spin-button {*/
  /*    -webkit-appearance: none;*/
