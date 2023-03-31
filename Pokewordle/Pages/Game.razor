@@ -8,7 +8,7 @@
 @using Microsoft.Fast.Components.FluentUI.DesignTokens
 @using Pokewordle.Shared.Util;
 @inject PokeApiClient PokeClient;
-@inject HttpClient HttpClient;
+@inject SharedSettings settings;
 
 <div class="page-content">
     <PageTitle>Guess a Pokemon</PageTitle>
@@ -47,7 +47,7 @@
                     <table id="game-table">
                         <thead>
                         @(
-            (MarkupString)HeaderGenerator.ToHeaderString(SharedSettings.GameColumnTypes)
+            (MarkupString)HeaderGenerator.ToHeaderString(settings.SelectedColumnTypes)
                             )
                         </thead>
 
@@ -56,13 +56,13 @@
                         {
                             IGuessDisplayData guess = _displayData[i];
                             bool visible = true;
-                            if (SharedSettings.GuessHistoryLimit > 0)
+                            if (settings.GuessHistoryLimit > 0)
                             {
-                                visible = _displayData.Count - i <= SharedSettings.GuessHistoryLimit;
+                                visible = _displayData.Count - i <= settings.GuessHistoryLimit;
                             }
                             <TemplateRow
-                                TableCellsTask=@guess.GetRowCells(SharedSettings.GameColumnTypes)
-                                ObfuscationList="@guess.GetObfuscationOrder(SharedSettings.GameColumnTypes)"
+                                TableCellsTask=@guess.GetRowCells(settings.SelectedColumnTypes)
+                                ObfuscationList="@guess.GetObfuscationOrder(settings.SelectedColumnTypes)"
                                 IsSolution=guess.GetIsCorrect()
                                 Visible=visible>
                             </TemplateRow>
@@ -139,7 +139,7 @@
     {
         string englishName = Translations.TranslateToEnglish(name);
         string lookupName = Translations.GetLookupName(englishName);
-        if (_pokemonsGuessed.ContainsKey(lookupName) && !SharedSettings.AllowDuplicateGuesses)
+        if (_pokemonsGuessed.ContainsKey(lookupName) && !settings.AllowDuplicateGuesses)
         {
             return;
         }

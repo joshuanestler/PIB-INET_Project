@@ -1,8 +1,10 @@
 ﻿@using Pokewordle.Shared.HtmlUtil;
 @using Pokewordle.Shared.Util;
 
+@inject SharedSettings SharedSettings;
+
 @* <div class="cell-wrapper"> *@
-@if (ObfuscationIndex < SharedSettings.Obfuscation && !IsSolution)
+@if (ObfuscationIndex < SharedSettings.NumberOfObfuscatedFields && !IsSolution)
 {
     <td style="background-color: #001020;filter: blur(3px); font-size: xx-large;">?</td>
 } else

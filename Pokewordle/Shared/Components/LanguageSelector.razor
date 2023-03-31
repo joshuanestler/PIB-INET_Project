@@ -1,17 +1,14 @@
-﻿@using System.ComponentModel.DataAnnotations
-@using Microsoft.Fast.Components.FluentUI
+﻿@using Microsoft.Fast.Components.FluentUI
 @using Microsoft.Fast.Components.FluentUI.DesignTokens
 @using Pokewordle.Shared.Extensions
-@using Pokewordle.Shared.Services
-@using Color = System.Drawing.Color
 @using Pokewordle.Shared.Util;
-@inject HttpClient httpClient;
-@inject SettingsService SettingsService;
+@inject SharedSettings SharedSettings;
 
 
 <link href="/css/pokecss/SearchBox.css" rel="stylesheet" />
 <div id="language-input fluent-combo-box">
-    <FluentCombobox @ref="_languageComboBox" TOption="string" Items="SharedSettings.Languages" bind-Value="@SharedSettings.SelectedLanguage"
+    <FluentCombobox @ref="_languageComboBox" TOption="string" Items="SharedSettings.Languages" 
+                    bind-Value="@SharedSettings.SelectedLanguage"
                     Autocomplete="ComboboxAutocomplete.Both" OptionText="s => s.FirstCharToUpper()"
                     SelectedOptionChanged="@ValueChangedHandler"
                     Appearance="Appearance.Filled"
@@ -72,15 +69,11 @@
         //await Translations.LoadLanguage(httpClient, index + 1);
     }
 
-    private async Task ValueChangedHandler(string? value)
+    private void ValueChangedHandler(string? value)
     {
         if (value == null) return;
 
-        int index = SharedSettings.Languages.IndexOf(value);
-        
-        SettingsService.SetSettingAsync("language", value);
-
-        await Translations.LoadLanguage(httpClient, index + 1);
+        SharedSettings.SelectedLanguage = value;
     }
 
 

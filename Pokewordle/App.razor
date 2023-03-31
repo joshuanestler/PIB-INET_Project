@@ -1,9 +1,4 @@
-﻿@using Pokewordle.Shared.Services
-@using Pokewordle.Shared.Util
-@inject SettingsService SettingsService
-@inject HttpClient httpClient
-
-<Router AppAssembly="@typeof(App).Assembly">
+﻿<Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />

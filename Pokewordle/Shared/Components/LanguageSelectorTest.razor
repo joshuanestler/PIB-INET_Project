@@ -1,0 +1,22 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Microsoft.Fast.Components.FluentUI
+@using Microsoft.Fast.Components.FluentUI.DesignTokens
+@using Pokewordle.Shared.Extensions
+@using Color = System.Drawing.Color
+@using Pokewordle.Shared.Util;
+@inject HttpClient httpClient;
+@inject SharedSettings SharedSettings;
+
+
+<link href="/css/pokecss/SearchBox.css" rel="stylesheet" />
+<div id="language-input">
+    <InputSelect TValue="string" @bind-Value="SharedSettings.SelectedLanguage">
+        @foreach (string language in SharedSettings.Languages)
+        {
+            <option value="@language">@language.FirstCharToUpper()</option>
+        }
+    </InputSelect>
+</div>
+
+@code {
+}

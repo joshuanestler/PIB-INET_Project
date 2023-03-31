@@ -2,12 +2,11 @@
 @using Microsoft.Fast.Components.FluentUI
 @using Microsoft.Fast.Components.FluentUI.DesignTokens
 @using Pokewordle.Shared.Extensions
-@using Pokewordle.Shared.Services
 @using Color = System.Drawing.Color
 @using Pokewordle.Shared.Util;
 @inject HttpClient httpClient;
 @inject NavigationManager NavigationManager;
-@inject SettingsService SettingsService;
+@inject SharedSettings SharedSettings;
 
 
 <link href="/css/pokecss/SearchBox.css" rel="stylesheet"/>
@@ -60,11 +59,10 @@
     [Inject]
     NeutralFillRest NeutralFillRest { get; set; } = default!;
 
-    private async Task ValueChangedHandler(Theme value)
+    private void ValueChangedHandler(Theme value)
     {
-        Console.WriteLine("Selected theme changed: " + value.ToString());
+        Console.WriteLine("Selected theme changed: " + value);
         SharedSettings.SelectedTheme = value;
-        SettingsService.SetSettingAsync("theme", value.ToString());
         
         NavigationManager.NavigateTo("/settings");
     }
