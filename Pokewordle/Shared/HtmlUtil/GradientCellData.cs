@@ -16,7 +16,7 @@ namespace Pokewordle.Shared.HtmlUtil
         public readonly string HtmlClass;
         public readonly string HtmlId;
 
-        public Type CellType => typeof(GradientCell);
+        public Type CellType => typeof(ArrowCell);
 
         public GradientCellData(ColumnType columnType,
             string displayString,
