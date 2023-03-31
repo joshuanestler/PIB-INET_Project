@@ -11,9 +11,9 @@
 
 <link href="/css/pokecss/SearchBox.css" rel="stylesheet"/>
 <div id="language-input fluent-combo-box">
-    <FluentCombobox @ref="ThemeComboBox" TOption="@Theme" Items="@Themes" 
-                    bind-Value="@SharedSettings.SelectedTheme"
-                    Autocomplete="ComboboxAutocomplete.Both" OptionText="s => s.ToString()"
+    <FluentCombobox @ref="ThemeComboBox" TOption="string" Items="@Themes" 
+                    bind-Value="@SelectedTheme"
+                        Autocomplete="ComboboxAutocomplete.Both"
                     SelectedOptionChanged="@ValueChangedHandler"
                     Appearance="Appearance.Filled"
                     Id="theme-input" Style="width:13rem; height: 2rem">
@@ -21,9 +21,11 @@
 </div>
 
 @code {
-    private FluentCombobox<Theme> ThemeComboBox;
+    private FluentCombobox<string> ThemeComboBox;
 
-    private Theme[] Themes = Enum.GetValues<Theme>();   
+    private List<string> Themes = Enum.GetValues<Theme>().ToList().ConvertAll(s => s.ToString());
+    
+    private string SelectedTheme;
 
     // fluentui design tokens
     [Inject]
@@ -59,10 +61,16 @@
     [Inject]
     NeutralFillRest NeutralFillRest { get; set; } = default!;
 
-    private void ValueChangedHandler(Theme value)
+    protected override void OnInitialized() {
+        
+        // Write all elements to Console in foreach
+        Console.WriteLine("Selected theme: " + SharedSettings.SelectedTheme);
+    }
+    
+    private void ValueChangedHandler(string value)
     {
         Console.WriteLine("Selected theme changed: " + value);
-        SharedSettings.SelectedTheme = value;
+        SharedSettings.SelectedTheme = ThemeUtils.FromString(value);
         
         NavigationManager.NavigateTo("/settings");
     }

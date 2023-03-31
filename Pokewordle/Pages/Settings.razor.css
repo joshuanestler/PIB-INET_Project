@@ -11,6 +11,12 @@
     margin-bottom: 1rem;
 }
 
+.setting-description {
+    font-style: italic;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
 .setting-wrapper {
     margin: 2rem;
 }
