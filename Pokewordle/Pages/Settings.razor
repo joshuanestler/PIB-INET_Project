@@ -258,15 +258,33 @@
         StateHasChanged();
     }
 
+    private const int DOUBLE_CLICK_INTERVAL_MS = 400;
+    private DateTime _lastClickTime = DateTime.Now;
     private void SelectColumnHeader(ColumnType columnType)
     {
-        if (_selectedType != columnType)
+        DateTime clickTime = DateTime.Now;
+        try
         {
-            _selectedType = columnType;
-            StateHasChanged();
-            return;
+            if (_selectedType != columnType)
+            {
+                _selectedType = columnType;
+                StateHasChanged();
+                return;
+            }
+
+            if (clickTime.CompareTo(_lastClickTime.AddMilliseconds(DOUBLE_CLICK_INTERVAL_MS)) < 0)
+            {
+                AppendSelectedHeader();
+            } else
+            {
+                _selectedType = null;
+                StateHasChanged();
+            }
+
+        } finally
+        {
+            _lastClickTime = clickTime;
         }
-        AppendSelectedHeader();
     }
 
     private void AppendSelectedHeader()
