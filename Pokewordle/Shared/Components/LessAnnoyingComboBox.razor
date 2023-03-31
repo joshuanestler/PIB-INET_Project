@@ -4,7 +4,7 @@
 <link href="/css/pokecss/SearchBox.css" rel="stylesheet" />
 <div id="game-input">
     <div class="dropdown-wrapper">
-        <input class="pokemon-input" @bind-value="ValueProperty" @onkeyup="InputKeyUp" @onkeydown="InputKeyDown" @oninput="InputChange"
+        <input class="pokemon-input" @bind-value="ValueProperty" @onkeyup="InputKeyUp" @onkeydown="InputKeyDown" @oninput="InputChange" disabled="@isDisabled"
                @onfocusin="(() => isDropdownVisible = true)"
                @onfocusout="DelayedHideDropdown"
                />
@@ -46,6 +46,8 @@
     public EventCallback<string> ValueChanged { get; set; }
 
     private bool isDropdownVisible = false;
+
+    private bool isDisabled = false;
 
     private string _value = "";
     public string ValueProperty { get => _value; set => SetValue(value); }
@@ -106,6 +108,7 @@
 
     private void InputKeyDown(KeyboardEventArgs value)
     {
+        isDropdownVisible = true;
         if (value.Code.Equals("Enter") || value.Code.Equals("NumpadEnter"))
         {
             Console.WriteLine("Enter");
@@ -139,6 +142,7 @@
     {
         if (ItemList.Contains(value))
         {
+            isDropdownVisible = false;
             _value = "";
             UpdateDisplayedItems("");
             StateHasChanged();
@@ -151,7 +155,17 @@
         _value = value;
     }
 
+    public void Enable()
+    {
+        isDisabled = false;
+        StateHasChanged();
+    }
 
+    public void Disable()
+    {
+        isDisabled = true;
+        StateHasChanged();
+    }
 
     public void SetValueDontTriggerEvent(string value)
     {

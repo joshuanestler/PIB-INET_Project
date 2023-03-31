@@ -41,7 +41,7 @@
         <div id="game-container" class="round-border-10">
             <h1 class="game-title">Guess a Pokemon</h1>
             <div class="table-and-searchbox-container">
-                <LessAnnoyingComboBox ItemList="_pokemonTypes" ValueChanged="AttemptGuess"></LessAnnoyingComboBox>
+                <LessAnnoyingComboBox @ref="_pokemonInput" ItemList="_pokemonTypes" ValueChanged="AttemptGuess"></LessAnnoyingComboBox>
                 <div class="searchbox-table-spacer"></div>
                     <div class="table-container lighten-10 round-border-10">
                         <table id="game-table">
@@ -82,7 +82,7 @@
 
     private FluentProgressRing _FluentProgressRing;
 
-    //private LessAnnoyingComboBox _newBetterPokemonGuessForm;
+    private LessAnnoyingComboBox _pokemonInput;
 
     //private PokemonGuessForm? _pokemonGuessForm;
 
@@ -111,6 +111,8 @@
         _pokemonToGuess = await LoadPokemon(Translations.GetRandomLookupName());
         _guessing = true;
         //_pokemonGuessForm?.Enable();
+        _pokemonInput?.Enable();
+        _pokemonInput?.SetValueDontTriggerEvent("");
         StateHasChanged();
     }
 
@@ -160,6 +162,8 @@
     private void WinGame()
     {
         //_pokemonGuessForm?.Disable();
+        _pokemonInput?.Disable();
+        _pokemonInput?.SetValueDontTriggerEvent("The pokemon has been revealed.");
         _guessing = false;
     }
 
