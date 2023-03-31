@@ -58,9 +58,6 @@
                         {
                             visible = _displayData.Count - i <= SharedSettings.GuessHistoryLimit;
                         }
-                        Console.WriteLine(guess.GetPokemonName());
-                        //Console.WriteLine(guess.ToRowString(displayedColumns));
-                        //@((MarkupString)guess.ToRowString(displayedColumns));
                         <TemplateRow 
                             TableCellsTask=@guess.GetRowCells(SharedSettings.GameColumnTypes)
                             ObfuscationList="@guess.GetObfuscationOrder(SharedSettings.GameColumnTypes)"
@@ -97,15 +94,9 @@
     {
         _pokemonTypes.Clear();
         _pokemonTypes.AddRange(Translations.GetTranslatedNames());
-        //foreach(string name in Translations.GetTranslatedNames())
-        //{
-        //    Console.WriteLine(name);
-        //}
-        //if (this._pokemonGuessForm is not null)
-        //{
-        //    this._pokemonGuessForm.PokemonNames = _pokemonTypes;
-        //}
+        
         await Reset();
+        
         // await AttemptGuess("Venusaur");
         // await AttemptGuess("Charizard");
         // await AttemptGuess("Blastoise");

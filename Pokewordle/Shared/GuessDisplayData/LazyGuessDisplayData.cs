@@ -89,7 +89,6 @@ namespace Pokewordle.Shared.GuessDisplayData
 
         private async Task<ICellData> CreateLocalizedNameCell()
         {
-            Console.WriteLine(pokeDataGuessed.NameLocalized);
             return new SimpleCellData(ColumnType.NAME_LOCAL, pokeDataGuessed.NameLocalized.FirstCharToUpper(),
                 pokeDataToGuess.Name.Equals(pokeDataGuessed.Name) ? ColorScheme.COLOR_CORRECT : ColorScheme.COLOR_MISTAKE,
                 htmlId: "name");

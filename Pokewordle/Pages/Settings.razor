@@ -329,19 +329,19 @@
 
     private void SetTheme(ChangeEventArgs args)
     {
-        Console.WriteLine(args.Value);
         if (!Enum.TryParse<Theme>(((string)args.Value).AsSpan(), true, out Theme theme))
         {
             if (args.Value is null)
             {
-                Console.WriteLine("could not parse args.Value because it was null");
+                Console.WriteLine("Failed to parse Theme because it was null!");
             }
             else
             {
-                Console.WriteLine($"could not parse {args.Value}");
+                Console.WriteLine($"Failed to parse {args.Value} as Theme!");
             }
             return;
         }
+        Console.WriteLine($"Setting theme {args.Value}.");
 
         SharedSettings.SelectedTheme = theme;
         NavigationManager.NavigateTo("/settings");
