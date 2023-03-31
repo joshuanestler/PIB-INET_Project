@@ -1,0 +1,20 @@
+﻿@namespace Pokewordle.Components.Cells
+@inherits Microsoft.AspNetCore.Components.ComponentBase
+@using Pokewordle.Shared.Extensions;
+@using Pokewordle.Shared.HtmlUtil
+
+@* TODO fix temp assignment border-color = Cell.background *@
+<td class="@Cell.HtmlClass" id="@Cell.HtmlId" style="background: @Cell.Background">
+    <div class="type-wrapper">
+    @foreach (string typeName in Cell.TypeNames)
+    {
+        <div class="pokemon-type" style="background: @PokeTypeCellData.TypeNameToColorHexString(typeName)">@typeName.FirstCharToUpper()</div>
+    }
+    </div>
+</td>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public PokeTypeCellData Cell { get; set; }
+}

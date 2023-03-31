@@ -1,0 +1,21 @@
+﻿@namespace Pokewordle.Components.Cells
+@inherits Microsoft.AspNetCore.Components.ComponentBase
+@using Pokewordle.Shared.HtmlUtil
+
+<td class="gradient-cell @Cell.HtmlClass" id="@Cell.HtmlId" style="background-color: @Cell.Background;">
+    <div class="content-wrapper">
+        @if (Cell.ShowArrow)
+        {
+            <img style="transform: rotate(@(Cell.Rotation)deg);" src="Resources/arrow-down.svg" alt="" />
+        }
+        <div class="centered">
+            @Cell.DisplayString
+        </div>
+    </div>
+</td>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public ArrowCellData Cell { get; set; }
+}

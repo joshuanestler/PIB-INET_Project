@@ -1,0 +1,163 @@
+﻿.settings-content {
+    text-align: center;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: clip;
+}
+
+.setting-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.setting-description {
+    font-style: italic;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.setting-wrapper {
+    margin: 2rem;
+}
+
+.page-title {
+    font-size: 3rem;
+    font-weight: bolder;
+    margin-bottom: 1rem;
+}
+
+
+.setting-grid-container {
+    /*display: grid;*/
+    /*gap: 2rem;*/
+    /*grid-gap: 2rem;*/
+    /*grid-template-columns: minmax(50px,auto) minmax(50px,auto) auto;*/
+    display: grid;
+    gap: 2rem;
+    justify-content: center;
+    /* justify-items: center; */
+    align-content: center;
+    /* align-items: center; */
+    grid-auto-flow: column;
+            
+}
+
+.column-container-title {
+    font-size: 1.5rem;
+}
+
+.column-container {
+    padding: 1rem;
+    /*background: rgba(0,0,0,0.25);*/
+    border-radius: 10px;
+    margin: 0rem 2rem;
+}
+
+/*.column-container ol, .column-container ul {*/
+/*    list-style-type: none;*/
+/*}*/
+
+.shown-columns {
+    grid-column: 1;
+}
+
+.hidden-columns {
+    grid-column: 2;
+}
+
+.displayedColumn,.hiddenColumn, .selectedColumnToInsert, .insertIcon {
+    padding: 0.5rem;
+    border-radius: 10px;
+}
+
+.displayedColumn:hover,.hiddenColumn:hover, .selectedColumnToInsert:hover, .insertIcon:hover {
+    background: rgba(255,255,255,0.2);    
+}
+
+.hiddenColumn {    
+}
+
+.selectedColumnToInsert {
+}
+
+.insertIcon {
+    width: fit-content;
+    margin: auto;
+    padding: 0.5rem 1rem;
+    color: grey;
+}
+
+.grid-content-wrapper {
+    display: flex;
+    /*flex-direction: column;*/
+    /*background: rgba(255,255,255,0.25);*/
+    /*background: rgba(0,0,0,0.25);*/
+    padding: 1rem;
+    /*border-radius: 10px;*/
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    /*background: rgba(255,255,255,0.25);*/
+    /*background: rgba(0,0,0,0.25);*/
+    padding: 1rem;
+    /*border-radius: 10px;*/
+}
+
+.miscellaneous-settings-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    /*display: flex;*/
+    margin: 1rem;
+    padding: 1rem;  
+}
+
+.miscellaneous-setting {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    gap: 5rem;
+}
+
+.left-column, .setting-description {
+    /*display: inline-grid;*/
+    /*grid-column: 1;*/
+    /*margin: 1rem 2rem;*/
+    margin: 0rem;
+}
+
+.right-column {
+    /*display: inline-grid;*/
+    /*grid-column: 2;*/
+    /*margin: 1rem 2rem;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.centering-container {
+    display: flex;
+    justify-content: center;
+}
+
+.setting-description-wrapper {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    width: 100%;
+    /*height: 2rem;*/
+    padding: 0.5rem 2rem;
+}
+
+.setting-description-wrapper-wrapper {
+    margin: 1rem 1rem;
+    /*display: flex;*/
+    /*align-content: center;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    /*height: fit-content;*/
+}

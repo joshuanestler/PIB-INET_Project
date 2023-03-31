@@ -1,0 +1,62 @@
+﻿@using Pokewordle.Shared.HtmlUtil;
+@using System.Collections.Immutable;
+@using Pokewordle.Shared.Util;
+@using Microsoft.Fast.Components.FluentUI;
+
+@if (Visible)
+{
+    <tr>
+        @if (TableCells is null)
+        {
+            <!-- full width td-->
+            <td colspan="100%" id="loading-bar-td">
+                <div id="loading-container">
+                    <FluentProgressRing Class="loading-bar"></FluentProgressRing>
+                </div>
+            </td>
+        }
+        else
+        {
+            @foreach (ICellData tableCell in TableCells) {
+                int obfuscationIndex = ObfuscationList?.IndexOf(tableCell.ColumnType) ?? int.MaxValue;
+                <TemplateCell TableCell=@tableCell ObfuscationIndex="@obfuscationIndex" IsSolution=@IsSolution></TemplateCell>
+            }
+        }
+    </tr>
+}
+
+
+@code {
+    //private bool firstCell = true;
+    [Parameter]
+    [EditorRequired]
+    public Task<IList<ICellData>>? TableCellsTask { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public bool Visible { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public bool IsSolution { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public IImmutableList<ColumnType>? ObfuscationList { get; set; }
+
+    public IList<ICellData>? TableCells { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        TableCells = await TableCellsTask;
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        //Console.WriteLine("OnUpdateRow");
+        //TableCells = await TableCellsTask;
+        await base.OnParametersSetAsync();
+    }
+
+}

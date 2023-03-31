@@ -1,0 +1,46 @@
+﻿@using Pokewordle.Shared.Util
+@inherits LayoutComponentBase
+@inject SharedSettings SharedSettings
+
+@switch (SharedSettings.SelectedTheme)
+{
+    case Theme.Vaporwave:
+        <link href="css/pokecss/themes/vaporwave.css" rel="stylesheet"/>
+        break;
+    case Theme.Beach:
+        <link href="css/pokecss/themes/beach.css" rel="stylesheet"/>
+        break;
+    case Theme.Melon:
+        <link href="css/pokecss/themes/melon.css" rel="stylesheet"/>
+        break;
+    case Theme.Ocean:
+        <link href="css/pokecss/themes/ocean.css" rel="stylesheet"/>
+        break;
+    case Theme.Sand:
+        <link href="css/pokecss/themes/sand.css" rel="stylesheet"/>
+        break;
+    case Theme.Peach:
+        <link href="css/pokecss/themes/peach.css" rel="stylesheet"/>
+        break;
+    case Theme.Hal9000:
+        <link href="css/pokecss/themes/hal9000.css" rel="stylesheet" />
+        break;
+
+    case Theme.Forest:
+    default:
+        <link href="css/pokecss/themes/forest.css" rel="stylesheet"/>
+        break;
+}
+
+@* <link href="css/pokecss/forest.css" rel="stylesheet"/> *@
+<div class="page">
+    <div class="sidebar">
+        <NavMenu/>
+    </div>
+
+    <main>
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>

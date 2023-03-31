@@ -1,0 +1,132 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using PokeApiNet
+@inject PokeApiClient client
+
+@using Microsoft.Fast.Components.FluentUI
+@using Microsoft.Fast.Components.FluentUI.DesignTokens
+@using Pokewordle.Shared.Extensions
+@using Color = System.Drawing.Color
+
+
+<link href="/css/pokecss/SearchBox.css" rel="stylesheet"/>
+<div id="game-input">
+    <FluentCombobox @ref="PokemonNameGuessBox" TOption="string" Items="PokemonNames"
+                    Autocomplete="ComboboxAutocomplete.Both" OptionText="s => s.FirstCharToUpper()"
+                    Placeholder="Enter your guess..." SelectedOptionChanged="ValueChangedHandler"
+                    Appearance="Appearance.Filled"
+                    Id="name-input" Style="width: 70%; height:3rem">
+    </FluentCombobox>
+</div>
+
+
+
+@code {
+    private FluentCombobox<string> PokemonNameGuessBox;
+
+    [Parameter]
+    [Required]
+    public List<string> PokemonNames { get; set; }
+    
+    [Parameter]
+    [Required]
+    public EventCallback<string> ValueChanged { get; set; }
+   
+    // fluentui design tokens
+    [Inject]
+    private BaseLayerLuminance BaseLayerLuminance { get; set; } = default!;
+
+    [Inject]
+    private AccentBaseColor AccentBaseColor { get; set; } = default!;
+
+    [Inject]
+    private BodyFont BodyFont { get; set; } = default!;
+
+    [Inject]
+    private StrokeWidth StrokeWidth { get; set; } = default!;
+
+    [Inject]
+    private ControlCornerRadius ControlCornerRadius { get; set; } = default!;
+
+    [Inject]
+    private FillColor FillColor { get; set; } = default!;
+    // private Microsoft.Fast.Components.FluentUI.DesignTokens.FillColor fill
+    // Microsoft.Fast.Components.FluentUI.DesignTokens.Neutral
+    [Inject]
+    private StrokeWidth Strokewidth { get; set; } = default!;
+        // Microsoft.Fast.Components.FluentUI.DesignTokens.Swatch    
+    [Inject]
+    NeutralFillActive NeutralFillActive  { get; set; } = default!;
+    
+    [Inject]
+    NeutralBaseColor NeutralBaseColor  { get; set; } = default!;
+    
+    [Inject]
+    NeutralFillRest NeutralFillRest  { get; set; } = default!;
+
+
+    private void ValueChangedHandler(string? value)
+    {
+        if (value == null) return;
+        
+        PokemonNameGuessBox.Open = false;
+        PokemonNameGuessBox.Value = "";
+        PokemonNameGuessBox.SelectedOption = null;
+        
+        // Invoke the ValueChanged event callback
+        ValueChanged.InvokeAsync(value);
+        
+        // Clear the combobox
+        StateHasChanged();
+    }
+    
+    public void UpdatePokemonNames(List<string> pokemonNames)
+    {
+        PokemonNames = pokemonNames;
+        StateHasChanged();
+    }
+
+    public void Disable() {
+        PokemonNameGuessBox.Disabled = true;
+    }
+
+
+    public void Enable()
+    {
+        PokemonNameGuessBox.Disabled = false;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+    //Set to dark mode
+            // await BaseLayerLuminance.SetValueFor(ref1!.Element, (float)0.15);
+
+    //Set to Excel color
+            await AccentBaseColor.SetValueFor(PokemonNameGuessBox!.Element, "#000000".ToSwatch());
+            // await BodyFont.SetValueFor(PokemonNameGuessBox!.Element, "Comic Sans MS");
+            // await FillColor.SetValueFor(PokemonNameGuessBox!.Element, new Swatch(Color.FromArgb(50, 50, 50, 50)));
+            // await FillColor.SetValueFor(PokemonNameGuessBox!.Element, "#185ABD".ToSwatch());
+            await BaseLayerLuminance.SetValueFor(PokemonNameGuessBox!.Element, (float)0.15);
+            // await BaseLayerLuminance.SetValueFor(PokemonNameGuessBox!.Element, (float)1);
+            // await NeutralBaseColor.SetValueFor(PokemonNameGuessBox!.Element, "#0a4537".ToSwatch());
+            await NeutralBaseColor.SetValueFor(PokemonNameGuessBox!.Element, "#2b3539".ToSwatch());
+            
+
+                // await NeutralFillActive.SetValueFor(PokemonNameGuessBox!.Element, "#185ABD".ToSwatch());
+                    // await NeutralFillRest.SetValueFor(PokemonNameGuessBox!.Element, "#185ABD".ToSwatch());
+
+            // await Strokewidth.SetValueFor(PokemonNameGuessBox!.Element, 5);
+            // await BaseLayerLuminance.SetValueFor(PokemonNameGuessBox!.Element, 0.3f);
+    //Set the font
+            // await BodyFont.SetValueFor(ref3!.Element, "Comic Sans MS");
+
+    //Set 'border' width for ref4
+            // await StrokeWidth.SetValueFor(ref4!.Element, 7);
+    //And change conrner radius as well
+            // await ControlCornerRadius.SetValueFor(ref4!.Element, 15);
+
+            StateHasChanged();
+        }
+    }
+}

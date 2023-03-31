@@ -1,0 +1,215 @@
+﻿@page "/settings"
+@using Pokewordle.Shared.Components
+@using Pokewordle.Shared.Util
+@inject SharedSettings settings;
+
+<PageTitle>Settings</PageTitle>
+
+<link href="/css/pokecss/settingsSearchbox.css" rel="stylesheet"/>
+<div class="page-content">
+    <div class="settings-content">
+        <h1 class="page-title">Settings</h1>
+        <div class="language-wrapper setting-wrapper">
+            <p class="setting-title">Language</p>
+            <p class="setting-description">Sets the language for the Pokémon Names in the Guess-Box and the "Pokémon (local)" Column.</p>
+            <div class="language-container">
+                <div class="searchbox">
+                    <LanguageSelectorBak></LanguageSelectorBak>
+                </div>
+            </div>
+        </div>
+
+    <div class="theme-wrapper setting-wrapper">
+        <p class="setting-title">Theme</p>
+        <p class="setting-description">Set our stylish theme, if you manage to find it.</p>
+        <div class="theme-container">
+            <div class="searchbox">
+                <ThemeSelectorBak></ThemeSelectorBak>
+            </div>
+        </div>
+    </div>
+
+        <div class="column-selection-wrapper setting-wrapper">
+            <p class="setting-title">Choose Game Columns</p>
+            <p class="setting-description">Pick the columns that should be displayed while playing the game.</p>
+            <p class="setting-description">Click an active column to hide it.</p>
+            <p class="setting-description">Click an inactive column to enter insert mode.</p>
+            <p class="setting-description">Doubleclick an inactive column to append it to active columns.</p>
+            <div class="column-selection-container setting-grid-container">
+                <div class="grid-content-wrapper darken-25 round-border-10">
+                    <div class="shown-columns column-container lighten-20">
+                        <p class="column-container-title">Active Columns</p>
+                        <div class="column-list">
+                            @foreach (ColumnType columnType in _selectedColumnTypes) {
+                                if (_selectedType is not null)
+                                {
+                                    ColumnType type = columnType;
+                                    <div class="insertIcon" onclick="@(() => InsertSelectedHeader(type))">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" fill="currentColor" class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0v-2z"/>
+                                            <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
+                                        </svg>
+                                    </div>
+                                }
+                                <div class="displayedColumn" onclick="@(() => DisableColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</div>
+                            }
+                            @if (_selectedType is not null)
+                            {
+                                <div class="insertIcon" onclick="@AppendSelectedHeader">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" fill="currentColor" class="bi bi-box-arrow-in-left" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0v-2z"/>
+                                        <path fill-rule="evenodd" d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
+                                    </svg>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    @* <div style="float: left; width: 100px"></div> *@
+                    <div class="hidden-columns column-container lighten-20">
+                        <p class="column-container-title">Inactive Columns</p>
+                        <div class="column-list">
+                            @foreach (ColumnType columnType in Enum.GetValues<ColumnType>())
+                            {
+                                if (!_selectedColumnTypes.Contains(columnType))
+                                {
+                                    if (_selectedType == columnType)
+                                    {
+                                        <div class="selectedColumnToInsert lighten-20" onclick="@(() => SelectColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="hiddenColumn" onclick="@(() => SelectColumnHeader(columnType))">@HeaderGenerator.GetHeader(columnType)</div>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <link href="/css/pokecss/settingsInput.css" rel="stylesheet"/>
+        <div class="setting-wrapper">
+            <div class="centering-container">
+                <div class="miscellaneous-settings-container darken-15 round-border-10">
+
+                    <div class="setting-description-wrapper-wrapper">
+                        <div class="setting-description-wrapper lighten-20 round-border-10">
+                            <p class="left-column">Obfuscated field count</p>
+                        </div>
+                        <p class="setting-description">This many fields are obfuscated per guess. Which fields is random.</p>
+                    </div>
+                    <div class="right-column">
+                        <InputNumber TValue="int" @bind-Value="@settings.NumberOfObfuscatedFields">Randomly Obfuscated Fields</InputNumber>
+                    </div>
+
+                    <div class="setting-description-wrapper-wrapper">
+                        <div class="setting-description-wrapper lighten-20 round-border-10">
+                            <p class="left-column">Limit Visible Guess History</p>
+                        </div>
+                        <p class="setting-description">Guesses that exceed the limit will be hidden.</p>
+                    </div>
+                    <div class="right-column">
+                        <InputNumber TValue="int" @bind-Value="@settings.GuessHistoryLimit">Limit Visible Guess History</InputNumber>
+                    </div>
+
+                    <div class="setting-description-wrapper-wrapper">
+                        <div class="setting-description-wrapper lighten-20 round-border-10">
+                            <p class="left-column">Allow Duplicate Guesses</p>
+                        </div>
+                        <p class="setting-description">Finally a cure for obfuscation hiding the types and abilities for all Pokemon of one species.</p>
+                    </div>
+                    <div class="right-column">
+                        <InputCheckbox @bind-Value="@settings.AllowDuplicateGuesses">Allow Duplicate Guesses</InputCheckbox>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code
+{
+
+    private List<ColumnType> _selectedColumnTypes = new();
+    private ColumnType? _selectedType = null;
+
+    protected override async Task OnInitializedAsync() {
+        _selectedColumnTypes = settings.SelectedColumnTypes;
+    }
+
+    private void DisableColumnHeader(ColumnType columnType)
+    {
+        _selectedColumnTypes.Remove(columnType);
+        UpdateColumnSettings();
+        StateHasChanged();
+    }
+
+    private void EnableColumnHeader(ColumnType columnType, int index)
+    {
+        _selectedColumnTypes.Insert(index, columnType);
+        UpdateColumnSettings();
+        StateHasChanged();
+    }
+
+    private void InsertSelectedHeader(ColumnType before)
+    {
+        if (_selectedType is ColumnType columnType)
+        {
+            int index = _selectedColumnTypes.IndexOf(before);
+            EnableColumnHeader(columnType, index);
+            _selectedType = null;
+        }
+        StateHasChanged();
+    }
+
+        private const int DOUBLE_CLICK_INTERVAL_MS = 400;
+    private DateTime _lastClickTime = DateTime.Now;
+
+    private void SelectColumnHeader(ColumnType columnType)
+    {
+        DateTime clickTime = DateTime.Now;
+        try
+        {
+            if (_selectedType != columnType)
+            {
+                _selectedType = columnType;
+                StateHasChanged();
+                return;
+            }
+
+            if (clickTime.CompareTo(_lastClickTime.AddMilliseconds(DOUBLE_CLICK_INTERVAL_MS)) < 0)
+            {
+                AppendSelectedHeader();
+            }
+            else
+            {
+                _selectedType = null;
+                StateHasChanged();
+            }
+        }
+        finally
+        {
+            _lastClickTime = clickTime;
+        }
+    }
+
+    private void AppendSelectedHeader()
+    {
+        if (_selectedType is ColumnType columnType)
+        {
+            _selectedColumnTypes.Add(columnType);
+            _selectedType = null;
+            UpdateColumnSettings();
+            StateHasChanged();
+        }
+    }
+
+    private void UpdateColumnSettings()
+    {
+        settings.SelectedColumnTypes = _selectedColumnTypes;
+    }
+}
