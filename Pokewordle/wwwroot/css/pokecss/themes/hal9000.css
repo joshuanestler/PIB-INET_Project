@@ -1,0 +1,23 @@
+.sidebar {
+    /*background: linear-gradient(60deg, rgb(222, 182, 63) 0%, rgb(128, 3, 118) 100%);*/
+    background: rgb(0,0,0);
+    /*background: radial-gradient(circle, rgba(255,0,0,1) 7%, rgba(0,0,0,1) 49%);*/
+}
+
+.content {
+    /*linear-gradient(225deg, hsl(45, 71%, 51%) 0%, hsl(305, 95%, 23%) 100%);*/
+    /*background: linear-gradient(325deg, hsl(45, 71%, 51%) 0%, hsl(305, 95%, 21%) 100%);*/
+    background: rgb(255,0,0);
+    background: radial-gradient(circle, rgba(255,0,0,1) 7%, rgba(0,0,0,1) 49%);
+}
+
+#game-input ::part(control), .searchbox ::part(control), .pokemon-input {
+    background: rgba(0,0,0,0);
+    /*background: radial-gradient(circle, rgba(255,0,0,1) 7%, rgba(0,0,0,1) 49%);*/
+    /*background: linear-gradient(120deg, #944862 0%, #c49580 100%);*/
+}
+
+#game-input ::part(listbox), .searchbox ::part(listbox), .pokemon-dropdown-container {
+    background: rgb(255,0,0);
+    background: radial-gradient(circle, rgba(255,0,0,1) 7%, rgba(0,0,0,1) 49%);
+}

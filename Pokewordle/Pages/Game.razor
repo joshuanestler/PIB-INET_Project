@@ -1,0 +1,180 @@
+﻿@page "/"
+@using PokeApiNet
+@using Pokewordle.Components.Cells
+@using Pokewordle.Shared.Components
+@using Pokewordle.Shared.GuessDisplayData;
+@using Pokewordle.Shared.PokemonData;
+@using Microsoft.Fast.Components.FluentUI;
+@using Microsoft.Fast.Components.FluentUI.DesignTokens
+@using Pokewordle.Shared.Util;
+@inject PokeApiClient PokeClient;
+@inject SharedSettings settings;
+
+<div class="page-content">
+    <PageTitle>Guess a Pokemon</PageTitle>
+
+    <link href="/css/pokecss/table.css" rel="stylesheet"/>
+    @if (_pokemonToGuess == null)
+    {
+        <div style="display: grid; height: 100%; justify-items: center; align-content: center;">
+            <FluentProgressRing @ref="_FluentProgressRing" style="width: 10em; height: 10em;"></FluentProgressRing>
+        </div>
+    }
+    else
+    {
+        <div id="game-status-button-corner" class="darken-30">
+            <button class="game-status-button" onclick="@RevealButtonClick">
+                <span class="game-status-button-icon material-symbols-outlined">
+                    visibility
+                </span>
+                <span class="tooltip darken-30">Reveal Pokémon</span>
+            </button>
+
+            <button class="game-status-button" onclick="@RestartButtonClick">
+                <span class="game-status-button-icon material-symbols-outlined">
+                    refresh
+                </span>
+                <span class="tooltip darken-30">Restart Game</span>
+            </button>
+        </div>
+
+        <div id="game-container" class="round-border-10">
+            <h1 class="game-title">Guess a Pokemon</h1>
+            <div class="table-and-searchbox-container">
+                <PokemonGuessForm @ref="_pokemonGuessForm" PokemonNames="_pokemonTypes" ValueChanged="AttemptGuess"></PokemonGuessForm>
+                
+                <div class="table-container lighten-10 round-border-10">
+                    <table id="game-table">
+                        <thead>
+                        @((MarkupString)HeaderGenerator.ToHeaderString(settings.SelectedColumnTypes))
+                        </thead>
+
+                        <tbody>
+                        @for (int i = 0; i < _displayData.Count; i++)
+                        {
+                            IGuessDisplayData guess = _displayData[i];
+                            bool visible = true;
+                            if (settings.GuessHistoryLimit > 0)
+                            {
+                                visible = _displayData.Count - i <= settings.GuessHistoryLimit;
+                            }
+                            <TemplateRow
+                                TableCellsTask=@guess.GetRowCells(settings.SelectedColumnTypes)
+                                ObfuscationList="@guess.GetObfuscationOrder(settings.SelectedColumnTypes)"
+                                IsSolution=guess.GetIsCorrect()
+                                Visible=visible>
+                            </TemplateRow>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code
+{
+    [Inject]
+    private AccentBaseColor AccentBaseColor { get; set; } = default!;
+
+    private FluentProgressRing _FluentProgressRing;
+
+    //private LessAnnoyingComboBox _newBetterPokemonGuessForm;
+
+    private PokemonGuessForm? _pokemonGuessForm;
+
+    private List<string> _pokemonTypes = new();
+
+    private bool _guessing = false;
+    private IPokeData? _pokemonToGuess;
+    private Dictionary<string, IPokeData> _pokemonsGuessed = new();
+    private readonly List<IGuessDisplayData> _displayData = new();
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        _pokemonTypes.Clear();
+        _pokemonTypes.AddRange(Translations.GetTranslatedNames());
+
+        await Reset();
+
+    }
+
+    private async Task Reset()
+    {
+        _pokemonsGuessed.Clear();
+        _displayData.Clear();
+
+        System.Random random = new();
+        _pokemonToGuess = await LoadPokemon(Translations.GetRandomLookupName());
+        _guessing = true;
+        _pokemonGuessForm?.Enable();
+        StateHasChanged();
+
+    }
+
+
+    private void AddGuessedPokemon(string guessedName, IPokeData guessPokeData)
+    {
+        if (_pokemonToGuess is null)
+        {
+            return;
+        }
+
+        IGuessDisplayData guessDisplayData = new LazyGuessDisplayData(_pokemonToGuess, guessPokeData);
+        _displayData.Add(guessDisplayData);
+        _pokemonsGuessed[guessedName] = guessPokeData;
+
+        if (guessDisplayData.GetIsCorrect())
+        {
+            WinGame();
+        }
+    }
+
+    private async Task AttemptGuess(string name)
+    {
+        string englishName = Translations.TranslateToEnglish(name);
+        string lookupName = Translations.GetLookupName(englishName);
+        if (_pokemonsGuessed.ContainsKey(lookupName) && !settings.AllowDuplicateGuesses)
+        {
+            return;
+        }
+        IPokeData guessPokeData = await LoadPokemon(lookupName);
+        AddGuessedPokemon(lookupName, guessPokeData);
+    }
+
+    private async Task<IPokeData> LoadPokemon(int id)
+    {
+        Pokemon pokemon = await PokeClient.GetResourceAsync<Pokemon>(id);
+        PokeApiClient client = PokeClient;
+        return new FetchablePokeData(pokemon, PokeClient);
+    }
+
+    private async Task<IPokeData> LoadPokemon(string name)
+    {
+        Pokemon pokemon = await PokeClient.GetResourceAsync<Pokemon>(name);
+        return new FetchablePokeData(pokemon, PokeClient);
+    }
+
+    private void WinGame()
+    {
+        _pokemonGuessForm?.Disable();
+        
+        _guessing = false;
+    }
+
+    private void RevealButtonClick() {
+        if (!_guessing) return;
+        
+        _guessing = false;
+        AddGuessedPokemon(_pokemonToGuess.Name, _pokemonToGuess);
+    }
+    
+    private async void RestartButtonClick()
+    {
+        _pokemonGuessForm.Enable();
+        await Reset();
+    }
+}

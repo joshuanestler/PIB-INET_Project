@@ -1,0 +1,45 @@
+﻿@using Pokewordle.Shared.HtmlUtil;
+@using Pokewordle.Shared.Util;
+
+@inject SharedSettings SharedSettings;
+
+@* <div class="cell-wrapper"> *@
+@if (ObfuscationIndex < SharedSettings.NumberOfObfuscatedFields && !IsSolution)
+{
+    <td style="background-color: #001020;filter: blur(3px); font-size: xx-large;">?</td>
+} else
+{
+    @switch (TableCell)
+    {
+        case SimpleCellData simpleTableCell:
+            <SimpleCell Cell="@simpleTableCell"></SimpleCell>
+            break;
+        case ArrowCellData arrowTableCell:
+            <ArrowCell Cell=@arrowTableCell></ArrowCell>
+            break;
+        case PokeTypeCellData pokeTypeTableCell:
+            <PokeTypeCell Cell=@pokeTypeTableCell></PokeTypeCell>
+            break;
+        case ImageCellData imageCellData:
+            <ImageCell Cell="imageCellData"></ImageCell>
+            break;
+        default:
+            <td></td>
+            break;
+    }
+}
+@* </div> *@
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public ICellData? TableCell { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public int ObfuscationIndex { get; set; } = int.MaxValue;
+
+    [Parameter]
+    [EditorRequired]
+    public bool IsSolution { get; set; }
+}

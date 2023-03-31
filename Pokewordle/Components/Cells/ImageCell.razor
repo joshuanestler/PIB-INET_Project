@@ -1,0 +1,13 @@
+﻿@namespace Pokewordle.Components.Cells
+@inherits Microsoft.AspNetCore.Components.ComponentBase
+@using Pokewordle.Shared.HtmlUtil
+
+<td class="@Cell.HtmlClass img-cell-td" id="@Cell.HtmlId" style="background-color: @Cell.Background;">
+    <img src="@Cell.Url"/>
+</td>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public ImageCellData Cell { get; set; }
+}

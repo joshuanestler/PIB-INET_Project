@@ -1,0 +1,70 @@
+
+.pokemon-input {
+    font-size: 1.5rem;
+    width: 34rem;
+    border: 1px solid black;
+}
+
+.dropdown-wrapper {
+    position: absolute;
+    z-index: 2;
+    /*max-height: 10rem;*/
+    left: 250px;
+    right: 0px;
+    color: #d7d7d7;
+}
+.dropdown-inner-wrapper {
+    /*width: fit-content;*/
+    margin-left: auto;
+    margin-right: auto;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 15rem;
+    width: 34rem; /*same as input box*/
+    
+    font-size: 1.2rem;
+    /*align-self: center;*/
+    text-align: center;
+    /*padding: 50px;*/
+    box-shadow: 0.75rem 0.75rem rgba(0, 0, 0, 0.45);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    border-radius: 0 0 10px 10px;
+    border: 1px solid black;
+    /*padding: 0rem 1rem;*/    
+}
+
+.pokemon-dropdown-container {
+    max-height:100%;
+    width:100%;
+}
+
+.pokemonItem {
+    color: white;
+    /*background-color: rgba(255, 255, 255, 0.75);*/
+    font-size: 1.1em;
+    align-self: center;
+    /*justify-self: center;*/
+    /*text-align: center;*/
+    justify-content: center;
+    /*align-content: center;*/
+    margin: 0.3rem auto;
+    padding: 1rem 0rem;
+    border-radius: 5px;
+    /*width: 10rem;*/
+    width: 95%;
+    /*background-color: #0d5242;*/
+    /*box-shadow: 0.3rem 0.3rem rgba(0, 0, 0, 0.35);*/
+    background-color: rgba(255, 255, 255, 0.23);
+    box-shadow: 0.3em 0.3em rgba(0, 0, 0, 0.3);
+    /*background-color: rgba(0, 0, 0, 0.35);*/
+}
+
+.pokemonItem:hover {
+    /*background-color: rgba(0, 0, 0, 0.55);*/
+    background-color: rgba(255, 255, 255, 0.32);
+}
+
+
+
