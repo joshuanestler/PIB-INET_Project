@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using PokeApiNet
 @using Pokewordle.Components.Cells
+@using Pokewordle.Shared.Components
 @using Pokewordle.Shared.GuessDisplayData;
 @using Pokewordle.Shared.PokemonData;
 @using Microsoft.Fast.Components.FluentUI;
@@ -40,8 +41,7 @@
         <div id="game-container" class="round-border-10">
             <h1 class="game-title">Guess a Pokemon</h1>
             
-            <PokemonGuessForm @ref="_pokemonGuessForm" ValueChanged="AttemptGuess" PokemonNames="_pokemonTypes"></PokemonGuessForm>
-            
+            <LessAnnoyingComboBox @ref="_newBetterPokemonGuessForm" ItemList="_pokemonTypes" ValueChanged="AttemptGuess"></LessAnnoyingComboBox>
             <table id="game-table" class="lighten-10 round-border-10">
                 <thead>
                     @(
@@ -79,6 +79,8 @@
 
     private FluentProgressRing _FluentProgressRing;
 
+    private LessAnnoyingComboBox _newBetterPokemonGuessForm;
+
     private PokemonGuessForm? _pokemonGuessForm;
 
     private List<string> _pokemonTypes = new();
@@ -89,24 +91,19 @@
     private readonly List<IGuessDisplayData> _displayData = new();
 
 
-    
+
     protected override async Task OnInitializedAsync()
     {
         _pokemonTypes.Clear();
         _pokemonTypes.AddRange(Translations.GetTranslatedNames());
-        
+
         await Reset();
-        
+
         // await AttemptGuess("Venusaur");
         // await AttemptGuess("Charizard");
         // await AttemptGuess("Blastoise");
         // await AttemptGuess("Machoke");
         // await AttemptGuess("Scizor");
-
-        if (HttpClient is null)
-        {
-            Console.WriteLine("Client is null");
-        }
 
     }
 
