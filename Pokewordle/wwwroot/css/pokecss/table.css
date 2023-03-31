@@ -1,12 +1,20 @@
+.table-container {
+    overflow: scroll;
+    height: 90%;
+    /*width: 90%;*/
+    padding: 1rem;
+    box-shadow: 0.7em 0.7em rgba(0,0,0,0.3);
+    border: 3px solid black;
+    margin: 1rem;
+}
+
 #game-table {
     table-layout: auto;
-    border: 3px solid black;
     border-collapse: separate;
     /*padding: 5px;*/
     margin-top: 2.5rem;
     border-spacing: 0.8em;
     /*background-color: rgba(255,255,255,0.1);*/
-    box-shadow: 0.7em 0.7em rgba(0,0,0,0.3);
     font-size: 1.2em;
     width: fit-content;
     /*border-radius: 10px;*/
@@ -36,6 +44,7 @@
     /*border-color: green;*/
     text-align: center;
     border-radius: 10px;
+    border: 1px solid black;
 }
 
 #game-table th {

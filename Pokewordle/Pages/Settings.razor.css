@@ -1,6 +1,7 @@
-﻿.content {
+﻿.settings-content {
     text-align: center;
-    padding: 2rem;
+    height: 100%;
+    overflow: scroll;
 }
 
 .setting-title {

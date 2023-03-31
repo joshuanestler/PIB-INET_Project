@@ -28,7 +28,7 @@
                 </span>
                 <span class="tooltip darken-30">Reveal Pokémon</span>
             </button>
-            
+
             <button class="game-status-button" onclick="@RestartButtonClick">
                 <span class="game-status-button-icon material-symbols-outlined">
                     refresh
@@ -36,20 +36,21 @@
                 <span class="tooltip darken-30">Restart Game</span>
             </button>
         </div>
-        
+
         <div id="game-container" class="round-border-10">
             <h1 class="game-title">Guess a Pokemon</h1>
-            
-            <PokemonGuessForm @ref="_pokemonGuessForm" ValueChanged="AttemptGuess" PokemonNames="_pokemonTypes"></PokemonGuessForm>
-            
-            <table id="game-table" class="lighten-10 round-border-10">
-                <thead>
-                    @(
-                        (MarkupString)HeaderGenerator.ToHeaderString(SharedSettings.GameColumnTypes)
-                        )
-                </thead>
 
-                <tbody>
+            <PokemonGuessForm @ref="_pokemonGuessForm" ValueChanged="AttemptGuess" PokemonNames="_pokemonTypes"></PokemonGuessForm>
+
+            <div class="table-container lighten-10 round-border-10">
+                <table id="game-table">
+                    <thead>
+                    @(
+            (MarkupString)HeaderGenerator.ToHeaderString(SharedSettings.GameColumnTypes)
+                        )
+                    </thead>
+
+                    <tbody>
                     @for (int i = 0; i < _displayData.Count; i++)
                     {
                         IGuessDisplayData guess = _displayData[i];
@@ -58,16 +59,16 @@
                         {
                             visible = _displayData.Count - i <= SharedSettings.GuessHistoryLimit;
                         }
-                        <TemplateRow 
+                        <TemplateRow
                             TableCellsTask=@guess.GetRowCells(SharedSettings.GameColumnTypes)
                             ObfuscationList="@guess.GetObfuscationOrder(SharedSettings.GameColumnTypes)"
                             IsSolution=guess.GetIsCorrect()
-                            Visible=visible
-                        ></TemplateRow>
+                            Visible=visible>
+                        </TemplateRow>
                     }
-                </tbody>
-            </table>
-
+                    </tbody>
+                </table>
+            </div>
         </div>
     }
 </div>
@@ -89,25 +90,23 @@
     private readonly List<IGuessDisplayData> _displayData = new();
 
 
-    
     protected override async Task OnInitializedAsync()
     {
         _pokemonTypes.Clear();
         _pokemonTypes.AddRange(Translations.GetTranslatedNames());
-        
+
         await Reset();
-        
-        // await AttemptGuess("Venusaur");
-        // await AttemptGuess("Charizard");
-        // await AttemptGuess("Blastoise");
-        // await AttemptGuess("Machoke");
-        // await AttemptGuess("Scizor");
+
+    // await AttemptGuess("Venusaur");
+    // await AttemptGuess("Charizard");
+    // await AttemptGuess("Blastoise");
+    // await AttemptGuess("Machoke");
+    // await AttemptGuess("Scizor");
 
         if (HttpClient is null)
         {
             Console.WriteLine("Client is null");
         }
-
     }
 
     private async Task Reset()
@@ -120,7 +119,6 @@
         _guessing = true;
         _pokemonGuessForm?.Enable();
         StateHasChanged();
-
     }
 
 
@@ -181,8 +179,7 @@
     //     }
     // }
 
-    
-    
+
     private async void RevealButtonClick()
     {
         if (!_guessing)
@@ -192,9 +189,10 @@
         }
         AddGuessedPokemon(_pokemonToGuess.Name, _pokemonToGuess);
     }
-    
+
     private async void RestartButtonClick()
     {
         await Reset();
     }
 }
+
