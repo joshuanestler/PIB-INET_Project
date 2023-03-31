@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using PokeApiNet
 @using Pokewordle.Components.Cells
+@using Pokewordle.Shared.Components
 @using Pokewordle.Shared.GuessDisplayData;
 @using Pokewordle.Shared.PokemonData;
 @using Microsoft.Fast.Components.FluentUI;
@@ -81,6 +82,8 @@
 
     private FluentProgressRing _FluentProgressRing;
 
+    private LessAnnoyingComboBox _newBetterPokemonGuessForm;
+
     private PokemonGuessForm? _pokemonGuessForm;
 
     private List<string> _pokemonTypes = new();
@@ -91,6 +94,7 @@
     private readonly List<IGuessDisplayData> _displayData = new();
 
 
+
     protected override async Task OnInitializedAsync()
     {
         _pokemonTypes.Clear();
@@ -98,16 +102,12 @@
 
         await Reset();
 
-    // await AttemptGuess("Venusaur");
-    // await AttemptGuess("Charizard");
-    // await AttemptGuess("Blastoise");
-    // await AttemptGuess("Machoke");
-    // await AttemptGuess("Scizor");
+        // await AttemptGuess("Venusaur");
+        // await AttemptGuess("Charizard");
+        // await AttemptGuess("Blastoise");
+        // await AttemptGuess("Machoke");
+        // await AttemptGuess("Scizor");
 
-        if (HttpClient is null)
-        {
-            Console.WriteLine("Client is null");
-        }
     }
 
     private async Task Reset()
@@ -120,6 +120,7 @@
         _guessing = true;
         _pokemonGuessForm?.Enable();
         StateHasChanged();
+
     }
 
 
@@ -180,7 +181,8 @@
     //     }
     // }
 
-
+    
+    
     private async void RevealButtonClick()
     {
         if (!_guessing)
@@ -190,7 +192,7 @@
         }
         AddGuessedPokemon(_pokemonToGuess.Name, _pokemonToGuess);
     }
-
+    
     private async void RestartButtonClick()
     {
         await Reset();
