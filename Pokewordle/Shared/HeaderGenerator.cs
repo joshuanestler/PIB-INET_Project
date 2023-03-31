@@ -16,7 +16,7 @@ namespace Pokewordle.Shared
             {ColumnType.HEIGHT, 4},
             {ColumnType.WEIGHT, 4},
             {ColumnType.EVOLUTION, 8},
-            {ColumnType.ABILITIES, 6},
+            {ColumnType.ABILITIES, 8},
 
             {ColumnType.HP, 4},
             {ColumnType.ATK, 4},
