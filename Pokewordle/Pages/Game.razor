@@ -42,32 +42,34 @@
             <h1 class="game-title">Guess a Pokemon</h1>
             <div class="table-and-searchbox-container">
                 <LessAnnoyingComboBox ItemList="_pokemonTypes" ValueChanged="AttemptGuess"></LessAnnoyingComboBox>
+                <div class="searchbox-table-spacer"></div>
+                    <div class="table-container lighten-10 round-border-10">
+                        <table id="game-table">
+                            <thead>
+                            @(
+            (MarkupString)HeaderGenerator.ToHeaderString(settings.SelectedColumnTypes)
+                                )
+                            </thead>
 
-                <div class="table-container lighten-10 round-border-10">
-                    <table id="game-table">
-                        <thead>
-                        @((MarkupString)HeaderGenerator.ToHeaderString(settings.SelectedColumnTypes))
-                        </thead>
-
-                        <tbody>
-                        @for (int i = 0; i < _displayData.Count; i++)
-                        {
-                            IGuessDisplayData guess = _displayData[i];
-                            bool visible = true;
-                            if (settings.GuessHistoryLimit > 0)
+                            <tbody>
+                            @for (int i = 0; i < _displayData.Count; i++)
                             {
-                                visible = _displayData.Count - i <= settings.GuessHistoryLimit;
+                                IGuessDisplayData guess = _displayData[i];
+                                bool visible = true;
+                                if (settings.GuessHistoryLimit > 0)
+                                {
+                                    visible = _displayData.Count - i <= settings.GuessHistoryLimit;
+                                }
+                                <TemplateRow
+                                    TableCellsTask=@guess.GetRowCells(settings.SelectedColumnTypes)
+                                    ObfuscationList="@guess.GetObfuscationOrder(settings.SelectedColumnTypes)"
+                                    IsSolution=guess.GetIsCorrect()
+                                    Visible=visible>
+                                </TemplateRow>
                             }
-                            <TemplateRow
-                                TableCellsTask=@guess.GetRowCells(settings.SelectedColumnTypes)
-                                ObfuscationList="@guess.GetObfuscationOrder(settings.SelectedColumnTypes)"
-                                IsSolution=guess.GetIsCorrect()
-                                Visible=visible>
-                            </TemplateRow>
-                        }
-                        </tbody>
-                    </table>
-                </div>
+                            </tbody>
+                        </table>
+                    </div>
             </div>
         </div>
     }
@@ -92,14 +94,12 @@
     private readonly List<IGuessDisplayData> _displayData = new();
 
 
-
     protected override async Task OnInitializedAsync()
     {
         _pokemonTypes.Clear();
         _pokemonTypes.AddRange(Translations.GetTranslatedNames());
 
         await Reset();
-
     }
 
     private async Task Reset()
@@ -112,7 +112,6 @@
         _guessing = true;
         //_pokemonGuessForm?.Enable();
         StateHasChanged();
-
     }
 
 
@@ -161,20 +160,21 @@
     private void WinGame()
     {
         //_pokemonGuessForm?.Disable();
-        
         _guessing = false;
     }
 
-    private void RevealButtonClick() {
+    private void RevealButtonClick()
+    {
         if (!_guessing) return;
-        
+
         _guessing = false;
         AddGuessedPokemon(_pokemonToGuess.Name, _pokemonToGuess);
     }
-    
+
     private async void RestartButtonClick()
     {
         //_pokemonGuessForm.Enable();
         await Reset();
     }
 }
+

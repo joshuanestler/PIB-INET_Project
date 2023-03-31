@@ -3,15 +3,18 @@
 
 <link href="/css/pokecss/SearchBox.css" rel="stylesheet" />
 <div id="game-input">
+    <div class="dropdown-wrapper">
     <input class="pokemon-input" @bind-value="ValueProperty" @onkeyup="InputKeyUp" @onkeydown="InputKeyDown" @oninput="InputChange"
            @onfocusin="(() => isDropdownVisible = true)"
            @onfocusout="DelayedHideDropdown"
            />
     @if (isDropdownVisible) {
-        <div class="dropdown-wrapper">
-            <div class="dropdown-inner-wrapper">
-                <div class="pokemon-dropdown-container">
-                    @for (int i = 0; i < DisplayItemsList.Count; i++)
+        <div class="dropdown-inner-wrapper">
+            <div class="pokemon-dropdown-container">
+                @for (int i = 0; i < DisplayItemsList.Count; i++)
+                {
+                    string item = DisplayItemsList[i];
+                    if (i >= _dropdownIndex - 2)
                     {
                         string item = DisplayItemsList[i];
                         if (i >= _dropdownIndex - 1)

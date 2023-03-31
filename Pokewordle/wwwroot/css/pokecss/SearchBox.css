@@ -90,13 +90,13 @@
 
 
 /* custom search box*/
-.option-wrapper {
-    color:red;
-    background:blue;
-}
+/*.option-wrapper {*/
+/*    color:red;*/
+/*    background:blue;*/
+/*}*/
 
-#game-input ::part(dingi) { 
-    color:red;
-    background:blue;
-}
+/*#game-input ::part(dingi) { */
+/*    color:red;*/
+/*    background:blue;*/
+/*}*/
 

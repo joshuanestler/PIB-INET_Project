@@ -85,6 +85,9 @@ tbody td {
     border-radius: 1rem;
 }
 
+.searchbox-table-spacer {
+    height: 3rem; /* has to be more than input height */
+}
 .game-status-button {
     position: relative; /* add position relative to set tooltip position */
     width: 3em;
