@@ -1,22 +1,20 @@
 ﻿@using Pokewordle.Shared.Extensions;
-@using Microsoft.AspNetCore.Components.Forms;
-@inject IJSRuntime JSRuntime;
 
 
 <link href="/css/pokecss/SearchBox.css" rel="stylesheet" />
 <div id="game-input">
-    <input class="pokemon-inputlist="itemList" @bind-value="@ValueProperty" @onkeyup="InputKeyUp" @onkeydown="InputKeyDown" @oninput="InputChange"
+    <input class="pokemon-input" @bind-value="ValueProperty" @onkeyup="InputKeyUp" @onkeydown="InputKeyDown" @oninput="InputChange"
            @onfocusin="(() => isDropdownVisible = true)"
-           @onfocusout="(() => isDropdownVisible = false)"
+           @onfocusout="DelayedHideDropdown"
            />
-    if (isDropdownVisible) {
+    @if (isDropdownVisible) {
         <div class="dropdown-wrapper">
             <div class="dropdown-inner-wrapper">
                 <div class="pokemon-dropdown-container">
                     @for (int i = 0; i < DisplayItemsList.Count; i++)
                     {
                         string item = DisplayItemsList[i];
-                        if (i >= _dropdownIndex - 2)
+                        if (i >= _dropdownIndex - 1)
                         {
                             var test = i;
                             if (i == _dropdownIndex)
@@ -53,106 +51,105 @@
     private string _value = "";
     public string ValueProperty { get => _value; set => SetValue(value); }
 
+    private async void DelayedHideDropdown()
+    {
+        await Task.Delay(100);
+        isDropdownVisible = false;
+        StateHasChanged();
+    }
+
     private void ClickValue(int i)
     {
-        //if (0 <= i && i < DisplayItemsList.Count)
-        //{
-        //    SubmitValue(DisplayItemsList[i]);
-        //} else
-        //{
-        //    if (DisplayItemsList.Contains(_value))
-        //    {
-        //        SubmitValue(_value);
-        //    }
-        //}
+        Console.WriteLine($"Click {i}");
+        if (0 <= i && i < DisplayItemsList.Count)
+        {
+            Console.WriteLine($"Click => {DisplayItemsList[i]}");
+            SubmitValue(DisplayItemsList[i]);
+        } else
+        {
+            if (DisplayItemsList.Contains(_value))
+            {
+                SubmitValue(_value);
+            }
+        }
     }
 
     private int _dropdownIndex = -1;
 
     private void UpdateDisplayedItems(string inputValue)
     {
-        //DisplayItemsList.Clear();
-        //foreach (string item in ItemList)
-        //{
-        //    if (item.Contains(inputValue, StringComparison.OrdinalIgnoreCase))
-        //    {
-        //        DisplayItemsList.Add(item);
-        //    }
-        //}
+        DisplayItemsList.Clear();
+        foreach (string item in ItemList)
+        {
+            if (item.Contains(inputValue, StringComparison.OrdinalIgnoreCase))
+            {
+                DisplayItemsList.Add(item);
+            }
+        }
     }
 
     private void InputChange(ChangeEventArgs value)
     {
-        //if (value.Value is not string inputValue)
-        //{
-        //    Console.WriteLine("Ignoring non string input.");
-        //    return;
-        //}
+        if (value.Value is not string inputValue)
+        {
+            Console.WriteLine("Ignoring non string input.");
+            return;
+        }
 
-        //UpdateDisplayedItems(inputValue);
+        UpdateDisplayedItems(inputValue);
     }
 
     private void InputKeyDown(KeyboardEventArgs value)
     {
-        //if (value.Code.Equals("Enter") || value.Code.Equals("NumpadEnter"))
-        //{
-        //    Console.WriteLine("Enter");
-        //    if (DisplayItemsList.Count == 1)
-        //    {
-        //        Console.WriteLine("Click 0");
-        //        ClickValue(0);
-        //    } else
-        //    {
-        //        ClickValue(_dropdownIndex);
-        //    }
-        //}
+        if (value.Code.Equals("Enter") || value.Code.Equals("NumpadEnter"))
+        {
+            Console.WriteLine("Enter");
+            if (DisplayItemsList.Count == 1)
+            {
+                Console.WriteLine("Enter -> Click 0");
+                ClickValue(0);
+            } else
+            {
+                ClickValue(_dropdownIndex);
+            }
+        }
     }
 
     private void InputKeyUp(KeyboardEventArgs value)
     {
-        //if (value.Code.Equals("ArrowDown"))
-        //{
-        //    _dropdownIndex = Math.Min(_dropdownIndex + 1, DisplayItemsList.Count - 1);
-        //    return;
-        //}
-        //if (value.Code.Equals("ArrowUp"))
-        //{
-        //    _dropdownIndex = Math.Max(_dropdownIndex - 1, -1);
-        //    return;
-        //}
-        //_dropdownIndex = -1;
+        if (value.Code.Equals("ArrowDown"))
+        {
+            _dropdownIndex = Math.Min(_dropdownIndex + 1, DisplayItemsList.Count - 1);
+            return;
+        }
+        if (value.Code.Equals("ArrowUp"))
+        {
+            _dropdownIndex = Math.Max(_dropdownIndex - 1, -1);
+            return;
+        }
+        _dropdownIndex = -1;
     }
 
     private void SubmitValue(string value)
     {
-        //if (ItemList.Contains(value))
-        //{
-        //    _value = "";
-        //    UpdateDisplayedItems("");
-        //    ValueChanged.InvokeAsync(value);
-        //}
+        if (ItemList.Contains(value))
+        {
+            _value = "";
+            UpdateDisplayedItems("");
+            ValueChanged.InvokeAsync(value);
+        }
     }
 
     private void SetValue(string value)
     {
-        //_value = value;
-        //UpdateDisplayedItems("");
-        //if (ItemList.Contains(value))
-        //{
-        //    Console.WriteLine($"Input matched for value {value}");
-        //    SubmitValue(value);
-        //}
-        //else
-        //{
-        //    Console.WriteLine($"Input not matched for value {value}");
-        //}
+        _value = value;
     }
 
 
 
     public void SetValueDontTriggerEvent(string value)
     {
-        //_value = value;
+        _value = value;
     }
 
 }
