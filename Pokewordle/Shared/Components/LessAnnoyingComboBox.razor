@@ -52,10 +52,48 @@
     private string _value = "";
     public string ValueProperty { get => _value; set => SetValue(value); }
 
+    private volatile int scrollDirection = 0;
+    private volatile bool skipNextKeyHoldTick = false;
+    private async void KeyHold()
+    {
+        int[] delays = { 333, 222, 111, 55 };
+        int[] stepsToNextDelay = { 3, 6, 12, -1 };
+
+        int curDelayIndex = 0;
+        int delay = delays[curDelayIndex];
+        int stepsInDelay = stepsToNextDelay[curDelayIndex];
+    loop:;
+        await Task.Delay(delay);
+
+        if (scrollDirection != 0)
+        {
+            if (skipNextKeyHoldTick)
+            {
+                skipNextKeyHoldTick = false;
+                curDelayIndex = 0;
+                delay = delays[curDelayIndex];
+                stepsInDelay = stepsToNextDelay[curDelayIndex];
+            } else
+            {
+                _dropdownIndex += scrollDirection;
+                if (stepsInDelay <= 0 && --stepsInDelay == 0)
+                {
+                    curDelayIndex += 1;
+                    delay = delays[curDelayIndex];
+                    stepsInDelay = stepsToNextDelay[curDelayIndex];
+                }
+            }
+        } else
+        {
+            delay = 1000;
+        }
+        goto loop;
+    }
 
     protected override void OnInitialized()
     {
         DisplayItemsList.AddRange(ItemList);
+        KeyHold();
     }
 
     private async void DelayedHideDropdown()
@@ -85,13 +123,26 @@
 
     private void UpdateDisplayedItems(string inputValue)
     {
+        List<string> containedList = new();
+
         DisplayItemsList.Clear();
         foreach (string item in ItemList)
         {
-            if (item.Contains(inputValue, StringComparison.OrdinalIgnoreCase))
+            if (item.StartsWith(inputValue))
             {
                 DisplayItemsList.Add(item);
+            } else
+            {
+                if (item.Contains(inputValue, StringComparison.OrdinalIgnoreCase))
+                {
+                    containedList.Add(item);
+                }
             }
+        }
+
+        foreach(string item in containedList)
+        {
+            DisplayItemsList.Add(item);
         }
     }
 
@@ -109,6 +160,7 @@
     private void InputKeyDown(KeyboardEventArgs value)
     {
         isDropdownVisible = true;
+        skipNextKeyHoldTick = true;
         if (value.Code.Equals("Enter") || value.Code.Equals("NumpadEnter"))
         {
             Console.WriteLine("Enter");
@@ -121,21 +173,29 @@
                 ClickValue(_dropdownIndex);
             }
         }
-    }
-
-    private void InputKeyUp(KeyboardEventArgs value)
-    {
         if (value.Code.Equals("ArrowDown"))
         {
+            scrollDirection = 1;
             _dropdownIndex = Math.Min(_dropdownIndex + 1, DisplayItemsList.Count - 1);
             return;
         }
         if (value.Code.Equals("ArrowUp"))
         {
+            scrollDirection = -1;
             _dropdownIndex = Math.Max(_dropdownIndex - 1, -1);
             return;
         }
         _dropdownIndex = -1;
+    }
+
+    private void InputKeyUp(KeyboardEventArgs value)
+    {
+
+        if (value.Code.Equals("ArrowDown") ||
+            value.Code.Equals("ArrowUp"))
+        {
+            scrollDirection = 0;
+        }
     }
 
     private void SubmitValue(string value)
