@@ -26,6 +26,7 @@ namespace Pokewordle.Shared.PokemonData
             Steel,
             Fairy
         }
+
         static double[,] typeDamageMultipliers = new double[,]
         {
         // defender     Normal   Fire   Water  Electric  Grass  Ice   Fighting  Poison  Ground  Flying  Psychic Bug  Rock  Ghost Dragon  Dark  Steel  Fairy
@@ -50,8 +51,7 @@ namespace Pokewordle.Shared.PokemonData
         /* Fairy    */ {    1,     0.5,   1,      1,      1,    0.5,    1,       2,      1,      1,      1,    1,    1,     1,    0,     2,     0.5,   1   },
         };
 
-
-        public static readonly IImmutableList<string> AllTypes = ImmutableList.CreateRange(Enum.GetNames<PokemonType>());
+        public static readonly IImmutableList<string> AllTypes = ImmutableList.CreateRange(Enum.GetNames<PokemonType>().ToList().ConvertAll(str => str.ToLower()));
         public static readonly IImmutableDictionary<string, IImmutableList<string>> Weaknesses;
         public static readonly IImmutableDictionary<string, IImmutableList<string>> Effectives;
         public static readonly IImmutableDictionary<string, IImmutableList<string>> Resistances;
@@ -64,6 +64,7 @@ namespace Pokewordle.Shared.PokemonData
             var effectivesDictBuilder = ImmutableDictionary.CreateBuilder<string, IImmutableList<string>>();
             var resistancesDictBuilder = ImmutableDictionary.CreateBuilder<string, IImmutableList<string>>();
             var immunitiesDictBuilder = ImmutableDictionary.CreateBuilder<string, IImmutableList<string>>();
+            var resistancesimmunitiesDictBuilder = ImmutableDictionary.CreateBuilder<string, IImmutableList<string>>();
             foreach (string type in AllTypes)
             {
                 GetTypeRelations(type,
@@ -75,17 +76,13 @@ namespace Pokewordle.Shared.PokemonData
                 effectivesDictBuilder.Add(type, effectives);
                 resistancesDictBuilder.Add(type, resistances);
                 immunitiesDictBuilder.Add(type, immunities);
+                resistancesimmunitiesDictBuilder.Add(type, resistances.Union(immunities).ToImmutableList());
             }
             Weaknesses = weaknessesDictBuilder.ToImmutable();
             Effectives = effectivesDictBuilder.ToImmutable();
             Resistances = resistancesDictBuilder.ToImmutable();
             Immunities = immunitiesDictBuilder.ToImmutable();
-
-            //Add immunities to resistances 
-            foreach(KeyValuePair<string, IImmutableList<string>> entry in Immunities) {
-                resistancesDictBuilder.Add(entry);
-            }
-            ResistancesAndImmunities = resistancesDictBuilder.ToImmutable();
+            ResistancesAndImmunities = resistancesimmunitiesDictBuilder.ToImmutable();
         }
 
         public static double GetMultiplier(string targetType, string attackType)
@@ -98,6 +95,7 @@ namespace Pokewordle.Shared.PokemonData
             }
             throw new ArgumentException($"At least one of those was not a valid type: targetType:\"{targetType}\", attackType:\"{attackType}\".");
         }
+
         public static double GetMultiplier(string targetType1, string targetType2, string attackType)
         {
             int target1Index = AllTypes.IndexOf(targetType1);
@@ -109,7 +107,6 @@ namespace Pokewordle.Shared.PokemonData
             }
             throw new ArgumentException($"At least one of those was not a valid type: targetType1:\"{targetType1}\", targetType2:\"{targetType2}\", attackType:\"{attackType}\".");
         }
-
 
         public static List<string> GetWeaknesses(string type1, string type2)
         {
@@ -205,6 +202,6 @@ namespace Pokewordle.Shared.PokemonData
             resistances = resistanceBuilder.ToImmutable();
             immunities = immunityBuilder.ToImmutable();
         }
-
     }
+
 }
