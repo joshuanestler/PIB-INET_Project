@@ -56,6 +56,7 @@ namespace Pokewordle.Shared.PokemonData
             type1 = pokeData.FilledTypes[0];
             return compareData.FilledTypes.Contains(type1);
         }
+
         public static bool IsType2Shared(this IPokeData pokeData, IPokeData compareData, out string type2)
         {
             type2 = pokeData.FilledTypes[1];

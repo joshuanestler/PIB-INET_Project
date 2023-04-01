@@ -18,6 +18,10 @@ namespace Pokewordle.Shared
             {ColumnType.EVOLUTION, 8},
             {ColumnType.ABILITIES, 8},
 
+            {ColumnType.RESISTANCES_IMMUNITIES, 5},
+            {ColumnType.RESISTANCES, 5},
+            {ColumnType.WEAKNESSES, 5},
+
             {ColumnType.HP, 4},
             {ColumnType.ATK, 4},
             {ColumnType.DEF, 4},
@@ -52,6 +56,10 @@ namespace Pokewordle.Shared
             {ColumnType.WEIGHT, "Weight (kg)"},
             {ColumnType.EVOLUTION, "Evolution"},
             {ColumnType.ABILITIES, "Abilities"},
+
+            {ColumnType.RESISTANCES_IMMUNITIES, "Resist & Immune"},
+            {ColumnType.RESISTANCES, "Resist"},
+            {ColumnType.WEAKNESSES, "Weak"},
 
             {ColumnType.HP, "HP"},
             {ColumnType.ATK, "Atk"},

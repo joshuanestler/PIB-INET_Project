@@ -14,6 +14,10 @@
         EVOLUTION,
         ABILITIES,
 
+        RESISTANCES,
+        WEAKNESSES,
+        RESISTANCES_IMMUNITIES,
+
         HP,
         ATK,
         DEF,
