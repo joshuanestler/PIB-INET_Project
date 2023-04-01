@@ -155,7 +155,22 @@
 
     private async Task<IPokeData> LoadPokemon(string name)
     {
-        Pokemon pokemon = await PokeClient.GetResourceAsync<Pokemon>(name);
+        Pokemon? pokemon = null;
+        int delay = 100;
+    retry:;
+        try
+        {
+            pokemon = await PokeClient.GetResourceAsync<Pokemon>(name);
+        } catch (Exception e)
+        {
+            Console.WriteLine();
+            await Task.Delay(delay);
+            if (delay < 10000) {
+                delay = delay * 2;
+            }
+            goto retry;
+        }
+
         return new FetchablePokeData(pokemon, PokeClient);
     }
 
