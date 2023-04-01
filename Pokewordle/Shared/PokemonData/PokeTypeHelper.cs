@@ -1,4 +1,5 @@
-﻿using System.Collections.Immutable;
+﻿using Microsoft.Extensions.Primitives;
+using System.Collections.Immutable;
 
 namespace Pokewordle.Shared.PokemonData
 {
@@ -107,6 +108,73 @@ namespace Pokewordle.Shared.PokemonData
                 return typeDamageMultipliers[attackIndex, target1Index] * typeDamageMultipliers[attackIndex, target2Index];
             }
             throw new ArgumentException($"At least one of those was not a valid type: targetType1:\"{targetType1}\", targetType2:\"{targetType2}\", attackType:\"{attackType}\".");
+        }
+
+
+        public static List<string> GetWeaknesses(string type1, string type2)
+        {
+            List<string> result = new();
+            foreach(string attackType in AllTypes)
+            {
+                if (GetMultiplier(type1, type2, attackType) > 1d)
+                {
+                    result.Add(attackType);
+                }
+            }
+            return result;
+        }
+
+        public static List<string> GetEffectives(string type1, string type2)
+        {
+            List<string> result = new();
+            foreach (string attackType in AllTypes)
+            {
+                if (GetMultiplier(type1, type2, attackType) == 1d)
+                {
+                    result.Add(attackType);
+                }
+            }
+            return result;
+        }
+
+        public static List<string> GetResistances(string type1, string type2)
+        {
+            List<string> result = new();
+            foreach (string attackType in AllTypes)
+            {
+                double multiplier = GetMultiplier(type1, type2, attackType);
+                if (0 < multiplier && multiplier < 1d)
+                {
+                    result.Add(attackType);
+                }
+            }
+            return result;
+        }
+
+        public static List<string> GetImmunities(string type1, string type2)
+        {
+            List<string> result = new();
+            foreach (string attackType in AllTypes)
+            {
+                if (GetMultiplier(type1, type2, attackType) == 0d)
+                {
+                    result.Add(attackType);
+                }
+            }
+            return result;
+        }
+
+        public static List<string> GetResistancesAndImmunities(string type1, string type2)
+        {
+            List<string> result = new();
+            foreach (string attackType in AllTypes)
+            {
+                if (GetMultiplier(type1, type2, attackType) < 1d)
+                {
+                    result.Add(attackType);
+                }
+            }
+            return result;
         }
 
         private static void GetTypeRelations(string targetType,
