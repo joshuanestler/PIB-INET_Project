@@ -62,80 +62,14 @@ namespace Pokewordle.Shared.PokemonData
             return compareData.FilledTypes.Contains(type2);
         }
 
-        //public static MatchingResult MatchTypes(this IPokeData pokeData, IPokeData compareData)
+        //public static List<string> GetResistances(this IPokeData pokeData)
         //{
-        //    int matchCount = 0;
-        //    foreach (string type in pokeData.Types)
-        //    {
-        //        if (compareData.Types.Contains(type))
-        //        {
-        //            matchCount++;
-        //        }
-        //    }
-        //    if (pokeData.Types.Count == compareData.Types.Count)
-        //    {
-        //        if (matchCount == pokeData.Types.Count)
-        //        {
-        //            return MatchingResult.ALL;
-        //        }
-        //        else if (matchCount > 0)
-        //        {
-        //            return MatchingResult.PARTIAL;
-        //        }
-        //        else
-        //        {
-        //            return MatchingResult.NONE;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (matchCount > 0)
-        //        {
-        //            return MatchingResult.PARTIAL;
-        //        }
-        //        else
-        //        {
-        //            return MatchingResult.NONE;
-        //        }
-        //    }
+        //    pokeData.Types;
         //}
 
-        //public static MatchingResult MatchAbilities(this IPokeData pokeData, IPokeData compareData)
+        //public static List<string> GetWeaknesses(this IPokeData pokeData)
         //{
-        //    int matchCount = 0;
-        //    foreach (string type in pokeData.Abilities)
-        //    {
-        //        if (compareData.Abilities.Contains(type))
-        //        {
-        //            matchCount++;
-        //        }
-        //    }
-        //    if (pokeData.Abilities.Count == compareData.Abilities.Count)
-        //    {
-        //        if (matchCount == pokeData.Abilities.Count)
-        //        {
-        //            return MatchingResult.ALL;
-        //        }
-        //        else if (matchCount > 0)
-        //        {
-        //            return MatchingResult.PARTIAL;
-        //        }
-        //        else
-        //        {
-        //            return MatchingResult.NONE;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (matchCount > 0)
-        //        {
-        //            return MatchingResult.PARTIAL;
-        //        }
-        //        else
-        //        {
-        //            return MatchingResult.NONE;
-        //        }
-        //    }
+
         //}
 
         public static MatchingResult Match<T>(this IPokeData pokeData, IPokeData compareData, Func<IPokeData, IEnumerable<T>> valuePicker)
