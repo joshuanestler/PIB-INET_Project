@@ -128,7 +128,7 @@
         DisplayItemsList.Clear();
         foreach (string item in ItemList)
         {
-            if (item.StartsWith(inputValue))
+            if (item.StartsWith(inputValue, StringComparison.OrdinalIgnoreCase))
             {
                 DisplayItemsList.Add(item);
             } else
