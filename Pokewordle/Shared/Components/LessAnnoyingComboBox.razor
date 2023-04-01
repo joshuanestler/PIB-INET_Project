@@ -57,7 +57,7 @@
     private async void KeyHold()
     {
         int[] delays = { 333, 222, 111, 55 };
-        int[] stepsToNextDelay = { 3, 6, 12, -1 };
+        int[] stepsToNextDelay = { 5, 10, 20, -1 };
 
         int curDelayIndex = 0;
         int delay = delays[curDelayIndex];
@@ -154,13 +154,20 @@
             return;
         }
 
+        if (string.Empty.Equals(inputValue))
+        {
+            isDropdownVisible = false;
+        }
+
         UpdateDisplayedItems(inputValue);
     }
 
     private void InputKeyDown(KeyboardEventArgs value)
     {
-        isDropdownVisible = true;
         skipNextKeyHoldTick = true;
+
+        isDropdownVisible = !value.Code.Equals("Escape");
+
         if (value.Code.Equals("Enter") || value.Code.Equals("NumpadEnter"))
         {
             Console.WriteLine("Enter");
