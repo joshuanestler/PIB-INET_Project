@@ -1,4 +1,5 @@
 ﻿@page "/settings"
+@using Pokewordle.Shared.Extensions
 @using Pokewordle.Shared.Components
 @using Pokewordle.Shared.Util
 @inject SharedSettings settings;
@@ -26,6 +27,24 @@
             <div class="searchbox">
                 <ThemeSelectorBak></ThemeSelectorBak>
             </div>
+        </div>
+    </div>
+
+    <div class="generation-wrapper setting-wrapper">
+        <p class="setting-title">Generations</p>
+        <p class="setting-description">Select the generations that pokemons may be picked from.</p>
+        <div class="centering-container">
+            @for (int i = 1; i <= MAX_GENERATION; i++)
+            {
+                int generationNr = i;
+                int generationIndex = i - 1;
+
+                <div style="float: left;">
+                    <div>@generationNr</div>
+                    <InputCheckbox @bind-Value=_generationEnabled[generationIndex].IsEnabled>@generationNr</InputCheckbox>
+                </div>
+                <div style="float: left; width: 1em;"></div>
+            }
         </div>
     </div>
 
@@ -133,9 +152,63 @@
 
 @code
 {
+    private class CheckValue
+    {
+        private bool _isEnabled;
+        public bool IsEnabled { get => _isEnabled; set => SetEnabled(value); }
+        public Action NotifyValueChanged = () => { };
 
+        private void SetEnabled(bool value)
+        {
+            _isEnabled = value;
+            NotifyValueChanged();
+        }
+    }
+
+    private const int MAX_GENERATION = 9;
+    private readonly CheckValue[] _generationEnabled = ThingsThatShouldExist.CreateInitializedArray<CheckValue>(MAX_GENERATION, cv => cv.IsEnabled = false).ToArray();
     private List<ColumnType> _selectedColumnTypes = new();
     private ColumnType? _selectedType = null;
+
+    private ISet<int> GetEnabledGenerations()
+    {
+        HashSet<int> result = new();
+        for(int i = 0; i < _generationEnabled.Length; i++)
+        {
+            if (_generationEnabled[i].IsEnabled)
+            {
+                result.Add(i + 1);
+            }
+        }
+        return result;
+    }
+
+    private void OnGenerationEnabledValueChanged()
+    {
+        settings.EnabledGenerations = GetEnabledGenerations();
+        //System.Text.StringBuilder sb = new("Currently enabled generations: ");
+        //for(int i = 0; i < MAX_GENERATION; i++)
+        //{
+        //    bool enabled = _generationEnabled[i].IsEnabled;
+        //    if (enabled)
+        //    {
+        //        sb.Append((i + 1).ToString());
+        //        sb.Append(", ");
+        //    }
+        //}
+        //Console.WriteLine(sb.ToString());
+    }
+
+    protected override void OnInitialized()
+    {
+        ISet<int> enabledGenerations = settings.EnabledGenerations;
+        for(int i = 0; i < _generationEnabled.Length; i++)
+        {
+            _generationEnabled[i].IsEnabled = enabledGenerations.Contains(i + 1);
+            _generationEnabled[i].NotifyValueChanged = OnGenerationEnabledValueChanged;
+        }
+        base.OnInitialized();
+    }
 
     protected override async Task OnInitializedAsync() {
         _selectedColumnTypes = settings.SelectedColumnTypes;

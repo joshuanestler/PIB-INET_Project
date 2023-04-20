@@ -1,14 +1,18 @@
-﻿@using Pokewordle.Shared.Extensions;
+﻿@*@typeparam TDropdownItem
 
-
-<link href="/css/pokecss/SearchBox.css" rel="stylesheet" />
-<div id="game-input">
+<div class="stkComboBox" id="game-input">
     <div class="dropdown-wrapper">
-        <input class="pokemon-input" @bind-value="ValueProperty" @onkeyup="InputKeyUp" @onkeydown="InputKeyDown" @oninput="InputChange" disabled="@isDisabled"
+        <input class="pokemon-input"
+               @bind-value="ValueProperty"
+               disabled="@isDisabled"
+               @onkeyup="InputKeyUp" 
+               @onkeydown="InputKeyDown"
+               @oninput="InputChange"
                @onfocusin="(() => isDropdownVisible = true)"
                @onfocusout="DelayedHideDropdown"
                />
-        @if (isDropdownVisible) {
+        @if (isDropdownVisible)
+        {
             <div class="dropdown-inner-wrapper">
                 <div class="pokemon-dropdown-container">
                     @for (int i = 0; i < DisplayItemsList.Count; i++)
@@ -35,6 +39,46 @@
 
 
 @code {
+    [Parameter]
+    public IList<TDropdownItem> DropdownItemList { get; set; } = new List<TDropdownItem>();
+
+    [Parameter]
+    public EventCallback<TDropdownItem> ValueChanged { get; set; } = new EventCallback<TDropdownItem>();
+
+    [Parameter]
+    public Func<string, IList<TDropdownItem>, IList<TDropdownItem>> FilterAndSortDropdownItems { get; set; } =
+
+    private static IList<TDropdownItem> UpdateDisplayedItems(string inputValue)
+    {
+        List<string> containedList = new();
+
+        DisplayItemsList.Clear();
+        foreach (string item in ItemList)
+        {
+            if (item.StartsWith(inputValue, StringComparison.OrdinalIgnoreCase))
+            {
+                DisplayItemsList.Add(item);
+            }
+            else
+            {
+                if (item.Contains(inputValue, StringComparison.OrdinalIgnoreCase))
+                {
+                    containedList.Add(item);
+                }
+            }
+        }
+
+        foreach (string item in containedList)
+        {
+            DisplayItemsList.Add(item);
+        }
+    }
+
+
+
+
+
+    //OLD
     [Parameter]
     [EditorRequired]
     public List<string> ItemList { get; set; } = new();
@@ -73,7 +117,8 @@
                 curDelayIndex = 0;
                 delay = delays[curDelayIndex];
                 stepsInDelay = stepsToNextDelay[curDelayIndex];
-            } else
+            }
+            else
             {
                 _dropdownIndex += scrollDirection;
                 if (stepsInDelay <= 0 && --stepsInDelay == 0)
@@ -83,7 +128,8 @@
                     stepsInDelay = stepsToNextDelay[curDelayIndex];
                 }
             }
-        } else
+        }
+        else
         {
             delay = 1000;
         }
@@ -110,7 +156,8 @@
         {
             Console.WriteLine($"Click => {DisplayItemsList[i]}");
             SubmitValue(DisplayItemsList[i]);
-        } else
+        }
+        else
         {
             if (DisplayItemsList.Contains(_value))
             {
@@ -131,7 +178,8 @@
             if (item.StartsWith(inputValue, StringComparison.OrdinalIgnoreCase))
             {
                 DisplayItemsList.Add(item);
-            } else
+            }
+            else
             {
                 if (item.Contains(inputValue, StringComparison.OrdinalIgnoreCase))
                 {
@@ -140,7 +188,7 @@
             }
         }
 
-        foreach(string item in containedList)
+        foreach (string item in containedList)
         {
             DisplayItemsList.Add(item);
         }
@@ -175,7 +223,8 @@
             {
                 Console.WriteLine("Enter -> Click 0");
                 ClickValue(0);
-            } else
+            }
+            else
             {
                 ClickValue(_dropdownIndex);
             }
@@ -239,4 +288,4 @@
         _value = value;
     }
 
-}
+}*@

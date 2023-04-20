@@ -41,33 +41,35 @@
         <div id="game-container" class="round-border-10">
             <h1 class="game-title">Guess a Pokemon</h1>
             <div class="table-and-searchbox-container">
-                <PokemonGuessForm @ref="_pokemonGuessForm" PokemonNames="_pokemonTypes" ValueChanged="AttemptGuess"></PokemonGuessForm>
-                
-                <div class="table-container lighten-10 round-border-10">
-                    <table id="game-table">
-                        <thead>
-                        @((MarkupString)HeaderGenerator.ToHeaderString(settings.SelectedColumnTypes))
-                        </thead>
+                <LessAnnoyingComboBox @ref="_pokemonInput" ItemList="_pokemonTypes" ValueChanged="AttemptGuess"></LessAnnoyingComboBox>
+                <div class="searchbox-table-spacer"></div>
+                    <div class="table-container lighten-10 round-border-10">
+                        <table id="game-table">
+                            <thead>
+                            @(
+            (MarkupString)HeaderGenerator.ToHeaderString(settings.SelectedColumnTypes)
+                                )
+                            </thead>
 
-                        <tbody>
-                        @for (int i = 0; i < _displayData.Count; i++)
-                        {
-                            IGuessDisplayData guess = _displayData[i];
-                            bool visible = true;
-                            if (settings.GuessHistoryLimit > 0)
+                            <tbody>
+                            @for (int i = 0; i < _displayData.Count; i++)
                             {
-                                visible = _displayData.Count - i <= settings.GuessHistoryLimit;
+                                IGuessDisplayData guess = _displayData[i];
+                                bool visible = true;
+                                if (settings.GuessHistoryLimit > 0)
+                                {
+                                    visible = _displayData.Count - i <= settings.GuessHistoryLimit;
+                                }
+                                <TemplateRow
+                                    TableCellsTask=@guess.GetRowCells(settings.SelectedColumnTypes)
+                                    ObfuscationList="@guess.GetObfuscationOrder(settings.SelectedColumnTypes)"
+                                    IsSolution=guess.GetIsCorrect()
+                                    Visible=visible>
+                                </TemplateRow>
                             }
-                            <TemplateRow
-                                TableCellsTask=@guess.GetRowCells(settings.SelectedColumnTypes)
-                                ObfuscationList="@guess.GetObfuscationOrder(settings.SelectedColumnTypes)"
-                                IsSolution=guess.GetIsCorrect()
-                                Visible=visible>
-                            </TemplateRow>
-                        }
-                        </tbody>
-                    </table>
-                </div>
+                            </tbody>
+                        </table>
+                    </div>
             </div>
         </div>
     }
@@ -80,9 +82,9 @@
 
     private FluentProgressRing _FluentProgressRing;
 
-    //private LessAnnoyingComboBox _newBetterPokemonGuessForm;
+    private LessAnnoyingComboBox _pokemonInput;
 
-    private PokemonGuessForm? _pokemonGuessForm;
+    //private PokemonGuessForm? _pokemonGuessForm;
 
     private List<string> _pokemonTypes = new();
 
@@ -92,14 +94,12 @@
     private readonly List<IGuessDisplayData> _displayData = new();
 
 
-
     protected override async Task OnInitializedAsync()
     {
         _pokemonTypes.Clear();
         _pokemonTypes.AddRange(Translations.GetTranslatedNames());
-
+        PokemonGenerationHelper.Initialize(Translations.GetTranslatedNames().Count - 1);
         await Reset();
-
     }
 
     private async Task Reset()
@@ -107,12 +107,28 @@
         _pokemonsGuessed.Clear();
         _displayData.Clear();
 
-        System.Random random = new();
-        _pokemonToGuess = await LoadPokemon(Translations.GetRandomLookupName());
-        _guessing = true;
-        _pokemonGuessForm?.Enable();
-        StateHasChanged();
+        ISet<int> allowedGenerations = settings.EnabledGenerations;
+        if (allowedGenerations.Count == 0) allowedGenerations.Add(1);
 
+    retry:;
+        if (!PokemonGenerationHelper.TryGetRandomIdWithinGenerationsV2(allowedGenerations, out int id))
+        {
+            id = 0;
+        }
+        _pokemonToGuess = await LoadPokemon(Translations.GetLookupName(id));
+        int generation = await _pokemonToGuess.GetGeneration();
+        PokemonGenerationHelper.AddInformation(_pokemonToGuess.Id, generation);
+
+        if (!allowedGenerations.Contains(generation))
+        {
+            goto retry;
+        }
+
+        _guessing = true;
+        //_pokemonGuessForm?.Enable();
+        _pokemonInput?.Enable();
+        _pokemonInput?.SetValueDontTriggerEvent("");
+        StateHasChanged();
     }
 
 
@@ -123,9 +139,9 @@
             return;
         }
 
+        _pokemonsGuessed[guessedName] = guessPokeData;
         IGuessDisplayData guessDisplayData = new LazyGuessDisplayData(_pokemonToGuess, guessPokeData);
         _displayData.Add(guessDisplayData);
-        _pokemonsGuessed[guessedName] = guessPokeData;
 
         if (guessDisplayData.GetIsCorrect())
         {
@@ -143,38 +159,57 @@
         }
         IPokeData guessPokeData = await LoadPokemon(lookupName);
         AddGuessedPokemon(lookupName, guessPokeData);
+        int generation = await guessPokeData.GetGeneration();
+        PokemonGenerationHelper.AddInformation(guessPokeData.Id, generation);
     }
 
     private async Task<IPokeData> LoadPokemon(int id)
     {
         Pokemon pokemon = await PokeClient.GetResourceAsync<Pokemon>(id);
-        PokeApiClient client = PokeClient;
         return new FetchablePokeData(pokemon, PokeClient);
     }
 
     private async Task<IPokeData> LoadPokemon(string name)
     {
-        Pokemon pokemon = await PokeClient.GetResourceAsync<Pokemon>(name);
+        Pokemon? pokemon = null;
+        int delay = 100;
+    retry:;
+        try
+        {
+            pokemon = await PokeClient.GetResourceAsync<Pokemon>(name);
+        } catch (Exception e)
+        {
+            Console.WriteLine();
+            await Task.Delay(delay);
+            if (delay < 10000) {
+                delay = delay * 2;
+            }
+            goto retry;
+        }
+
         return new FetchablePokeData(pokemon, PokeClient);
     }
 
     private void WinGame()
     {
-        _pokemonGuessForm?.Disable();
-        
+        //_pokemonGuessForm?.Disable();
+        _pokemonInput?.Disable();
+        _pokemonInput?.SetValueDontTriggerEvent("The pokemon has been revealed.");
         _guessing = false;
     }
 
-    private void RevealButtonClick() {
+    private void RevealButtonClick()
+    {
         if (!_guessing) return;
-        
+
         _guessing = false;
         AddGuessedPokemon(_pokemonToGuess.Name, _pokemonToGuess);
     }
-    
+
     private async void RestartButtonClick()
     {
-        _pokemonGuessForm.Enable();
+        //_pokemonGuessForm.Enable();
         await Reset();
     }
 }
+

@@ -1,8 +1,16 @@
 
 .pokemon-input {
     font-size: 1.5rem;
-    width: 34rem;
+    /*width: 34rem;*/
     border: 1px solid black;
+    color: #d7d7d7;
+    font-weight: bold;
+    /*height: 2rem;*/ 
+    padding: 0 1rem;
+    height: 3rem; /* 1.5 font + 0 vertical padding*/
+    outline: none;
+    width: 40%;
+    min-width: 15rem;
 }
 
 .dropdown-wrapper {
@@ -20,7 +28,10 @@
     overflow-y: scroll;
     overflow-x: hidden;
     max-height: 15rem;
-    width: 34rem; /*same as input box*/
+    
+    /*same as input box*/
+    width: 40%;
+    min-width: 15rem; 
     
     font-size: 1.2rem;
     /*align-self: center;*/
@@ -38,10 +49,12 @@
 .pokemon-dropdown-container {
     max-height:100%;
     width:100%;
+    padding: 0.5rem 0rem;
 }
 
 .pokemonItem {
-    color: white;
+    cursor: pointer;
+    color: #d7d7d7;
     /*background-color: rgba(255, 255, 255, 0.75);*/
     font-size: 1.1em;
     align-self: center;
@@ -66,5 +79,9 @@
     background-color: rgba(255, 255, 255, 0.32);
 }
 
+#selectedPokemon {
+    /*background-color: rgba(255, 255, 255, 0.40);*/
+    border: 2px solid white;
+}
 
 

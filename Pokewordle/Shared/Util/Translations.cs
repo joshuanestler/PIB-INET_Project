@@ -186,6 +186,11 @@ namespace Pokewordle.Shared.Util
             Random random = new();
             return s_BaseNamesToLookupName.Values.ElementAt(random.Next(s_BaseNamesToLookupName.Count));
         }
+        public static string GetLookupName(int pokemonId)
+        {
+            return s_BaseNamesToLookupName.Values.ElementAt(pokemonId);
+        }
+
 
         public static IList<string> GetTranslatedNames()
         {

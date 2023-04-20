@@ -58,6 +58,11 @@ namespace Pokewordle.Shared.GuessDisplayData
             dictionaryBuilder.Add(ColumnType.WEIGHT, new(CreateWeightCell));
 
             dictionaryBuilder.Add(ColumnType.GENERATION, new(CreateGenerationCell));
+            dictionaryBuilder.Add(ColumnType.EVOLUTION, new(CreateEvolutionCell));
+
+            dictionaryBuilder.Add(ColumnType.WEAKNESSES, new(CreateWeaknessesCell));
+            dictionaryBuilder.Add(ColumnType.RESISTANCES, new(CreateResistancesCell));
+            dictionaryBuilder.Add(ColumnType.RESISTANCES_IMMUNITIES, new(CreateResistancesAndImmunitiesCell));
 
             dictionaryBuilder.Add(ColumnType.HP, new(CreateHpCell));
             dictionaryBuilder.Add(ColumnType.ATK, new(CreateAtkCell));
@@ -116,6 +121,7 @@ namespace Pokewordle.Shared.GuessDisplayData
                 return new PokeTypeCellData(ColumnType.TYPE2, new string[] { typeName }, ColorScheme.COLOR_MISTAKE, htmlClass: "game-pokemon-type-field", htmlId: "type2");
             }
         }
+        
         private async Task<ICellData> CreateTypesCell()
         {
             return new PokeTypeCellData(ColumnType.TYPES, pokeDataGuessed.Types,
@@ -123,6 +129,31 @@ namespace Pokewordle.Shared.GuessDisplayData
                 htmlClass: "game-pokemon-type-field", htmlId: "types"
                 );
         }
+
+        private async Task<ICellData> CreateWeaknessesCell()
+        {
+            return new PokeTypeCellData(ColumnType.WEAKNESSES, pokeDataGuessed.GetWeaknesses(),
+                pokeDataGuessed.Match(pokeDataToGuess, pokeData => pokeData.GetWeaknesses()).ToTruePartialFalseColor(),
+                htmlClass: "game-pokemon-type-field", htmlId: "types"
+                );
+        }
+
+        private async Task<ICellData> CreateResistancesCell()
+        {
+            return new PokeTypeCellData(ColumnType.RESISTANCES, pokeDataGuessed.GetResistances(),
+                pokeDataGuessed.Match(pokeDataToGuess, pokeData => pokeData.GetResistances()).ToTruePartialFalseColor(),
+                htmlClass: "game-pokemon-type-field", htmlId: "types"
+                );
+        }
+
+        private async Task<ICellData> CreateResistancesAndImmunitiesCell()
+        {
+            return new PokeTypeCellData(ColumnType.RESISTANCES_IMMUNITIES, pokeDataGuessed.GetResistancesAndImmunities(),
+                pokeDataGuessed.Match(pokeDataToGuess, pokeData => pokeData.GetResistancesAndImmunities()).ToTruePartialFalseColor(),
+                htmlClass: "game-pokemon-type-field", htmlId: "types"
+                );
+        }
+
         private async Task<ICellData> CreateAbilitiesCell()
         {
             return new SimpleCellData(ColumnType.ABILITIES, pokeDataGuessed.Abilities.Aggregate((item, otherItems) => otherItems + ", " + item),
@@ -194,6 +225,11 @@ namespace Pokewordle.Shared.GuessDisplayData
                 pokeDataGuessed.Match(pokeDataToGuess, pokeData => pokeData.MaxStatNames).ToTruePartialFalseColor(),
                 htmlId: "maxstats"
                 );
+        }
+
+        private async Task<ICellData> CreateEvolutionCell()
+        {
+            return new SimpleCellData(ColumnType.EVOLUTION, "Coming soon...");
         }
 
         #endregion StatCells

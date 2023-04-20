@@ -8,11 +8,9 @@
 @inject NavigationManager NavigationManager;
 @inject SharedSettings SharedSettings;
 
-
 <link href="/css/pokecss/SearchBox.css" rel="stylesheet"/>
 <div id="language-input fluent-combo-box">
     <FluentCombobox @ref="ThemeComboBox" TOption="string" Items="@Themes" 
-                    bind-Value="@SelectedTheme"
                         Autocomplete="ComboboxAutocomplete.Both"
                     SelectedOptionChanged="@ValueChangedHandler"
                     Appearance="Appearance.Filled"
@@ -25,8 +23,6 @@
 
     private List<string> Themes = Enum.GetValues<Theme>().ToList().ConvertAll(s => s.ToString());
     
-    private string SelectedTheme;
-
     // fluentui design tokens
     [Inject]
     private BaseLayerLuminance BaseLayerLuminance { get; set; } = default!;

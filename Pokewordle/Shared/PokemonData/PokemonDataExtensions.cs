@@ -56,87 +56,57 @@ namespace Pokewordle.Shared.PokemonData
             type1 = pokeData.FilledTypes[0];
             return compareData.FilledTypes.Contains(type1);
         }
+
         public static bool IsType2Shared(this IPokeData pokeData, IPokeData compareData, out string type2)
         {
             type2 = pokeData.FilledTypes[1];
             return compareData.FilledTypes.Contains(type2);
         }
 
-        //public static MatchingResult MatchTypes(this IPokeData pokeData, IPokeData compareData)
-        //{
-        //    int matchCount = 0;
-        //    foreach (string type in pokeData.Types)
-        //    {
-        //        if (compareData.Types.Contains(type))
-        //        {
-        //            matchCount++;
-        //        }
-        //    }
-        //    if (pokeData.Types.Count == compareData.Types.Count)
-        //    {
-        //        if (matchCount == pokeData.Types.Count)
-        //        {
-        //            return MatchingResult.ALL;
-        //        }
-        //        else if (matchCount > 0)
-        //        {
-        //            return MatchingResult.PARTIAL;
-        //        }
-        //        else
-        //        {
-        //            return MatchingResult.NONE;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (matchCount > 0)
-        //        {
-        //            return MatchingResult.PARTIAL;
-        //        }
-        //        else
-        //        {
-        //            return MatchingResult.NONE;
-        //        }
-        //    }
-        //}
+        public static List<string> GetWeaknesses(this IPokeData pokeData)
+        {
+            if (pokeData.Types.Count == 1)
+            {
+                return PokeTypeHelper.Weaknesses[pokeData.FilledTypes[0]].ToList();
+            }
+            return PokeTypeHelper.GetWeaknesses(pokeData.FilledTypes[0], pokeData.FilledTypes[1]);
+        }
 
-        //public static MatchingResult MatchAbilities(this IPokeData pokeData, IPokeData compareData)
-        //{
-        //    int matchCount = 0;
-        //    foreach (string type in pokeData.Abilities)
-        //    {
-        //        if (compareData.Abilities.Contains(type))
-        //        {
-        //            matchCount++;
-        //        }
-        //    }
-        //    if (pokeData.Abilities.Count == compareData.Abilities.Count)
-        //    {
-        //        if (matchCount == pokeData.Abilities.Count)
-        //        {
-        //            return MatchingResult.ALL;
-        //        }
-        //        else if (matchCount > 0)
-        //        {
-        //            return MatchingResult.PARTIAL;
-        //        }
-        //        else
-        //        {
-        //            return MatchingResult.NONE;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (matchCount > 0)
-        //        {
-        //            return MatchingResult.PARTIAL;
-        //        }
-        //        else
-        //        {
-        //            return MatchingResult.NONE;
-        //        }
-        //    }
-        //}
+        public static List<string> GetEffectiveTypes(this IPokeData pokeData)
+        {
+            if (pokeData.Types.Count == 1)
+            {
+                return PokeTypeHelper.Effectives[pokeData.FilledTypes[0]].ToList();
+            }
+            return PokeTypeHelper.GetEffectives(pokeData.FilledTypes[0], pokeData.FilledTypes[1]);
+        }
+
+        public static List<string> GetResistances(this IPokeData pokeData)
+        {
+            if (pokeData.Types.Count == 1)
+            {
+                return PokeTypeHelper.Resistances[pokeData.FilledTypes[0]].ToList();
+            }
+            return PokeTypeHelper.GetResistances(pokeData.FilledTypes[0], pokeData.FilledTypes[1]);
+        }
+
+        public static List<string> GetImmunities(this IPokeData pokeData)
+        {
+            if (pokeData.Types.Count == 1)
+            {
+                return PokeTypeHelper.Immunities[pokeData.FilledTypes[0]].ToList();
+            }
+            return PokeTypeHelper.GetImmunities(pokeData.FilledTypes[0], pokeData.FilledTypes[1]);
+        }
+
+        public static List<string> GetResistancesAndImmunities(this IPokeData pokeData)
+        {
+            if (pokeData.Types.Count == 1)
+            {
+                return PokeTypeHelper.ResistancesAndImmunities[pokeData.FilledTypes[0]].ToList();
+            }
+            return PokeTypeHelper.GetResistancesAndImmunities(pokeData.FilledTypes[0], pokeData.FilledTypes[1]);
+        }
 
         public static MatchingResult Match<T>(this IPokeData pokeData, IPokeData compareData, Func<IPokeData, IEnumerable<T>> valuePicker)
         {

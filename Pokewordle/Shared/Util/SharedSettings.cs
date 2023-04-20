@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using PokeApiNet;
+using System.Text;
 
 namespace Pokewordle.Shared.Util;
 
@@ -16,6 +17,10 @@ public class SharedSettings {
     private readonly NavigationManager _navigationManager;
     
     private Theme _selectedTheme = Theme.Forest;
+    private ISet<int> _enabledGenerations = new HashSet<int>()
+    {
+        1, 2, 3, 4, 5, 6, 7, 8, 9,
+    };
     private string _selectedLanguage = Languages[0];
     private int _numberOfObfuscatedFields = 0;
     private int _guessHistoryLimit = 0;
@@ -52,7 +57,22 @@ public class SharedSettings {
         if (bool.TryParse(await settings.GetSettingAsync("allow_duplicate_guesses"), out bool allowDuplicateGuesses)) {
             settings._allowDuplicateGuesses = allowDuplicateGuesses;
         }
-        
+
+        string? enabledGenerations = await settings.GetSettingAsync("enabled_generations");
+        if (enabledGenerations is not null)
+        {
+            ISet<int> enabledGenerationList = new HashSet<int>();
+            string[] generationNumbers = enabledGenerations.Split(',');
+            foreach(string generationNumber in generationNumbers)
+            {
+                if (int.TryParse(generationNumber, out int parsedGeneration))
+                {
+                    enabledGenerationList.Add(parsedGeneration);
+                }
+            }
+            settings._enabledGenerations = enabledGenerationList;
+        }
+
         string? columnTypes = await settings.GetSettingAsync("columnTypes");
         if (columnTypes is not null && TryDeserializeColumnTypes(columnTypes, out List<ColumnType> columnTypesParsed)) {
             settings._selectedColumnTypes = columnTypesParsed;
@@ -119,10 +139,20 @@ public class SharedSettings {
     }
     
     public List<ColumnType> SelectedColumnTypes {
-        get => _selectedColumnTypes;
+        get => _selectedColumnTypes.ToList();
         set {
             _selectedColumnTypes = value.ToList();
             SetSettingAsync("columnTypes", SerializeColumnTypes(value)).ConfigureAwait(false);
+        }
+    }
+
+    public ISet<int> EnabledGenerations
+    {
+        get => _enabledGenerations.ToHashSet();
+        set
+        {
+            _enabledGenerations = value.ToHashSet();
+            SetSettingAsync("enabled_generations", value.Aggregate(new StringBuilder(), (StringBuilder sb, int i) => sb.Append($"{i},")).ToString()).ConfigureAwait(false);
         }
     }
 
