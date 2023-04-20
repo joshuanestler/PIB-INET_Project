@@ -1,4 +1,4 @@
-﻿<div class="stkStringComboBox">
+﻿@*<div class="stkStringComboBox">
     <input class="stkStringComboBox-input"
                @bind-value="ValueProperty"
                disabled="@(!InputEnabled)"
@@ -50,8 +50,8 @@
     [Parameter]
     public EventCallback<string> OnValueInput { get; set; } = new EventCallback<string>();
 
-    [Parameter]
-    public Action<string, IList<string>, ref IList<string>> FilterAndSortDropdownItems { get; set; } = DefaultImplementation_FilterAndSortDropdownItems(comparisonMode:StringComparison.OrdinalIgnoreCase);
+    //[Parameter]
+    //public Action<string, IList<string>, IList<string>> FilterAndSortDropdownItems { get; set; } = DefaultImplementation_FilterAndSortDropdownItems(comparisonMode:StringComparison.OrdinalIgnoreCase);
 
     private bool _isDropdownVisible = false;
 
@@ -89,4 +89,4 @@
 
     #endregion DefaultImplementations
 
-}
+}*@
