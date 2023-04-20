@@ -8,6 +8,7 @@ namespace Pokewordle.Shared.PokemonData
 
     public class FetchablePokeData : IPokeData
     {
+        public int Id { get; }
         public string Name { get; }
         public string NameLocalized { get; }
 
@@ -45,7 +46,8 @@ namespace Pokewordle.Shared.PokemonData
         {
             this.pokeApiClient = pokeApiClient;
             this.apiPokemon = pokemon;
-            
+
+            Id = apiPokemon.Id;
             Name = apiPokemon.Name;
             NameLocalized = Translations.TryGetLocalizedName(Name, Name);
             Types = apiPokemon.Types.ConvertAll(type => type.Type.Name).ToImmutableList();

@@ -6,6 +6,7 @@ namespace Pokewordle.Shared.PokemonData
 {
     public interface IPokeData
     {
+        int Id { get; }
         string Name { get; }
         string NameLocalized { get; }
 

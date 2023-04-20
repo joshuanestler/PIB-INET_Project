@@ -1,0 +1,291 @@
+﻿@*@typeparam TDropdownItem
+
+<div class="stkComboBox" id="game-input">
+    <div class="dropdown-wrapper">
+        <input class="pokemon-input"
+               @bind-value="ValueProperty"
+               disabled="@isDisabled"
+               @onkeyup="InputKeyUp" 
+               @onkeydown="InputKeyDown"
+               @oninput="InputChange"
+               @onfocusin="(() => isDropdownVisible = true)"
+               @onfocusout="DelayedHideDropdown"
+               />
+        @if (isDropdownVisible)
+        {
+            <div class="dropdown-inner-wrapper">
+                <div class="pokemon-dropdown-container">
+                    @for (int i = 0; i < DisplayItemsList.Count; i++)
+                    {
+                        string item = DisplayItemsList[i];
+                        if (i >= _dropdownIndex - 1)
+                        {
+                            var iCopyForRazor = i;
+                            if (i == _dropdownIndex)
+                            {
+                                <div class="pokemonItem" id="selectedPokemon" @onclick="(() => ClickValue(iCopyForRazor))">@item.FirstCharToUpper()</div>
+                            }
+                            else
+                            {
+                                <div class="pokemonItem" @onclick="(() => ClickValue(iCopyForRazor))">@item.FirstCharToUpper()</div>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public IList<TDropdownItem> DropdownItemList { get; set; } = new List<TDropdownItem>();
+
+    [Parameter]
+    public EventCallback<TDropdownItem> ValueChanged { get; set; } = new EventCallback<TDropdownItem>();
+
+    [Parameter]
+    public Func<string, IList<TDropdownItem>, IList<TDropdownItem>> FilterAndSortDropdownItems { get; set; } =
+
+    private static IList<TDropdownItem> UpdateDisplayedItems(string inputValue)
+    {
+        List<string> containedList = new();
+
+        DisplayItemsList.Clear();
+        foreach (string item in ItemList)
+        {
+            if (item.StartsWith(inputValue, StringComparison.OrdinalIgnoreCase))
+            {
+                DisplayItemsList.Add(item);
+            }
+            else
+            {
+                if (item.Contains(inputValue, StringComparison.OrdinalIgnoreCase))
+                {
+                    containedList.Add(item);
+                }
+            }
+        }
+
+        foreach (string item in containedList)
+        {
+            DisplayItemsList.Add(item);
+        }
+    }
+
+
+
+
+
+    //OLD
+    [Parameter]
+    [EditorRequired]
+    public List<string> ItemList { get; set; } = new();
+
+    private readonly List<string> DisplayItemsList = new();
+
+    [Parameter]
+    [EditorRequired]
+    public EventCallback<string> ValueChanged { get; set; }
+
+    private bool isDropdownVisible = false;
+
+    private bool isDisabled = false;
+
+    private string _value = "";
+    public string ValueProperty { get => _value; set => SetValue(value); }
+
+    private volatile int scrollDirection = 0;
+    private volatile bool skipNextKeyHoldTick = false;
+    private async void KeyHold()
+    {
+        int[] delays = { 333, 222, 111, 55 };
+        int[] stepsToNextDelay = { 5, 10, 20, -1 };
+
+        int curDelayIndex = 0;
+        int delay = delays[curDelayIndex];
+        int stepsInDelay = stepsToNextDelay[curDelayIndex];
+    loop:;
+        await Task.Delay(delay);
+
+        if (scrollDirection != 0)
+        {
+            if (skipNextKeyHoldTick)
+            {
+                skipNextKeyHoldTick = false;
+                curDelayIndex = 0;
+                delay = delays[curDelayIndex];
+                stepsInDelay = stepsToNextDelay[curDelayIndex];
+            }
+            else
+            {
+                _dropdownIndex += scrollDirection;
+                if (stepsInDelay <= 0 && --stepsInDelay == 0)
+                {
+                    curDelayIndex += 1;
+                    delay = delays[curDelayIndex];
+                    stepsInDelay = stepsToNextDelay[curDelayIndex];
+                }
+            }
+        }
+        else
+        {
+            delay = 1000;
+        }
+        goto loop;
+    }
+
+    protected override void OnInitialized()
+    {
+        DisplayItemsList.AddRange(ItemList);
+        KeyHold();
+    }
+
+    private async void DelayedHideDropdown()
+    {
+        await Task.Delay(400);
+        isDropdownVisible = false;
+        StateHasChanged();
+    }
+
+    private void ClickValue(int i)
+    {
+        Console.WriteLine($"Click {i}");
+        if (0 <= i && i < DisplayItemsList.Count)
+        {
+            Console.WriteLine($"Click => {DisplayItemsList[i]}");
+            SubmitValue(DisplayItemsList[i]);
+        }
+        else
+        {
+            if (DisplayItemsList.Contains(_value))
+            {
+                SubmitValue(_value);
+            }
+        }
+    }
+
+    private int _dropdownIndex = -1;
+
+    private void UpdateDisplayedItems(string inputValue)
+    {
+        List<string> containedList = new();
+
+        DisplayItemsList.Clear();
+        foreach (string item in ItemList)
+        {
+            if (item.StartsWith(inputValue, StringComparison.OrdinalIgnoreCase))
+            {
+                DisplayItemsList.Add(item);
+            }
+            else
+            {
+                if (item.Contains(inputValue, StringComparison.OrdinalIgnoreCase))
+                {
+                    containedList.Add(item);
+                }
+            }
+        }
+
+        foreach (string item in containedList)
+        {
+            DisplayItemsList.Add(item);
+        }
+    }
+
+    private void InputChange(ChangeEventArgs value)
+    {
+        if (value.Value is not string inputValue)
+        {
+            Console.WriteLine("Ignoring non string input.");
+            return;
+        }
+
+        if (string.Empty.Equals(inputValue))
+        {
+            isDropdownVisible = false;
+        }
+
+        UpdateDisplayedItems(inputValue);
+    }
+
+    private void InputKeyDown(KeyboardEventArgs value)
+    {
+        skipNextKeyHoldTick = true;
+
+        isDropdownVisible = !value.Code.Equals("Escape");
+
+        if (value.Code.Equals("Enter") || value.Code.Equals("NumpadEnter"))
+        {
+            Console.WriteLine("Enter");
+            if (DisplayItemsList.Count == 1)
+            {
+                Console.WriteLine("Enter -> Click 0");
+                ClickValue(0);
+            }
+            else
+            {
+                ClickValue(_dropdownIndex);
+            }
+        }
+        if (value.Code.Equals("ArrowDown"))
+        {
+            scrollDirection = 1;
+            _dropdownIndex = Math.Min(_dropdownIndex + 1, DisplayItemsList.Count - 1);
+            return;
+        }
+        if (value.Code.Equals("ArrowUp"))
+        {
+            scrollDirection = -1;
+            _dropdownIndex = Math.Max(_dropdownIndex - 1, -1);
+            return;
+        }
+        _dropdownIndex = -1;
+    }
+
+    private void InputKeyUp(KeyboardEventArgs value)
+    {
+
+        if (value.Code.Equals("ArrowDown") ||
+            value.Code.Equals("ArrowUp"))
+        {
+            scrollDirection = 0;
+        }
+    }
+
+    private void SubmitValue(string value)
+    {
+        if (ItemList.Contains(value))
+        {
+            isDropdownVisible = false;
+            _value = "";
+            UpdateDisplayedItems("");
+            StateHasChanged();
+            ValueChanged.InvokeAsync(value);
+        }
+    }
+
+    private void SetValue(string value)
+    {
+        _value = value;
+    }
+
+    public void Enable()
+    {
+        isDisabled = false;
+        StateHasChanged();
+    }
+
+    public void Disable()
+    {
+        isDisabled = true;
+        StateHasChanged();
+    }
+
+    public void SetValueDontTriggerEvent(string value)
+    {
+        _value = value;
+    }
+
+}*@

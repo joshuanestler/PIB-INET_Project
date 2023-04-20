@@ -1,0 +1,92 @@
+﻿<div class="stkStringComboBox">
+    <input class="stkStringComboBox-input"
+               @bind-value="ValueProperty"
+               disabled="@(!InputEnabled)"
+               @onkeyup="InputKeyUp" 
+               @onkeydown="InputKeyDown"
+               @oninput="InputChange"
+               @onfocusin="(() => _isDropdownVisible = true)"
+               @onfocusout="DelayedHideDropdown"
+               />
+    @if (AlwaysShowDropdown || (_isDropdownVisible && DropdownEnabled))
+        {
+            <div class="dropdown-wrapper">
+                <div class="inner-dropdown-wrapper">
+                    @for (int i = 0; i < _filteredDropdownItems; i++)
+                    {
+                        string item = _filteredDropdownItems[i];
+                        if (i >= _selectedDropdownIndex - 1)
+                        {
+                            var iCopyForRazor = i;
+                            if (i == _selectedDropdownIndex)
+                            {
+                                <div class="dropdown-item" id="selected-dropdown-item" @onclick="(() => ClickValue(iCopyForRazor))">@item</div>
+                            }
+                            else
+                            {
+                                <div class="dropdown-item" @onclick="(() => ClickValue(iCopyForRazor))">@item</div>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        }
+</div>
+
+
+@code {
+    [Parameter]
+    public bool InputEnabled { get; set; } = true;
+
+    [Parameter]
+    public bool DropdownEnabled { get; set; } = true;
+
+    [Parameter]
+    public bool AlwaysShowDropdown { get; set; } = false;
+
+    [Parameter]
+    public IList<string> DropdownItemList { get; set; } = new List<string>();
+
+    [Parameter]
+    public EventCallback<string> OnValueInput { get; set; } = new EventCallback<string>();
+
+    [Parameter]
+    public Action<string, IList<string>, ref IList<string>> FilterAndSortDropdownItems { get; set; } = DefaultImplementation_FilterAndSortDropdownItems(comparisonMode:StringComparison.OrdinalIgnoreCase);
+
+    private bool _isDropdownVisible = false;
+
+    private List<string> _filteredDropdownItems { get; set; }
+
+    private int _selectedDropdownIndex;
+
+    #region DefaultImplementations
+
+    public static void DefaultImplementation_FilterAndSortDropdownItems(string inputValue, IList<string> itemList, ref IList<string> notYetClearedResult, StringComparison comparisonMode = StringComparison.OrdinalIgnoreCase)
+    {
+        notYetClearedResult.Clear();
+        List<string> containedList = new(itemList.Count);
+
+        foreach (string item in itemList)
+        {
+            if (item.StartsWith(inputValue, comparisonMode))
+            {
+                notYetClearedResult.Add(item);
+            }
+            else
+            {
+                if (item.Contains(inputValue, comparisonMode))
+                {
+                    containedList.Add(item);
+                }
+            }
+        }
+
+        foreach (string item in containedList)
+        {
+            notYetClearedResult.Add(item);
+        }
+    }
+
+    #endregion DefaultImplementations
+
+}

@@ -5,6 +5,8 @@ VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pokewordle", "Pokewordle\Pokewordle.csproj", "{E0C70006-F234-4A56-902A-667AE4FF683B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StkRazorLibrary", "StkRazorLibrary\StkRazorLibrary.csproj", "{FBDEB60E-A535-4503-98EE-4769225F22A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{E0C70006-F234-4A56-902A-667AE4FF683B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0C70006-F234-4A56-902A-667AE4FF683B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0C70006-F234-4A56-902A-667AE4FF683B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBDEB60E-A535-4503-98EE-4769225F22A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBDEB60E-A535-4503-98EE-4769225F22A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBDEB60E-A535-4503-98EE-4769225F22A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBDEB60E-A535-4503-98EE-4769225F22A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

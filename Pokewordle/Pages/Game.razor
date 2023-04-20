@@ -98,7 +98,7 @@
     {
         _pokemonTypes.Clear();
         _pokemonTypes.AddRange(Translations.GetTranslatedNames());
-
+        PokemonGenerationHelper.Initialize(Translations.GetTranslatedNames().Count - 1);
         await Reset();
     }
 
@@ -107,8 +107,23 @@
         _pokemonsGuessed.Clear();
         _displayData.Clear();
 
-        System.Random random = new();
-        _pokemonToGuess = await LoadPokemon(Translations.GetRandomLookupName());
+        ISet<int> allowedGenerations = settings.EnabledGenerations;
+        if (allowedGenerations.Count == 0) allowedGenerations.Add(1);
+
+    retry:;
+        if (!PokemonGenerationHelper.TryGetRandomIdWithinGenerationsV2(allowedGenerations, out int id))
+        {
+            id = 0;
+        }
+        _pokemonToGuess = await LoadPokemon(Translations.GetLookupName(id));
+        int generation = await _pokemonToGuess.GetGeneration();
+        PokemonGenerationHelper.AddInformation(_pokemonToGuess.Id, generation);
+
+        if (!allowedGenerations.Contains(generation))
+        {
+            goto retry;
+        }
+
         _guessing = true;
         //_pokemonGuessForm?.Enable();
         _pokemonInput?.Enable();
@@ -144,12 +159,13 @@
         }
         IPokeData guessPokeData = await LoadPokemon(lookupName);
         AddGuessedPokemon(lookupName, guessPokeData);
+        int generation = await guessPokeData.GetGeneration();
+        PokemonGenerationHelper.AddInformation(guessPokeData.Id, generation);
     }
 
     private async Task<IPokeData> LoadPokemon(int id)
     {
         Pokemon pokemon = await PokeClient.GetResourceAsync<Pokemon>(id);
-        PokeApiClient client = PokeClient;
         return new FetchablePokeData(pokemon, PokeClient);
     }
 
