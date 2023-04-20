@@ -41,7 +41,7 @@
 
                 <div style="float: left;">
                     <div>@generationNr</div>
-                    <InputCheckbox @bind-Value=_generationEnabled[generationIndex].IsEnabled>@generationNr</InputCheckbox>
+                    <Microsoft.Fast.Components.FluentUI.FluentCheckbox @bind-Value=_generationEnabled[generationIndex].IsEnabled></Microsoft.Fast.Components.FluentUI.FluentCheckbox>
                 </div>
                 <div style="float: left; width: 0.7em;"></div>
             }
@@ -120,7 +120,7 @@
                         <p class="setting-description">This many fields are obfuscated per guess. Which fields is random.</p>
                     </div>
                     <div class="right-column">
-                        <InputNumber TValue="int" @bind-Value="@settings.NumberOfObfuscatedFields">Randomly Obfuscated Fields</InputNumber>
+                        <Microsoft.Fast.Components.FluentUI.FluentNumberField TValue="int" style="width: 4em;" @bind-Value="@settings.NumberOfObfuscatedFields"></Microsoft.Fast.Components.FluentUI.FluentNumberField>
                     </div>
 
                     <div class="setting-description-wrapper-wrapper">
@@ -130,7 +130,7 @@
                         <p class="setting-description">Guesses that exceed the limit will be hidden.</p>
                     </div>
                     <div class="right-column">
-                        <InputNumber TValue="int" @bind-Value="@settings.GuessHistoryLimit">Limit Visible Guess History</InputNumber>
+                        <Microsoft.Fast.Components.FluentUI.FluentNumberField TValue="int" style="width: 4em;" @bind-Value="@settings.GuessHistoryLimit"></Microsoft.Fast.Components.FluentUI.FluentNumberField>
                     </div>
 
                     <div class="setting-description-wrapper-wrapper">
@@ -140,7 +140,7 @@
                         <p class="setting-description">Finally a cure for obfuscation hiding the types and abilities for all Pokemon of one species.</p>
                     </div>
                     <div class="right-column">
-                        <InputCheckbox @bind-Value="@settings.AllowDuplicateGuesses">Allow Duplicate Guesses</InputCheckbox>
+                        <Microsoft.Fast.Components.FluentUI.FluentCheckbox @bind-Value="@settings.AllowDuplicateGuesses"></Microsoft.Fast.Components.FluentUI.FluentCheckbox>
                     </div>
 
                 </div>
